@@ -1,6 +1,7 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.engine.jdbc.batch.spi.Batch;
@@ -12,10 +13,12 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String productType;
@@ -28,7 +31,8 @@ public class Product {
 
     private String productName;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_seller")
     private Seller seller;
 
     private double bulk;

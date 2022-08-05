@@ -1,6 +1,7 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,10 +10,12 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sector {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long sectorId;
     private String category;
     private double capacity;
@@ -20,6 +23,7 @@ public class Sector {
     @OneToMany(mappedBy = "sector", cascade = CascadeType.REFRESH)
     private List<InBoundOrder> orderList;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_warehouse")
     private WareHouse wareHouse;
 }

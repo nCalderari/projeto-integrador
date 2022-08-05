@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Seller {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long sellerId;
     private String sellerName;
 

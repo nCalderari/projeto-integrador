@@ -21,6 +21,6 @@ public class InBoundOrderResponseDto {
     private List<BatchStockDto> batchStockList;
 
     public InBoundOrderResponseDto (InBoundOrder inBoundOrder) {
-        this.batchStockList = inBoundOrder.getBatchStockList().stream().map(entity -> new (entity)).collect(Collectors.toList());
+        this.batchStockList = inBoundOrder.getBatchStockList().stream().map(entity -> new BatchStockDto(entity)).collect(Collectors.toList());
     }
 }

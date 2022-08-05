@@ -53,7 +53,7 @@ public class BatchStockDto {
       //  this.product = new Product(batchStock.getProduct());
     }
 
-    public BatchStock convertBatchStockDtoToBatchStock (BatchStockDto batchStockDto){
+   /* public BatchStock convertBatchStockDtoToBatchStock (BatchStockDto batchStockDto){
         return BatchStock.builder()
                 .batchId(batchStockDto.getBatchId())
                 .currentTemperature(batchStockDto.getCurrentTemperature())
@@ -66,5 +66,5 @@ public class BatchStockDto {
                 .inBoundOrderId(batchStockDto.getInBoundOrderId())
               //  .product(batchStockDto.getProduct())
                 .build();
-    }
+    }*/
 }

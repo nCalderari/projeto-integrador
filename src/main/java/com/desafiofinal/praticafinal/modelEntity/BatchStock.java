@@ -7,15 +7,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+
 
 @Entity
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BatchStock {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long batchId;
 
     private float currentTemperature;
@@ -26,10 +27,12 @@ public class BatchStock {
     private Date manufacturingTime;
     private Date dueDate;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
+    @JoinColumn (name = "id_inboundorder")
     private InBoundOrder inBoundOrderId;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.REFRESH)
+    @JoinColumn (name = "id_product")
     private Product product;
 
 
