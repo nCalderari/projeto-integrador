@@ -97,6 +97,7 @@ public class InBoundOrderImpService {
             Optional<BatchStock> foundBatch = batchStockRepo.findById(responseStock.getBatchId());
             if(foundBatch.isPresent())
             {
+                responseStock.setInBoundOrder(newUpdatedInBoundOrder); //TODO validar que o batch alterado pertença ao inBounOrder
                 batchStockRepo.save(responseStock);
             }
             else
