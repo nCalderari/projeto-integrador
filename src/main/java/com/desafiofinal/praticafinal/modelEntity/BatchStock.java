@@ -27,7 +27,7 @@ public class BatchStock {
     private Date manufacturingTime;
     private Date dueDate;
 
-    @ManyToOne (cascade = CascadeType.REFRESH)
+    @ManyToOne
     @JoinColumn (name = "id_inboundorder")
     private InBoundOrder inBoundOrderId;
 

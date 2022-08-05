@@ -35,86 +35,54 @@ public class InBoundOrderImpService {
     private SellerRepo sellerRepo;
 
     @Transactional
-    public InBoundOrderResponseDto saveInBoundOrder (InBoundOrderRequestDto inBoundOrderRequestDto){
+    public InBoundOrderResponseDto saveInBoundOrder (InBoundOrderRequestDto inBoundOrderRequestDto) throws Exception {
 
         InBoundOrder newInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
 
-        Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(newInBoundOrder.getOrderId());
-
-        if(foundInBoundOrder.isPresent()){
-            newInBoundOrder.setOrderId(foundInBoundOrder.get().getOrderId());
-
-        }else {
-            newInBoundOrder.setOrderId(0L);
-        }
 
         for(BatchStock batchStock : newInBoundOrder.getBatchStockList()){
 
-            Optional<BatchStock> foundBatchStock = batchStockRepo.findById(batchStock.getBatchId());
+            Optional<Product> foundProduct = productRepo.findById(batchStock.getProduct().getId());
 
-            if(foundBatchStock.isPresent()){
-                batchStock.setBatchId(foundBatchStock.get().getBatchId());
-
-                Optional<Product> foundProduct = productRepo.findById(batchStock.getProduct().getId());
-
-                if(foundProduct.isPresent()){
-                    batchStock.getProduct().setId(foundProduct.get().getId());
-                }else{
-                    batchStock.getProduct().setId(0L);
-                }
-
-                Optional<Seller> foundSeller = sellerRepo.findById(batchStock.getProduct().getSeller().getSellerId());
-
-                if(foundSeller.isPresent()){
-                    batchStock.getProduct().getSeller().setSellerId(foundSeller.get().getSellerId());
-                }else{
-                    batchStock.getProduct().getSeller().setSellerId(0L);
-                }
-
-            }else{
-                batchStock.setBatchId(0L);
-
+            if(foundProduct.isPresent()){
+                batchStock.setProduct(foundProduct.get());
+            }else {
+                throw new Exception("Não existe o produto");
             }
-            sellerRepo.save(batchStock.getProduct().getSeller());
-            productRepo.save(batchStock.getProduct());
-            batchStockRepo.save(batchStock);
+
         }
 
-         Optional<Sector> foundSector = sectorRepo.findById(newInBoundOrder.getSector().getSectorId());
+        Optional<Sector> foundSector = sectorRepo.findById(newInBoundOrder.getSector().getSectorId());
 
-       if (foundSector.isPresent()){
-            newInBoundOrder.getSector().setSectorId(foundSector.get().getSectorId());
+        if(foundSector.isPresent()){
+            newInBoundOrder.setSector(foundSector.get());
         }else{
-            newInBoundOrder.getSector().setSectorId(0L);
+            throw new Exception("Não existe o setor");
         }
-
-
-        Optional<WareHouse> foundWareHouse = wareHouseRepo.findById(newInBoundOrder.getSector().getWareHouse().getWareHouseId());
-
-        if(foundWareHouse.isPresent()){
-            newInBoundOrder.getSector().getWareHouse().setWareHouseId(foundWareHouse.get().getWareHouseId());
-        }else{
-            newInBoundOrder.getSector().getWareHouse().setWareHouseId(0L);
-        }
-
-
-        Optional<Manager> foundManager = managerRepo.findById(newInBoundOrder.getSector().getWareHouse().getManager().getManagerId());
-        if(foundManager.isPresent()){
-            newInBoundOrder.getSector().getWareHouse().getManager().setManagerId(foundManager.get().getManagerId());
-        }else{
-            newInBoundOrder.getSector().getWareHouse().getManager().setManagerId(0L);
-        }
-
-        managerRepo.save(newInBoundOrder.getSector().getWareHouse().getManager());
-        wareHouseRepo.save(newInBoundOrder.getSector().getWareHouse());
-        sectorRepo.save(newInBoundOrder.getSector());
-
-
 
         InBoundOrder savedInBoundOrder = inBoundOrderRepo.save(newInBoundOrder);
 
         return  new InBoundOrderResponseDto(savedInBoundOrder);
 
+    }
+
+    public InBoundOrderResponseDto updateInBoundOrder (InBoundOrderRequestDto inBoundOrderRequestDto) throws Exception {
+
+        InBoundOrder newUpdatedInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
+
+        Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(newUpdatedInBoundOrder.getOrderId());
+
+        if(foundInBoundOrder.isPresent()){
+
+           inBoundOrderRepo.save(newUpdatedInBoundOrder);
+
+        }else {
+            throw new Exception("nao encontrado");
+        }
+
+        InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(newUpdatedInBoundOrder);
+
+        return new InBoundOrderResponseDto(updatedInBoundOrder);
     }
 
 }

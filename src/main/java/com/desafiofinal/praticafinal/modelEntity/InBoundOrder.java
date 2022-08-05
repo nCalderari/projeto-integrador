@@ -19,12 +19,12 @@ public class InBoundOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
 
-    private Date dateTime;
+    private Date orderDate;
 
-    @OneToMany (mappedBy = "inBoundOrderId", cascade = CascadeType.REFRESH)
+    @OneToMany (mappedBy = "inBoundOrderId", cascade = CascadeType.PERSIST)
     private List<BatchStock> batchStockList;
 
-    @ManyToOne (cascade = CascadeType.REFRESH)
+    @ManyToOne
     @JoinColumn (name = "id_sector")
     private Sector sector;
 

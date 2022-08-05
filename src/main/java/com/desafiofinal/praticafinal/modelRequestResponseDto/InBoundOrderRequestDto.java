@@ -30,7 +30,7 @@ public class InBoundOrderRequestDto {
     private List<BatchStock> batchStockList;
 
     public InBoundOrderRequestDto (InBoundOrder inBoundOrder) {
-        this.dateTime = inBoundOrder.getDateTime();
+        this.dateTime = inBoundOrder.getOrderDate();
         this.orderId = inBoundOrder.getOrderId();
         this.sector=inBoundOrder.getSector();
         this.batchStockList = inBoundOrder.getBatchStockList();
@@ -41,7 +41,7 @@ public class InBoundOrderRequestDto {
     public static InBoundOrder convertDtoToInBoundOrder (InBoundOrderRequestDto inBoundOrderRequestDto){
         return InBoundOrder.builder()
                 .orderId(inBoundOrderRequestDto.getOrderId())
-                .dateTime(inBoundOrderRequestDto.getDateTime())
+                .orderDate(inBoundOrderRequestDto.getDateTime())
                 .sector(inBoundOrderRequestDto.getSector())
                 .batchStockList(inBoundOrderRequestDto.getBatchStockList())
                 .build();

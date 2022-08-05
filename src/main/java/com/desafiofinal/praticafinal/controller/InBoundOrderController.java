@@ -20,14 +20,14 @@ public class InBoundOrderController {
     private InBoundOrderImpService service;
 
     @PostMapping("/insert")
-    public ResponseEntity<InBoundOrderResponseDto> create(@RequestBody InBoundOrderRequestDto newOrder){
+    public ResponseEntity<InBoundOrderResponseDto> create(@RequestBody InBoundOrderRequestDto newOrder) throws Exception {
         InBoundOrderResponseDto response = service.saveInBoundOrder(newOrder);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<InBoundOrderResponseDto> update(@RequestBody InBoundOrderRequestDto updateOrder){
+    public ResponseEntity<InBoundOrderResponseDto> updateInBoundOrder(@RequestBody InBoundOrderRequestDto updateOrder){
         //InBoundOrderResponseDto updatedResponse = service.updateInBoundOrder(updateOrder);
 
         //return new ResponseEntity<>(updatedResponse, HttpStatus.CREATED);
