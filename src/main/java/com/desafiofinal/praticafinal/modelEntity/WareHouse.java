@@ -18,7 +18,8 @@ public class WareHouse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long wareHouseId;
 
-    @OneToOne (mappedBy = "wareHouse", cascade = CascadeType.REFRESH)
+    @OneToOne (cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_manager")
     private Manager manager;
 
     @OneToMany(mappedBy = "wareHouse", cascade = CascadeType.REFRESH)
