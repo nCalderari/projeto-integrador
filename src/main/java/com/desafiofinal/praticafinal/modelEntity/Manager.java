@@ -6,19 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Seller {
+public class Manager {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long sellerId;
-    private String sellerName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    private long managerId;
+    private String managerName;
 
-    @OneToMany(mappedBy ="seller", cascade = CascadeType.REFRESH)
-    private List<Product> productList;
+    @OneToOne
+    @JoinColumn(name = "id_warehouse")
+    private WareHouse wareHouse;
 }
