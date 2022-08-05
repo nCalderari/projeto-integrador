@@ -21,4 +21,5 @@ public class Manager {
 
     @OneToOne (mappedBy = "manager", cascade = CascadeType.REFRESH)
     private WareHouse wareHouse;
+
 }

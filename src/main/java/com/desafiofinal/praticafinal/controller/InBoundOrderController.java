@@ -24,14 +24,16 @@ public class InBoundOrderController {
         InBoundOrderResponseDto response = service.saveInBoundOrder(newOrder);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+
     }
 
     @PutMapping("/update")
-    public ResponseEntity<InBoundOrderResponseDto> updateInBoundOrder(@RequestBody InBoundOrderRequestDto updateOrder){
-        //InBoundOrderResponseDto updatedResponse = service.updateInBoundOrder(updateOrder);
+    public ResponseEntity<InBoundOrderResponseDto> updateInBoundOrder(@RequestBody InBoundOrderRequestDto updateOrder) throws Exception {
+        InBoundOrderResponseDto updatedResponse = service.updateInBoundOrder(updateOrder);
 
-        //return new ResponseEntity<>(updatedResponse, HttpStatus.CREATED);
-        return null;
+        return new ResponseEntity<>(updatedResponse, HttpStatus.CREATED);
+
     }
 }
 
