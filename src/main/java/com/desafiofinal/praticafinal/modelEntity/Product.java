@@ -1,12 +1,24 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
+import org.springframework.boot.convert.DataSizeUnit;
+
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String productType;
@@ -19,10 +31,13 @@ public class Product {
 
     private String productName;
 
-    //private Seller sellerId;
+    @ManyToOne (cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "id_seller")
+    private Seller seller;
 
     private double bulk;
 
-
+    @OneToMany (mappedBy = "product", cascade = CascadeType.REFRESH)
+    private List<BatchStock> batchList;
 
 }
