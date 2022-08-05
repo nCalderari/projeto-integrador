@@ -24,6 +24,6 @@ public class ManagerDto {
     public ManagerDto (Manager manager){
         this.managerId=manager.getManagerId();
         this.managerName=manager.getManagerName();
-        this.wareHouse=manager.getWareHouse();
+//        this.wareHouse=manager.getWareHouse();
     }
 }
