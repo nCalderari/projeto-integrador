@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.desafiofinal.praticafinal.modelEntity.Product;
+
 import com.desafiofinal.praticafinal.modelRequestResponseDto.ProductResponseDto;
 
 import java.util.List;
@@ -21,18 +21,10 @@ public class ProductController {
     @Autowired
     private ProductsImpService service;
 
-//    @GetMapping("/products")
-//        ResponseEntity<List<ProductDto>> getAllProducts(){
-//
-//        return new ResponseEntity<List<ProductDto>>(service.listAllProducts(),HttpStatus.FOUND);
-//
-//    }
-
     @GetMapping("/products")
-    ResponseEntity<List<Product>> getAllProducts(){
+        ResponseEntity<List<ProductDto>> getAllProducts(){
 
-        return new ResponseEntity<List<Product>>(service.listAllProducts(),HttpStatus.FOUND);
-
+        return new ResponseEntity<List<ProductDto>>(service.listAllProducts(),HttpStatus.FOUND);
     }
 
     @GetMapping("/{category}")

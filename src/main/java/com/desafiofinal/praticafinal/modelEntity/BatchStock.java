@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -38,5 +39,7 @@ public class BatchStock {
     @JoinColumn (name = "id_product")
     private Product product;
 
+    @OneToMany (mappedBy = "cartBatchStock", cascade = CascadeType.REFRESH)
+    private List<CartBatchStock> cartBatchStockList;
 
 }

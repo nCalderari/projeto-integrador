@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Data
@@ -36,7 +38,7 @@ public class ProductDto {
 
     private double bulk;
 
-
+    @JsonIgnore
     private List<BatchStock> batchList;
 
     public ProductDto(Product product){
