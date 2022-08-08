@@ -39,7 +39,7 @@ public class InBoundOrderImpService {
 
         InBoundOrder newInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
 
-
+        //TODO FAZER UM FOREACH
         for(BatchStock batchStock : newInBoundOrder.getBatchStockList()){
 
             Optional<Product> foundProduct = productRepo.findById(batchStock.getProduct().getId());
@@ -71,7 +71,7 @@ public class InBoundOrderImpService {
         InBoundOrder newUpdatedInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
 
         Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(newUpdatedInBoundOrder.getOrderId());
-
+        //TODO USAR DEPOIS UM TERNARIO
         if(foundInBoundOrder.isPresent()){
 
            inBoundOrderRepo.save(newUpdatedInBoundOrder);
