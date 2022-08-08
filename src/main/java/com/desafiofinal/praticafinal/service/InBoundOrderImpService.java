@@ -64,7 +64,6 @@ public class InBoundOrderImpService {
             throw new Exception("Não existe o setor");
         }
 
-
         InBoundOrder savedInBoundOrder = inBoundOrderRepo.save(newInBoundOrder);
 
         return new InBoundOrderResponseDto(savedInBoundOrder);
@@ -97,8 +96,13 @@ public class InBoundOrderImpService {
             Optional<BatchStock> foundBatch = batchStockRepo.findById(responseStock.getBatchId());
             if(foundBatch.isPresent())
             {
-                responseStock.setInBoundOrder(newUpdatedInBoundOrder); //TODO validar que o batch alterado pertença ao inBounOrder
-                batchStockRepo.save(responseStock);
+                if ((foundBatch.get().getInBoundOrder().getOrderId()== newUpdatedInBoundOrder.getOrderId())){
+                    responseStock.setInBoundOrder(newUpdatedInBoundOrder);
+                    batchStockRepo.save(responseStock);
+                }else {
+                    throw new Exception("O batchStock não pertence ao inBoundOrder");
+                }
+
             }
             else
             {
@@ -106,10 +110,18 @@ public class InBoundOrderImpService {
             }
         }
 
-
         InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(newUpdatedInBoundOrder);
 
         return new InBoundOrderResponseDto(updatedInBoundOrder);
+
     }
+
+//    public InBoundOrderResponseDto inBoundOrderGetPrice (InBoundOrderRequestDto inBoundOrderRequestDto) {
+//        InBoundOrder newInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
+//
+//        for (BatchStock batchStockProduct: newInBoundOrder.getBatchStockList()){
+//            batchStockProduct.getProduct().getPrice();
+//        }
+//    }
 
 }

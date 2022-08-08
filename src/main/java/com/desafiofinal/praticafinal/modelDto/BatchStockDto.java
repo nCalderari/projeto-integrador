@@ -18,6 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class BatchStockDto {
 
+
     private long batchId;
 
     private float currentTemperature;
