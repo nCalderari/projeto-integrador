@@ -18,6 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class BatchStockDto {
 
+
     private long batchId;
 
     private float currentTemperature;
@@ -49,7 +50,7 @@ public class BatchStockDto {
         this.manufacturingDate = batchStock.getManufacturingDate();
         this.manufacturingTime = batchStock.getManufacturingTime();
         this.dueDate = batchStock.getDueDate();
-        this.inBoundOrderId = batchStock.getInBoundOrderId();
+        this.inBoundOrderId = batchStock.getInBoundOrder();
       //  this.product = new Product(batchStock.getProduct());
     }
 

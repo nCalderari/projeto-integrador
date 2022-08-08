@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,6 +52,8 @@ public class InBoundOrderImpService {
                 throw new Exception("Não existe o produto");
             }
 
+            batchStock.setInBoundOrder(newInBoundOrder);
+
         }
 
         Optional<Sector> foundSector = sectorRepo.findById(newInBoundOrder.getSector().getSectorId());
@@ -62,7 +66,7 @@ public class InBoundOrderImpService {
 
         InBoundOrder savedInBoundOrder = inBoundOrderRepo.save(newInBoundOrder);
 
-        return  new InBoundOrderResponseDto(savedInBoundOrder);
+        return new InBoundOrderResponseDto(savedInBoundOrder);
 
     }
 
@@ -80,9 +84,44 @@ public class InBoundOrderImpService {
             throw new Exception("nao encontrado");
         }
 
+        List<BatchStock> tempBatchList = new ArrayList();
+
+        for(BatchStock batchStock : newUpdatedInBoundOrder.getBatchStockList()){
+
+            tempBatchList.add(batchStock);
+        }
+
+        for(BatchStock responseStock : tempBatchList)
+        {
+            Optional<BatchStock> foundBatch = batchStockRepo.findById(responseStock.getBatchId());
+            if(foundBatch.isPresent())
+            {
+                if ((foundBatch.get().getInBoundOrder().getOrderId()== newUpdatedInBoundOrder.getOrderId())){
+                    responseStock.setInBoundOrder(newUpdatedInBoundOrder);
+                    batchStockRepo.save(responseStock);
+                }else {
+                    throw new Exception("O batchStock não pertence ao inBoundOrder");
+                }
+
+            }
+            else
+            {
+                throw new Exception("Este Batch não existe");
+            }
+        }
+
         InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(newUpdatedInBoundOrder);
 
         return new InBoundOrderResponseDto(updatedInBoundOrder);
+
     }
+
+//    public InBoundOrderResponseDto inBoundOrderGetPrice (InBoundOrderRequestDto inBoundOrderRequestDto) {
+//        InBoundOrder newInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
+//
+//        for (BatchStock batchStockProduct: newInBoundOrder.getBatchStockList()){
+//            batchStockProduct.getProduct().getPrice();
+//        }
+//    }
 
 }
