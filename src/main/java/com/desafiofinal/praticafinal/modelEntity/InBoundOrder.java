@@ -1,5 +1,6 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +22,12 @@ public class InBoundOrder {
 
     private Date dateTime;
 
-    @OneToMany (mappedBy = "inBoundOrderId", cascade = CascadeType.REFRESH)
+    @OneToMany (mappedBy = "inBoundOrder", cascade = CascadeType.PERSIST)
     private List<BatchStock> batchStockList;
 
-    @ManyToOne (cascade = CascadeType.REFRESH)
+    @ManyToOne
     @JoinColumn (name = "id_sector")
+    @JsonIgnoreProperties("orderList")
     private Sector sector;
 
 }

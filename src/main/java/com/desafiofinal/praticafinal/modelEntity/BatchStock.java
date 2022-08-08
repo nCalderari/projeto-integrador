@@ -1,5 +1,6 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,11 +28,13 @@ public class BatchStock {
     private Date manufacturingTime;
     private Date dueDate;
 
-    @ManyToOne (cascade = CascadeType.REFRESH)
+    @ManyToOne
     @JoinColumn (name = "id_inboundorder")
-    private InBoundOrder inBoundOrderId;
+    @JsonIgnoreProperties("batchStockList")
+    private InBoundOrder inBoundOrder;
 
     @ManyToOne (cascade = CascadeType.REFRESH)
+    @JsonIgnoreProperties("batchList")
     @JoinColumn (name = "id_product")
     private Product product;
 
