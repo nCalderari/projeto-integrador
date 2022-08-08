@@ -19,12 +19,12 @@ import java.util.List;
 @AllArgsConstructor
 public class SellerDto {
 
-    private long sellerId;
+    private long idSeller;
     private String sellerName;
     private List<Product> productList;
 
     public SellerDto(Seller seller) {
-        this.sellerId = seller.getSellerId();
+        this.idSeller = seller.getIdSeller();
         this.sellerName = seller.getSellerName();
         this.productList = seller.getProductList();
     }

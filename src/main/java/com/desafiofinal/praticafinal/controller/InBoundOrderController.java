@@ -25,7 +25,6 @@ public class InBoundOrderController {
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
 
-
     }
 
     @PutMapping("/update")

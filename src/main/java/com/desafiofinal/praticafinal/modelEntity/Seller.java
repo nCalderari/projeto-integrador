@@ -16,7 +16,7 @@ import java.util.List;
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long sellerId;
+    private long idSeller;
     private String sellerName;
 
     @OneToMany(mappedBy ="seller", cascade = CascadeType.REFRESH)

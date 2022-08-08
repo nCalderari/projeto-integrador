@@ -19,7 +19,6 @@ public class Manager {
     private long managerId;
     private String managerName;
 
-    @OneToOne (mappedBy = "manager", cascade = CascadeType.REFRESH)
-    private WareHouse wareHouse;
-
+//    @OneToOne (mappedBy = "manager", cascade = CascadeType.REFRESH)
+//    private WareHouse wareHouse;
 }
