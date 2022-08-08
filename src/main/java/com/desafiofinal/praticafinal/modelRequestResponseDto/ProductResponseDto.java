@@ -1,15 +1,12 @@
-package com.desafiofinal.praticafinal.modelDto;
+package com.desafiofinal.praticafinal.modelRequestResponseDto;
 
 import com.desafiofinal.praticafinal.modelEntity.BatchStock;
-import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
 import com.desafiofinal.praticafinal.modelEntity.Product;
 import com.desafiofinal.praticafinal.modelEntity.Seller;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
+public class ProductResponseDto {
 
     private long id;
 
@@ -31,15 +28,13 @@ public class ProductDto {
 
     private String productName;
 
-
     private Seller seller;
 
     private double bulk;
 
 
-    private List<BatchStock> batchList;
 
-    public ProductDto(Product product){
+    public ProductResponseDto(Product product){
         this.id = product.getId();
         this.productType = product.getProductType();
         this.validateDate = product.getValidateDate();
@@ -48,11 +43,11 @@ public class ProductDto {
         this.productName = product.getProductName();
         this.seller = product.getSeller();
         this.bulk = product.getBulk();
-        this.batchList = product.getBatchList();
+
 
     }
 
-    public static Product convertDtoToProduct (ProductDto productDto){
+    public static Product convertDtoToProduct (ProductResponseDto productDto){
         return Product.builder()
                 .productType(productDto.getProductType())
                 .validateDate(productDto.getValidateDate())

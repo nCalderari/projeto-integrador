@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.boot.convert.DataSizeUnit;
 
@@ -38,6 +39,7 @@ public class Product {
     private double bulk;
 
     @OneToMany (mappedBy = "product", cascade = CascadeType.REFRESH)
+    @JsonIgnoreProperties("product")
     private List<BatchStock> batchList;
 
 }

@@ -1,2 +1,4 @@
-package com.desafiofinal.praticafinal.service;public interface IProductsService {
+package com.desafiofinal.praticafinal.service;
+
+public interface IProductsService {
 }

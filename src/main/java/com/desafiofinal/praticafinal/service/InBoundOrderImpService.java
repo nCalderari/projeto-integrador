@@ -1,5 +1,7 @@
 package com.desafiofinal.praticafinal.service;
 
+import com.desafiofinal.praticafinal.modelDto.BatchStockDto;
+import com.desafiofinal.praticafinal.modelDto.ProductDto;
 import com.desafiofinal.praticafinal.modelEntity.*;
 import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderRequestDto;
 import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderResponseDto;
@@ -116,6 +118,7 @@ public class InBoundOrderImpService {
 
     }
 
+
 //    public InBoundOrderResponseDto inBoundOrderGetPrice (InBoundOrderRequestDto inBoundOrderRequestDto) {
 //        InBoundOrder newInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
 //
@@ -123,5 +126,7 @@ public class InBoundOrderImpService {
 //            batchStockProduct.getProduct().getPrice();
 //        }
 //    }
+
+
 
 }

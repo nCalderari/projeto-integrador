@@ -1,8 +1,10 @@
 package com.desafiofinal.praticafinal.modelDto;
 
 import com.desafiofinal.praticafinal.modelEntity.BatchStock;
+import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
 import com.desafiofinal.praticafinal.modelEntity.Product;
 import com.desafiofinal.praticafinal.modelEntity.Seller;
+import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -49,4 +51,15 @@ public class ProductDto {
         this.batchList = product.getBatchList();
 
     }
+
+    public static Product convertDtoToProduct (ProductDto productDto){
+        return Product.builder()
+                .productType(productDto.getProductType())
+                .validateDate(productDto.getValidateDate())
+                .price(productDto.getPrice())
+                .productName(productDto.getProductName())
+                .seller(productDto.getSeller())
+                .build();
+    }
+
 }
