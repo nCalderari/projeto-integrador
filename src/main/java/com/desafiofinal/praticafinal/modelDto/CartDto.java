@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Builder
 @Data
@@ -35,7 +36,7 @@ public class CartDto {
         this.cartId=cart.getCartId();
         this.buyer=new BuyerDto(cart.getBuyer());
         this.totalPrice=cart.getTotalPrice();
-       // this.listCartBatchStock=cart.getListCartBatchStock();
+        this.listCartBatchStock=cart.getListCartBatchStock().stream().map(car -> new CartBatchStockDto(car)).collect(Collectors.toList());
 
     }
 
@@ -44,7 +45,7 @@ public class CartDto {
                 .buyer(BuyerDto.convertDtoToBuyer(cartDto.getBuyer()))
                 .totalPrice(cartDto.getTotalPrice())
                 .date(cartDto.getDate())
-           //    .listCartBatchStock(cartDto.getListCartBatchStock())
+                .listCartBatchStock(cartDto.getListCartBatchStock().stream().map(dto -> CartBatchStockDto.convertDtoToCartBatchStock(dto)).collect(Collectors.toList()))
                 .build();
     }
 }

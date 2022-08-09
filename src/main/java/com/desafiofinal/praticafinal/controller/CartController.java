@@ -19,7 +19,7 @@ public class CartController {
     CartImpService service;
 
     @PostMapping("/insert")
-    ResponseEntity<Double> createNewCart(@RequestBody CartDto cart){
+    ResponseEntity<Double> createNewCart(@RequestBody CartDto cart) throws Exception {
 
         return new ResponseEntity<Double>(service.createPurchase(cart), HttpStatus.CREATED);
     }

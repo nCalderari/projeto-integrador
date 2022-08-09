@@ -4,22 +4,23 @@ import com.desafiofinal.praticafinal.modelEntity.BatchStock;
 import com.desafiofinal.praticafinal.modelEntity.Cart;
 import com.desafiofinal.praticafinal.modelEntity.CartBatchStock;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartBatchStockDto {
 
     private int CartBatchStockId;
 
-
     private CartDto idCart;
 
-    private BatchStockDto idBatchStock;
+    private BatchStockDto batchStock;
 
     private double pricePerProduct;
 
@@ -28,7 +29,7 @@ public class CartBatchStockDto {
     public CartBatchStockDto (CartBatchStock cartBatchStock){
         this.CartBatchStockId=cartBatchStock.getCartBatchStockId();
         this.idCart=new CartDto(cartBatchStock.getIdCart());
-        this.idBatchStock= new BatchStockDto(cartBatchStock.getIdBatchStock());
+        this.batchStock= new BatchStockDto(cartBatchStock.getBatchStock());
         this.pricePerProduct=cartBatchStock.getPricePerProduct();
         this.productQuantity=cartBatchStock.getProductQuantity();
     }
@@ -36,7 +37,7 @@ public class CartBatchStockDto {
     public static CartBatchStock convertDtoToCartBatchStock (CartBatchStockDto cartBatchStockDto){
         return CartBatchStock.builder()
                 .idCart(CartDto.convertDtoToCart(cartBatchStockDto.getIdCart()))
-           //     .idBatchStock(BatchStockDto.)
+                .batchStock(BatchStockDto.convertBatchStockDtoToBatchStock(cartBatchStockDto.getBatchStock()))
                 .build();
     }
 }

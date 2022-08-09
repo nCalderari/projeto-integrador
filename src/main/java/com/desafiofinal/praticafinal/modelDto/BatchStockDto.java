@@ -55,18 +55,18 @@ public class BatchStockDto {
       //  this.product = new Product(batchStock.getProduct());
     }
 
-//    public BatchStock convertBatchStockDtoToBatchStock (BatchStockDto batchStockDto){
-//        return BatchStock.builder()
-//                .batchId(batchStockDto.getBatchId())
-//                .currentTemperature(batchStockDto.getCurrentTemperature())
-//                .minimumTemperature(batchStockDto.getMinimumTemperature())
-//                .initialQuantity(batchStockDto.getInitialQuantity())
-//                .currentQuantity(batchStockDto.getCurrentQuantity())
-//                .manufacturingDate(batchStockDto.getManufacturingDate())
-//                .manufacturingTime(batchStockDto.getManufacturingTime())
-//                .dueDate(batchStockDto.getDueDate())
+    public static BatchStock convertBatchStockDtoToBatchStock (BatchStockDto batchStockDto){
+        return BatchStock.builder()
+                .batchId(batchStockDto.getBatchId())
+                .currentTemperature(batchStockDto.getCurrentTemperature())
+                .minimumTemperature(batchStockDto.getMinimumTemperature())
+                .initialQuantity(batchStockDto.getInitialQuantity())
+                .currentQuantity(batchStockDto.getCurrentQuantity())
+                .manufacturingDate(batchStockDto.getManufacturingDate())
+                .manufacturingTime(batchStockDto.getManufacturingTime())
+                .dueDate(batchStockDto.getDueDate())
 //                .inBoundOrderId()
 //                .product(batchStockDto.getProduct())
-//                .build();
-//    }
+                .build();
+    }
 }

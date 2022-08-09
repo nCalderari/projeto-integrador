@@ -1,17 +1,25 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
+import com.desafiofinal.praticafinal.modelDto.BuyerDto;
+import com.desafiofinal.praticafinal.modelDto.CartBatchStockDto;
+import com.desafiofinal.praticafinal.modelDto.CartDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class CartBatchStock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int CartBatchStockId;
+    private int cartBatchStockId;
 
     @ManyToOne
     @JoinColumn(name = "id_cart")
@@ -19,9 +27,11 @@ public class CartBatchStock {
 
     @ManyToOne
     @JoinColumn(name = "id_batchStock")
-    private BatchStock idBatchStock;
+    private BatchStock batchStock;
 
     private double pricePerProduct;
 
     private int productQuantity;
+
+
 }
