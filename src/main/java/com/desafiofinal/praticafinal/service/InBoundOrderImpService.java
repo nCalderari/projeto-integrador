@@ -14,28 +14,28 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class InBoundOrderImpService {
+public class InBoundOrderImpService implements IinBoundOrderService {
 
     @Autowired
     private InBoundOrderRepo inBoundOrderRepo;
 
     @Autowired
-    private BatchStockRepo batchStockRepo;
+    private IBatchStockRepo IBatchStockRepo;
 
     @Autowired
-    private SectorRepo sectorRepo;
+    private ISectorRepo sectorRepo;
 
     @Autowired
-    private WareHouseRepo wareHouseRepo;
+    private IWareHouseRepo iwareHouseRepo;
 
     @Autowired
-    private ManagerRepo managerRepo;
+    private IManagerRepo IManagerRepo;
 
     @Autowired
-    private ProductRepo productRepo;
+    private IProductRepo productRepo;
 
     @Autowired
-    private SellerRepo sellerRepo;
+    private ISellerRepo sellerRepo;
 
     @Transactional
     public InBoundOrderResponseDTO saveInBoundOrder (InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {

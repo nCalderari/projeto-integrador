@@ -1,9 +1,9 @@
 package com.desafiofinal.praticafinal.repository;
 
-import com.desafiofinal.praticafinal.model.Product;
+import com.desafiofinal.praticafinal.model.WareHouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepo extends JpaRepository<Product, Long> {
+public interface IWareHouseRepo extends JpaRepository<WareHouse, Long> {
 }

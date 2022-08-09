@@ -2,7 +2,7 @@ package com.desafiofinal.praticafinal.controller;
 
 import com.desafiofinal.praticafinal.dto.InBoundOrderResponseDTO;
 import com.desafiofinal.praticafinal.dto.InboundOrderRequestDTO;
-import com.desafiofinal.praticafinal.service.InBoundOrderImpService;
+import com.desafiofinal.praticafinal.service.IinBoundOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/api/v1/fresh-products/inboundorder")
 public class InBoundOrderController {
     @Autowired
-    private InBoundOrderImpService service;
+    private IinBoundOrderService service;
 
     /**
      * Route used to insert into the datavase a new inbound order
