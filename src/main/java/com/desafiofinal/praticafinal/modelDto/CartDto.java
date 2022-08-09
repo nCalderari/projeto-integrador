@@ -40,10 +40,9 @@ public class CartDto {
 
     public static Cart convertDtoToCart (CartDto cartDto){
         return Cart.builder()
-//                .buyer(BuyerDto.convertDtoToBuyer(cartDto.getBuyer()))
-             //   .totalPrice(cartDto.getTotalPrice())
+                .totalPrice(cartDto.getTotalPrice())
                 .date(cartDto.getDate())
-//                .listCartBatchStock(cartDto.getListCartBatchStock().stream().map(dto -> CartBatchStockDto.convertDtoToCartBatchStock(dto)).collect(Collectors.toList()))
+                .listCartBatchStock(cartDto.getListCartBatchStock().stream().map(dto -> CartBatchStockDto.convertDtoToCartBatchStock(dto)).collect(Collectors.toList()))
                 .build();
     }
 }
