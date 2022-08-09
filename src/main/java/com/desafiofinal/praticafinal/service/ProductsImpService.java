@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.desafiofinal.praticafinal.modelRequestResponseDto.ProductResponseDto;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 @Service
 public class ProductsImpService {
@@ -43,7 +46,7 @@ public class ProductsImpService {
 
     public List<ProductResponseDto> listProductsByCategory (String category) throws Exception{
 
-        List<InBoundOrder> listInBoundOrder = inBoundOrderRepo.findAll();
+        List<InBoundOrder> listInBoundOrder = inBoundOrderRepo.findAll(); //TODO no final refatorar esse método
 
         List<ProductResponseDto> productListByCategory= new ArrayList<>();
 
@@ -56,14 +59,19 @@ public class ProductsImpService {
 
                     ProductResponseDto productResponseDto = new ProductResponseDto(foundProduct);
 
-                    if (!productListByCategory.contains(productResponseDto)){
-                        productListByCategory.add(productResponseDto);
-                    }
+                    LocalDate convertToLocalDate = convertToLocalDateViaInstant(productResponseDto.getValidateDate());
 
+                    LocalDate minusDays = convertToLocalDate.minusDays(22);
+
+                    if (!productListByCategory.contains(productResponseDto)){
+                        if(LocalDate.now().isBefore(minusDays)){
+                            productListByCategory.add(productResponseDto); //TODO alterar os atributos de LocalDate para Date
+                        }
+                    }
                 }
             }
-
         }
+
         if(productListByCategory.isEmpty()){
             throw new Exception("Nenhum produto foi encontrado para essa categoria");
         }else {
@@ -72,6 +80,10 @@ public class ProductsImpService {
 
     }
 
-
+    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
 
 }
