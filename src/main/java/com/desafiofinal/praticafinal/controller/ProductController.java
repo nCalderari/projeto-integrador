@@ -21,19 +21,13 @@ public class ProductController {
     @Autowired
     private ProductsImpService service;
 
-//    @GetMapping("/products")
-//        ResponseEntity<List<ProductDto>> getAllProducts(){
-//
-//        return new ResponseEntity<List<ProductDto>>(service.listAllProducts(),HttpStatus.FOUND);
-//
-//    }
-
     @GetMapping("/products")
-    ResponseEntity<List<Product>> getAllProducts(){
+        ResponseEntity<List<ProductDto>> getAllProducts(){
 
-        return new ResponseEntity<List<Product>>(service.listAllProducts(),HttpStatus.FOUND);
+        return new ResponseEntity<List<ProductDto>>(service.listAllProducts(),HttpStatus.FOUND);
 
     }
+
 
     @GetMapping("/{category}")
     ResponseEntity<List<ProductResponseDto>> getProductBySector(@PathVariable String category)throws Exception{

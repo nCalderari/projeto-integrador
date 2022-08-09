@@ -5,6 +5,7 @@ import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
 import com.desafiofinal.praticafinal.modelEntity.Product;
 import com.desafiofinal.praticafinal.modelEntity.Seller;
 import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +37,7 @@ public class ProductDto {
 
     private double bulk;
 
-
+    @JsonIgnore
     private List<BatchStock> batchList;
 
     public ProductDto(Product product){

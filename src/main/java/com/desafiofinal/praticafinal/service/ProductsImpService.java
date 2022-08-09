@@ -23,37 +23,23 @@ public class ProductsImpService {
     @Autowired
     private InBoundOrderRepo inBoundOrderRepo;
 
-//    public List<ProductDto> listAllProducts (){
-//
-//        List<ProductDto> productList= new ArrayList<>();
-//
-//        List<Product> foundListProduct = productRepo.findAll();
-//
-//        for(Product product:foundListProduct){
-//
-//            ProductDto productDto = new ProductDto(product);
-//
-//            productList.add(productDto);
-//        }
-//
-//        return productList;
-//
-//    }
+    public List<ProductDto> listAllProducts (){
 
-    public List<Product> listAllProducts (){
-
-        List<Product> productList= new ArrayList<>();
+        List<ProductDto> productList= new ArrayList<>();
 
         List<Product> foundListProduct = productRepo.findAll();
 
         for(Product product:foundListProduct){
 
-            productList.add(product);
+            ProductDto productDto = new ProductDto(product);
+
+            productList.add(productDto);
         }
 
         return productList;
 
     }
+
 
     public List<ProductResponseDto> listProductsByCategory (String category) throws Exception{
 
