@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class InBoundOrderImpService implements IinBoundOrderService {
+public class InBoundOrderImpService implements IinboundOrderService {
 
     @Autowired
     private InBoundOrderRepo inBoundOrderRepo;
