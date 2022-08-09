@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -70,9 +69,43 @@ public class InBoundOrderImpService implements IinBoundOrderService {
             throw new ElementNotFoundException("In bound order does not exists");
         }
 
+//        List<BatchStock> tempBatchList = new ArrayList();
+//
+//        for(BatchStock batchStock : newUpdatedInBoundOrder.getBatchStockList()){
+//
+//            tempBatchList.add(batchStock);
+//        }
+//
+//        for(BatchStock responseStock : tempBatchList)
+//        {
+//            Optional<BatchStock> foundBatch = batchStockRepo.findById(responseStock.getBatchId());
+//            if(foundBatch.isPresent())
+//            {
+//                if ((foundBatch.get().getInBoundOrder().getOrderId()== newUpdatedInBoundOrder.getOrderId())){
+//                    responseStock.setInBoundOrder(newUpdatedInBoundOrder);
+//                    batchStockRepo.save(responseStock);
+//                }else {
+//                    throw new Exception("O batchStock não pertence ao inBoundOrder");
+//                }
+//
+//            }
+//            else
+//            {
+//                throw new Exception("Este Batch não existe");
+//            }
+//        }
+
     }
 
-    private InBoundOrder convertToInBoundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
+//    public InBoundOrderResponseDto inBoundOrderGetPrice (InBoundOrderRequestDto inBoundOrderRequestDto) {
+//        InBoundOrder newInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
+//
+//        for (BatchStock batchStockProduct: newInBoundOrder.getBatchStockList()){
+//            batchStockProduct.getProduct().getPrice();
+//        }
+//    }
+
+    private InBoundOrder convertToInBoundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) {
         InBoundOrder inboundOrder = new InBoundOrder();
         Optional<InBoundOrder> foundInBundOrder = inBoundOrderRepo.findById(inboundOrderRequestDTO.getOrderId());
         if(foundInBundOrder.isPresent()){
@@ -100,8 +133,6 @@ public class InBoundOrderImpService implements IinBoundOrderService {
                     product);
         }).collect(Collectors.toList());
 
-        verifyBatchStock(batchList, inboundOrder);
-
         inboundOrder.setBatchStockList(batchList);
 
         return inboundOrder;
@@ -123,22 +154,6 @@ public class InBoundOrderImpService implements IinBoundOrderService {
             return foundProduct.get();
         } else {
             throw new ElementNotFoundException("Product does ot exists");
-        }
-    }
-
-    private void verifyBatchStock(List<BatchStock> batchStockList, InBoundOrder inBoundOrder) throws Exception {
-        for(BatchStock responseStock : batchStockList) {
-            Optional<BatchStock> foundBatch = batchStockRepo.findById(responseStock.getBatchId());
-            if(foundBatch.isPresent()) {
-                if ((foundBatch.get().getInBoundOrder().getOrderId() == inBoundOrder.getOrderId())) {
-                    responseStock.setInBoundOrder(inBoundOrder);
-                    batchStockRepo.save(responseStock);
-                } else {
-                    throw new ElementNotFoundException("Batch stock does not belongs to this inbound order");
-                }
-            } else {
-                throw new ElementNotFoundException("Batch stock does not exists");
-            }
         }
     }
 }
