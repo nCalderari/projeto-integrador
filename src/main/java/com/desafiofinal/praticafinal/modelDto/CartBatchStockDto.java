@@ -16,9 +16,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class CartBatchStockDto {
 
-    private int CartBatchStockId;
+    private long CartBatchStockId;
 
-    private CartDto idCart;
+    private long cart;
 
     private long batchStock;
 
@@ -28,7 +28,7 @@ public class CartBatchStockDto {
 
     public CartBatchStockDto (CartBatchStock cartBatchStock){
         this.CartBatchStockId=cartBatchStock.getCartBatchStockId();
-        this.idCart=new CartDto(cartBatchStock.getIdCart());
+//        this.idCart=new CartDto(cartBatchStock.getIdCart());
 //        this.batchStock= new BatchStockDto(cartBatchStock.getBatchStock());
         this.pricePerProduct=cartBatchStock.getPricePerProduct();
         this.productQuantity=cartBatchStock.getProductQuantity();
@@ -36,8 +36,8 @@ public class CartBatchStockDto {
 
     public static CartBatchStock convertDtoToCartBatchStock (CartBatchStockDto cartBatchStockDto){
         return CartBatchStock.builder()
-                .idCart(CartDto.convertDtoToCart(cartBatchStockDto.getIdCart()))
-                .batchStock(BatchStockDto.convertBatchStockDtoToBatchStock(cartBatchStockDto.getBatchStock()))
+//                .idCart(CartDto.convertDtoToCart(cartBatchStockDto.getIdCart()))
+//                .batchStock(BatchStockDto.convertBatchStockDtoToBatchStock(cartBatchStockDto.getBatchStock()))
                 .build();
     }
 }

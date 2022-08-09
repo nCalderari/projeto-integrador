@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 public class CartBatchStock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cartBatchStockId;
+    private long cartBatchStockId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "id_cart")
     private Cart idCart;
 

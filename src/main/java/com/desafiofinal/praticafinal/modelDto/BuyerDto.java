@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class BuyerDto {
 
-    private int buyerId;
+    private long buyerId;
 
     private String buyerName;
 

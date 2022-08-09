@@ -17,10 +17,10 @@ import java.util.List;
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cartId;
+    private long cartId;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn (name = "id_buyer")
+    @JoinColumn (name = "buyer_id")
     private Buyer buyer;
 
     private double totalPrice;
