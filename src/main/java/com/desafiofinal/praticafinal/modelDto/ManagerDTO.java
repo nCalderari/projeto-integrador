@@ -14,14 +14,14 @@ import javax.persistence.OneToOne;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ManagerDto {
+public class ManagerDTO {
 
     private long managerId;
     private String managerName;
 
     private WareHouse wareHouse;
 
-    public ManagerDto (Manager manager){
+    public ManagerDTO(Manager manager){
         this.managerId=manager.getManagerId();
         this.managerName=manager.getManagerName();
 //        this.wareHouse=manager.getWareHouse();
