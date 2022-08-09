@@ -21,7 +21,7 @@ public class CartBatchStock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cartBatchStockId;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "id_cart")
     private Cart idCart;
 

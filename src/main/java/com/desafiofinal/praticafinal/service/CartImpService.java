@@ -35,18 +35,20 @@ public class CartImpService {
 
         Cart newCart = foundCart(cartDto.getCartId());
         newCart.setDate(cartDto.getDate());
+        newCart.setOrderStatus(cartDto.getOrderStatus());
         verifyBuyer(cartDto, newCart);
-        List<CartBatchStock> cartBatchStockList = convertToCartBatchStock(cartDto);
+        List<CartBatchStock> cartBatchStockList = convertToCartBatchStock(cartDto, newCart);
         newCart.setListCartBatchStock(cartBatchStockList);
-
-        cartRepo.save(newCart);
-        cartBatchStockRepo.saveAll(cartBatchStockList);
 
         double totalPrice = 0d;
         for (CartBatchStock c : newCart.getListCartBatchStock()) {
             double price = getTotalPrice(c);
             totalPrice += price;
         }
+
+        newCart.setTotalPrice(totalPrice);
+        cartRepo.save(newCart);
+        cartBatchStockRepo.saveAll(cartBatchStockList);
 
         return totalPrice;
     }
@@ -60,17 +62,19 @@ public class CartImpService {
         }
     }
 
-    private List<CartBatchStock> convertToCartBatchStock(CartDto cartDto)  {
-        Cart cart = foundCart(cartDto.getCartId());
+    private List<CartBatchStock> convertToCartBatchStock(CartDto cartDto, Cart cart)  {
+
         return cartDto.getListCartBatchStock().stream().map(dto -> {
             BatchStock batchStock = foundBatchStock(dto);
-            return new CartBatchStock(
-                    dto.getCartBatchStockId(),
-                    cart,
-                    batchStock,
-                    dto.getPricePerProduct(),
-                    dto.getProductQuantity()
-            );
+            CartBatchStock newCartBatchStock = new CartBatchStock();
+            newCartBatchStock.setCartBatchStockId(dto.getCartBatchStockId());
+            newCartBatchStock.setIdCart(cart);
+            newCartBatchStock.setPricePerProduct(dto.getPricePerProduct());
+            newCartBatchStock.setBatchStock(batchStock);
+            newCartBatchStock.setProductQuantity(dto.getProductQuantity());
+            return newCartBatchStock;
+
+
         }).collect(Collectors.toList());
     }
 
