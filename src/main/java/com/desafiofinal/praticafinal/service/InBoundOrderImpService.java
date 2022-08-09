@@ -1,8 +1,8 @@
 package com.desafiofinal.praticafinal.service;
 
 import com.desafiofinal.praticafinal.modelEntity.*;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderRequestDto;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderResponseDto;
+import com.desafiofinal.praticafinal.modelRequestResponseDto.InboundOrderRequestDTO;
+import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderResponseDTO;
 import com.desafiofinal.praticafinal.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InBoundOrderImpService {
@@ -37,42 +38,59 @@ public class InBoundOrderImpService {
     private SellerRepo sellerRepo;
 
     @Transactional
-    public InBoundOrderResponseDto saveInBoundOrder (InBoundOrderRequestDto inBoundOrderRequestDto) throws Exception {
+    public InBoundOrderResponseDTO saveInBoundOrder (InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
+        var inboundOrder = new InBoundOrder();
+        var orderId = inboundOrderRequestDTO.getOrderId();
+        var sectorID = inboundOrderRequestDTO.getSector().getSectorId();
+        var productIDList = inboundOrderRequestDTO.
+                getBatchStockList()
+                .stream()
+                .map(batchStockDTO -> batchStockDTO.getProduct().getId()).collect(Collectors.toList());
 
-        InBoundOrder newInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
 
-        //TODO FAZER UM FOREACH
-        for(BatchStock batchStock : newInBoundOrder.getBatchStockList()){
-
-            Optional<Product> foundProduct = productRepo.findById(batchStock.getProduct().getId());
-
-            if(foundProduct.isPresent()){
-                batchStock.setProduct(foundProduct.get());
-            }else {
-                throw new Exception("Não existe o produto");
-            }
-
-            batchStock.setInBoundOrder(newInBoundOrder);
-
-        }
-
-        Optional<Sector> foundSector = sectorRepo.findById(newInBoundOrder.getSector().getSectorId());
+        Optional<Sector> foundSector = sectorRepo.findById(sectorID);
 
         if(foundSector.isPresent()){
-            newInBoundOrder.setSector(foundSector.get());
+            inboundOrder.setSector(foundSector.get());
         }else{
             throw new Exception("Não existe o setor");
         }
 
-        InBoundOrder savedInBoundOrder = inBoundOrderRepo.save(newInBoundOrder);
 
-        return new InBoundOrderResponseDto(savedInBoundOrder);
+        var productList = productRepo.findAllById(productIDList);
+        var batchList = inboundOrderRequestDTO.getBatchStockList().stream().map(dto -> {
+            var product = productList
+                    .stream().
+                    filter( p -> p.getId() == dto.getProduct().getId())
+                    .findFirst().get();
 
+//            if(product.isEmpty()){
+//                throw new Exception("Produto não existe");
+//            }
+           return  new BatchStock(
+                    dto.getBatchId(),
+                    dto.getCurrentTemperature(),
+                    dto.getMinimumTemperature(),
+                    dto.getInitialQuantity(),
+                    dto.getCurrentQuantity(),
+                    dto.getManufacturingDate(),
+                    dto.getManufacturingTime(),
+                    dto.getDueDate(),
+                    inboundOrder,
+                    product);
+        }).collect(Collectors.toList());
+
+
+        inboundOrder.setBatchStockList(batchList);
+        InBoundOrder savedInBoundOrder = inBoundOrderRepo.save(inboundOrder);
+
+        var inBoundOrderResponseDTO = new InBoundOrderResponseDTO(savedInBoundOrder);
+        return inBoundOrderResponseDTO;
     }
 
-    public InBoundOrderResponseDto updateInBoundOrder (InBoundOrderRequestDto inBoundOrderRequestDto) throws Exception {
+    public InBoundOrderResponseDTO updateInBoundOrder (InboundOrderRequestDTO inBoundOrderRequestDto) throws Exception {
 
-        InBoundOrder newUpdatedInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
+        InBoundOrder newUpdatedInBoundOrder = InboundOrderRequestDTO.convertDTOToInboundOrder(inBoundOrderRequestDto);
 
         Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(newUpdatedInBoundOrder.getOrderId());
         //TODO USAR DEPOIS UM TERNARIO
@@ -112,7 +130,7 @@ public class InBoundOrderImpService {
 
         InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(newUpdatedInBoundOrder);
 
-        return new InBoundOrderResponseDto(updatedInBoundOrder);
+        return new InBoundOrderResponseDTO(updatedInBoundOrder);
 
     }
 

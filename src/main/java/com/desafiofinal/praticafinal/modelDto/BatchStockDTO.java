@@ -2,21 +2,16 @@ package com.desafiofinal.praticafinal.modelDto;
 
 import com.desafiofinal.praticafinal.modelEntity.BatchStock;
 import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
-import com.desafiofinal.praticafinal.modelEntity.Product;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.lang.Nullable;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import java.util.Date;
 
-@Data
 @NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-public class BatchStockDto {
+public class BatchStockDTO {
 
 
     private long batchId;
@@ -35,13 +30,13 @@ public class BatchStockDto {
 
     private Date dueDate;
 
-
+    @Nullable
     private InBoundOrder inBoundOrderId;
 
+    @Nullable
+    private ProductDTO product;
 
-    private ProductDto productDto;
-
-    public BatchStockDto(BatchStock batchStock) {
+    public BatchStockDTO(BatchStock batchStock) {
         this.batchId = batchStock.getBatchId();
         this.currentTemperature = batchStock.getCurrentTemperature();
         this.minimumTemperature = batchStock.getMinimumTemperature();

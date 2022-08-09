@@ -1,9 +1,6 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +10,8 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"manager", "sectorList"})
+
 public class WareHouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
