@@ -1,15 +1,14 @@
-package com.desafiofinal.praticafinal.modelDto;
+package com.desafiofinal.praticafinal.dto;
 
-import com.desafiofinal.praticafinal.modelEntity.Product;
+import com.desafiofinal.praticafinal.model.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
+public class ProductResponseDTO {
 
     private long id;
 
@@ -27,7 +26,7 @@ public class ProductDTO {
 //
 //    private double bulk;
 
-    public ProductDTO(Product product){
+    public ProductResponseDTO(Product product){
         this.id = product.getId();
 //        this.productType = product.getProductType();
 //        this.validateDate = product.getValidateDate();

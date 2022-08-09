@@ -2,17 +2,14 @@ package com.desafiofinal.praticafinal.service;
 
 import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
 import com.desafiofinal.praticafinal.exception.ElementeAlreadyExistsException;
-import com.desafiofinal.praticafinal.modelDto.BatchStockDTO;
-import com.desafiofinal.praticafinal.modelEntity.*;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.InboundOrderRequestDTO;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderResponseDTO;
+import com.desafiofinal.praticafinal.dto.InboundOrderRequestDTO;
+import com.desafiofinal.praticafinal.model.*;
+import com.desafiofinal.praticafinal.dto.InBoundOrderResponseDTO;
 import com.desafiofinal.praticafinal.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -136,7 +133,7 @@ public class InBoundOrderImpService {
                     .findFirst().get();
 
             return  new BatchStock(
-                    dto.getBatchId(),
+                    dto.getBatchNumber(),
                     dto.getCurrentTemperature(),
                     dto.getMinimumTemperature(),
                     dto.getInitialQuantity(),

@@ -1,6 +1,5 @@
-package com.desafiofinal.praticafinal.modelDto;
+package com.desafiofinal.praticafinal.dto;
 
-import com.desafiofinal.praticafinal.modelEntity.BatchStock;
 import lombok.Data;
 
 import java.util.List;

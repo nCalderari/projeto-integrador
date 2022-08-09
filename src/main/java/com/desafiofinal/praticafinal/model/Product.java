@@ -1,6 +1,5 @@
-package com.desafiofinal.praticafinal.modelEntity;
+package com.desafiofinal.praticafinal.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
