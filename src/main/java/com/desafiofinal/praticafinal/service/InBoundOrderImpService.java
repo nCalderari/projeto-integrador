@@ -1,5 +1,7 @@
 package com.desafiofinal.praticafinal.service;
 
+import com.desafiofinal.praticafinal.exception.ElementeAlreadyExistsException;
+import com.desafiofinal.praticafinal.modelDto.BatchStockDTO;
 import com.desafiofinal.praticafinal.modelEntity.*;
 import com.desafiofinal.praticafinal.modelRequestResponseDto.InboundOrderRequestDTO;
 import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderResponseDTO;
@@ -39,53 +41,17 @@ public class InBoundOrderImpService {
 
     @Transactional
     public InBoundOrderResponseDTO saveInBoundOrder (InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
-        var inboundOrder = new InBoundOrder();
-        var orderId = inboundOrderRequestDTO.getOrderId();
-        var sectorID = inboundOrderRequestDTO.getSector().getSectorId();
-        var productIDList = inboundOrderRequestDTO.
-                getBatchStockList()
-                .stream()
-                .map(batchStockDTO -> batchStockDTO.getProduct().getId()).collect(Collectors.toList());
+        InBoundOrder inBoundOrder = convertToInBoundOrder(inboundOrderRequestDTO);
 
+        Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(inBoundOrder.getOrderId());
 
-        Optional<Sector> foundSector = sectorRepo.findById(sectorID);
-
-        if(foundSector.isPresent()){
-            inboundOrder.setSector(foundSector.get());
-        }else{
-            throw new Exception("Não existe o setor");
+        //TODO USAR DEPOIS UM TERNARIO
+        if(foundInBoundOrder.isPresent()){
+            throw new ElementeAlreadyExistsException("In bound order already exists");
+        }else {
+            InBoundOrder savedInBoundOrder = inBoundOrderRepo.save(inBoundOrder);
+            return new InBoundOrderResponseDTO(savedInBoundOrder);
         }
-
-
-        var productList = productRepo.findAllById(productIDList);
-        var batchList = inboundOrderRequestDTO.getBatchStockList().stream().map(dto -> {
-            var product = productList
-                    .stream().
-                    filter( p -> p.getId() == dto.getProduct().getId())
-                    .findFirst().get();
-
-//            if(product.isEmpty()){
-//                throw new Exception("Produto não existe");
-//            }
-           return  new BatchStock(
-                    dto.getBatchId(),
-                    dto.getCurrentTemperature(),
-                    dto.getMinimumTemperature(),
-                    dto.getInitialQuantity(),
-                    dto.getCurrentQuantity(),
-                    dto.getManufacturingDate(),
-                    dto.getManufacturingTime(),
-                    dto.getDueDate(),
-                    inboundOrder,
-                    product);
-        }).collect(Collectors.toList());
-
-
-        inboundOrder.setBatchStockList(batchList);
-        InBoundOrder savedInBoundOrder = inBoundOrderRepo.save(inboundOrder);
-
-        var inBoundOrderResponseDTO = new InBoundOrderResponseDTO(savedInBoundOrder);
-        return inBoundOrderResponseDTO;
     }
 
     public InBoundOrderResponseDTO updateInBoundOrder (InboundOrderRequestDTO inBoundOrderRequestDto) throws Exception {
@@ -142,4 +108,46 @@ public class InBoundOrderImpService {
 //        }
 //    }
 
+    private InBoundOrder convertToInBoundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
+        var inboundOrder = new InBoundOrder();
+        var orderId = inboundOrderRequestDTO.getOrderId();
+        var sectorID = inboundOrderRequestDTO.getSector().getSectorId();
+        var productIDList = inboundOrderRequestDTO.
+                getBatchStockList()
+                .stream()
+                .map(batchStockDTO -> batchStockDTO.getProduct().getId()).collect(Collectors.toList());
+        Optional<Sector> foundSector = sectorRepo.findById(sectorID);
+
+        if(foundSector.isPresent()){
+            inboundOrder.setSector(foundSector.get());
+        }else{
+            throw new Exception("Não existe o setor");
+        }
+
+        var productList = productRepo.findAllById(productIDList);
+        var batchList = inboundOrderRequestDTO.getBatchStockList().stream().map(dto -> {
+            var product = productList
+                    .stream().
+                    filter( p -> p.getId() == dto.getProduct().getId())
+                    .findFirst().get();
+
+            return  new BatchStock(
+                    dto.getBatchId(),
+                    dto.getCurrentTemperature(),
+                    dto.getMinimumTemperature(),
+                    dto.getInitialQuantity(),
+                    dto.getCurrentQuantity(),
+                    dto.getManufacturingDate(),
+                    dto.getManufacturingTime(),
+                    dto.getDueDate(),
+                    inboundOrder,
+                    product);
+        }).collect(Collectors.toList());
+
+        inboundOrder.setBatchStockList(batchList);
+
+        return inboundOrder;
+    }
 }
+
+
