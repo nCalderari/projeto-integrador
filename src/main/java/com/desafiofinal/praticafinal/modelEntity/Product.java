@@ -1,18 +1,15 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.engine.jdbc.batch.spi.Batch;
-import org.springframework.boot.convert.DataSizeUnit;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -40,4 +37,75 @@ public class Product {
     @OneToMany (mappedBy = "product", cascade = CascadeType.REFRESH)
     private List<BatchStock> batchList;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+
+    public Date getValidateDate() {
+        return validateDate;
+    }
+
+    public void setValidateDate(Date validateDate) {
+        this.validateDate = validateDate;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
+    }
+
+    public double getBulk() {
+        return bulk;
+    }
+
+    public void setBulk(double bulk) {
+        this.bulk = bulk;
+    }
+
+    public List<BatchStock> getBatchList() {
+        return batchList;
+    }
+
+    public void setBatchList(List<BatchStock> batchList) {
+        this.batchList = batchList;
+    }
 }

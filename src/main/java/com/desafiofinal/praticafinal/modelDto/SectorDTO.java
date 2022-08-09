@@ -14,15 +14,15 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SectorDto {
+public class SectorDTO {
 
     private long sectorId;
     private String category;
     private double capacity;
-    private List<InBoundOrder> orderList;
+    private List<InBoundOrder> orderList;//TODO retirar DTO
     private WareHouse wareHouse;
 
-    public SectorDto(Sector sector) {
+    public SectorDTO(Sector sector) {
         this.sectorId = sector.getSectorId();
         this.category = sector.getCategory();
         this.capacity = sector.getCapacity();

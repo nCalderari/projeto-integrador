@@ -1,21 +1,18 @@
 package com.desafiofinal.praticafinal.modelDto;
 
-import com.desafiofinal.praticafinal.modelEntity.BatchStock;
 import com.desafiofinal.praticafinal.modelEntity.Product;
 import com.desafiofinal.praticafinal.modelEntity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDto {
+public class ProductDTO {
 
     private long id;
 
@@ -29,15 +26,11 @@ public class ProductDto {
 
     private String productName;
 
-
     private Seller seller;
 
     private double bulk;
 
-
-    private List<BatchStock> batchList;
-
-    public ProductDto(Product product){
+    public ProductDTO(Product product){
         this.id = product.getId();
         this.productType = product.getProductType();
         this.validateDate = product.getValidateDate();
@@ -46,7 +39,5 @@ public class ProductDto {
         this.productName = product.getProductName();
         this.seller = product.getSeller();
         this.bulk = product.getBulk();
-        this.batchList = product.getBatchList();
-
     }
 }

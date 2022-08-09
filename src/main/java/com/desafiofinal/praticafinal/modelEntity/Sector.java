@@ -1,9 +1,8 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,6 +10,8 @@ import java.util.List;
 @Entity
 @Data
 @Builder
+@ToString(exclude = {"wareHouse", "orderList"})
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sector {
@@ -21,9 +22,11 @@ public class Sector {
     private double capacity;
 
     @OneToMany(mappedBy = "sector", cascade = CascadeType.REFRESH)
+    @JsonIgnoreProperties("sector")
     private List<InBoundOrder> orderList;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "id_warehouse")
+    @JsonIgnoreProperties("sectorList")
     private WareHouse wareHouse;
 }
