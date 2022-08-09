@@ -1,14 +1,11 @@
-package com.desafiofinal.praticafinal.modelRequestResponseDto;
+package com.desafiofinal.praticafinal.dto;
 
-import com.desafiofinal.praticafinal.modelDto.BatchStockDTO;
-import com.desafiofinal.praticafinal.modelEntity.BatchStock;
-import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
+import com.desafiofinal.praticafinal.model.InBoundOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 

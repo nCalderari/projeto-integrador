@@ -1,15 +1,12 @@
-package com.desafiofinal.praticafinal.modelRequestResponseDto;
+package com.desafiofinal.praticafinal.dto;
 
-import com.desafiofinal.praticafinal.modelDto.BatchStockDTO;
-import com.desafiofinal.praticafinal.modelDto.SectorDTO;
-import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
+import com.desafiofinal.praticafinal.model.InBoundOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
-
 
 @Data
 @NoArgsConstructor
@@ -23,7 +20,7 @@ public class InboundOrderRequestDTO {
     private List<BatchStockDTO> batchStockList;
 
 
-    public static InBoundOrder convertDTOToInboundOrder(InboundOrderRequestDTO inboundOrderRequestDTO){
+    public static InBoundOrder convertDTOToInboundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) {
 
 
         return InBoundOrder.builder()
@@ -33,4 +30,5 @@ public class InboundOrderRequestDTO {
 //                .batchStockList(inboundOrderRequestDTO.getBatchStockList())
                 .build();
     }
+
 }

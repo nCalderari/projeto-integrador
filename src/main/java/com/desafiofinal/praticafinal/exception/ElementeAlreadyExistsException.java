@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class ElementeAlreadyExistsException extends RuntimeException{
     public ElementeAlreadyExistsException(String message){
-        super();
+        super(message);
     }
 }

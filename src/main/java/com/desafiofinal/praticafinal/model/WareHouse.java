@@ -1,4 +1,4 @@
-package com.desafiofinal.praticafinal.modelEntity;
+package com.desafiofinal.praticafinal.model;
 
 import lombok.*;
 
