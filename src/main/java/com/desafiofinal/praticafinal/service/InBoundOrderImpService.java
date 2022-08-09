@@ -1,5 +1,6 @@
 package com.desafiofinal.praticafinal.service;
 
+import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
 import com.desafiofinal.praticafinal.exception.ElementeAlreadyExistsException;
 import com.desafiofinal.praticafinal.modelDto.BatchStockDTO;
 import com.desafiofinal.praticafinal.modelEntity.*;
@@ -56,47 +57,45 @@ public class InBoundOrderImpService {
 
     public InBoundOrderResponseDTO updateInBoundOrder (InboundOrderRequestDTO inBoundOrderRequestDto) throws Exception {
 
-        InBoundOrder newUpdatedInBoundOrder = InboundOrderRequestDTO.convertDTOToInboundOrder(inBoundOrderRequestDto);
+        InBoundOrder inBoundOrder = convertToInBoundOrder(inBoundOrderRequestDto);
 
-        Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(newUpdatedInBoundOrder.getOrderId());
+        Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(inBoundOrder.getOrderId());
         //TODO USAR DEPOIS UM TERNARIO
         if(foundInBoundOrder.isPresent()){
 
-           inBoundOrderRepo.save(newUpdatedInBoundOrder);
+            InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(foundInBoundOrder.get());
+
+            return new InBoundOrderResponseDTO(updatedInBoundOrder);
 
         }else {
-            throw new Exception("nao encontrado");
+            throw new ElementNotFoundException("In bound order does not exists");
         }
 
-        List<BatchStock> tempBatchList = new ArrayList();
-
-        for(BatchStock batchStock : newUpdatedInBoundOrder.getBatchStockList()){
-
-            tempBatchList.add(batchStock);
-        }
-
-        for(BatchStock responseStock : tempBatchList)
-        {
-            Optional<BatchStock> foundBatch = batchStockRepo.findById(responseStock.getBatchId());
-            if(foundBatch.isPresent())
-            {
-                if ((foundBatch.get().getInBoundOrder().getOrderId()== newUpdatedInBoundOrder.getOrderId())){
-                    responseStock.setInBoundOrder(newUpdatedInBoundOrder);
-                    batchStockRepo.save(responseStock);
-                }else {
-                    throw new Exception("O batchStock não pertence ao inBoundOrder");
-                }
-
-            }
-            else
-            {
-                throw new Exception("Este Batch não existe");
-            }
-        }
-
-        InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(newUpdatedInBoundOrder);
-
-        return new InBoundOrderResponseDTO(updatedInBoundOrder);
+//        List<BatchStock> tempBatchList = new ArrayList();
+//
+//        for(BatchStock batchStock : newUpdatedInBoundOrder.getBatchStockList()){
+//
+//            tempBatchList.add(batchStock);
+//        }
+//
+//        for(BatchStock responseStock : tempBatchList)
+//        {
+//            Optional<BatchStock> foundBatch = batchStockRepo.findById(responseStock.getBatchId());
+//            if(foundBatch.isPresent())
+//            {
+//                if ((foundBatch.get().getInBoundOrder().getOrderId()== newUpdatedInBoundOrder.getOrderId())){
+//                    responseStock.setInBoundOrder(newUpdatedInBoundOrder);
+//                    batchStockRepo.save(responseStock);
+//                }else {
+//                    throw new Exception("O batchStock não pertence ao inBoundOrder");
+//                }
+//
+//            }
+//            else
+//            {
+//                throw new Exception("Este Batch não existe");
+//            }
+//        }
 
     }
 
@@ -110,7 +109,12 @@ public class InBoundOrderImpService {
 
     private InBoundOrder convertToInBoundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
         var inboundOrder = new InBoundOrder();
-        var orderId = inboundOrderRequestDTO.getOrderId();
+        Optional<InBoundOrder> foundInBundOrder = inBoundOrderRepo.findById(inboundOrderRequestDTO.getOrderId());
+        if(foundInBundOrder.isPresent()){
+            inboundOrder.setOrderId(foundInBundOrder.get().getOrderId());
+        } else{
+            inboundOrder.setOrderId(0L);
+        }
         var sectorID = inboundOrderRequestDTO.getSector().getSectorId();
         var productIDList = inboundOrderRequestDTO.
                 getBatchStockList()
