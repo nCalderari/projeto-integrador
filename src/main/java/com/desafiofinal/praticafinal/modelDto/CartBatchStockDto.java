@@ -37,7 +37,7 @@ public class CartBatchStockDto {
     public static CartBatchStock convertDtoToCartBatchStock (CartBatchStockDto cartBatchStockDto){
         return CartBatchStock.builder()
                 .idCart(CartDto.convertDtoToCart(cartBatchStockDto.getIdCart()))
-              //  .batchStock(BatchStockDto.convertBatchStockDtoToBatchStock(cartBatchStockDto.getBatchStock()))
+                .batchStock(BatchStockDto.convertBatchStockDtoToBatchStock(cartBatchStockDto.getBatchStock()))
                 .build();
     }
 }

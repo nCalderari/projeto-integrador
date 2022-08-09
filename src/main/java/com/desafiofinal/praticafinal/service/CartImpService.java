@@ -71,6 +71,14 @@ public class CartImpService {
         }
     }
 
+    private void verifyCartBatchStock(CartDto cartDto, Cart cart) throws Exception {
+        Optional<Buyer> foundBuyer =  buyerRepo.findById(cartDto.getBuyer());
+        if(foundBuyer.isPresent()) {
+            cart.setBuyer(foundBuyer.get());
+        }else{
+            throw new Exception(); //TODO colocar exceção ElementNotFounExists
+        }
+    }
 
     public List<CartBatchStockDto> getProducts(long purchaseId){
         return null;
