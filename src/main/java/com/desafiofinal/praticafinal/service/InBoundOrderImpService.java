@@ -1,5 +1,6 @@
 package com.desafiofinal.praticafinal.service;
 
+import com.desafiofinal.praticafinal.dto.BatchStockDTO;
 import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
 import com.desafiofinal.praticafinal.exception.ElementeAlreadyExistsException;
 import com.desafiofinal.praticafinal.dto.InboundOrderRequestDTO;
@@ -20,16 +21,16 @@ public class InBoundOrderImpService implements IinBoundOrderService {
     private InBoundOrderRepo inBoundOrderRepo;
 
     @Autowired
-    private IBatchStockRepo IBatchStockRepo;
+    private IBatchStockRepo batchStockRepo;
 
     @Autowired
     private ISectorRepo sectorRepo;
 
     @Autowired
-    private IWareHouseRepo iwareHouseRepo;
+    private IWareHouseRepo wareHouseRepo;
 
     @Autowired
-    private IManagerRepo IManagerRepo;
+    private IManagerRepo managerRepo;
 
     @Autowired
     private IProductRepo productRepo;
@@ -56,12 +57,12 @@ public class InBoundOrderImpService implements IinBoundOrderService {
 
         InBoundOrder inBoundOrder = convertToInBoundOrder(inBoundOrderRequestDto);
 
-        Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(inBoundOrder.getOrderId());
+        Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(inBoundOrderRequestDto.getOrderId());
         //TODO USAR DEPOIS UM TERNARIO
         if(foundInBoundOrder.isPresent()){
 
-            InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(foundInBoundOrder.get());
-
+            batchStockRepo.saveAll(inBoundOrder.getBatchStockList());
+            InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(inBoundOrder);
             return new InBoundOrderResponseDTO(updatedInBoundOrder);
 
         }else {
@@ -104,33 +105,20 @@ public class InBoundOrderImpService implements IinBoundOrderService {
 //        }
 //    }
 
-    private InBoundOrder convertToInBoundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
-        var inboundOrder = new InBoundOrder();
+    private InBoundOrder convertToInBoundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) {
+        InBoundOrder inboundOrder = new InBoundOrder();
         Optional<InBoundOrder> foundInBundOrder = inBoundOrderRepo.findById(inboundOrderRequestDTO.getOrderId());
         if(foundInBundOrder.isPresent()){
             inboundOrder.setOrderId(foundInBundOrder.get().getOrderId());
+
         } else{
             inboundOrder.setOrderId(0L);
         }
         var sectorID = inboundOrderRequestDTO.getSector().getSectorId();
-        var productIDList = inboundOrderRequestDTO.
-                getBatchStockList()
-                .stream()
-                .map(batchStockDTO -> batchStockDTO.getProduct().getId()).collect(Collectors.toList());
-        Optional<Sector> foundSector = sectorRepo.findById(sectorID);
+        verifySector(inboundOrder, sectorID);
 
-        if(foundSector.isPresent()){
-            inboundOrder.setSector(foundSector.get());
-        }else{
-            throw new Exception("Não existe o setor");
-        }
-
-        var productList = productRepo.findAllById(productIDList);
         var batchList = inboundOrderRequestDTO.getBatchStockList().stream().map(dto -> {
-            var product = productList
-                    .stream().
-                    filter( p -> p.getId() == dto.getProduct().getId())
-                    .findFirst().get();
+            Product product = verifyProduct(dto);
 
             return  new BatchStock(
                     dto.getBatchNumber(),
@@ -148,6 +136,25 @@ public class InBoundOrderImpService implements IinBoundOrderService {
         inboundOrder.setBatchStockList(batchList);
 
         return inboundOrder;
+    }
+
+    private void verifySector(InBoundOrder inboundOrder, long sectorID) {
+        Optional<Sector> foundSector = sectorRepo.findById(sectorID);
+
+        if(foundSector.isPresent()){
+            inboundOrder.setSector(foundSector.get());
+        }else{
+            throw new ElementNotFoundException("Sector does not exists");
+        }
+    }
+
+    private Product verifyProduct(BatchStockDTO batchStockDTO) {
+        Optional<Product> foundProduct = productRepo.findById(batchStockDTO.getProduct());
+        if (foundProduct.isPresent()){
+            return foundProduct.get();
+        } else {
+            throw new ElementNotFoundException("Product does ot exists");
+        }
     }
 }
 
