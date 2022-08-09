@@ -15,9 +15,9 @@ public class HandlerException extends Throwable{
     public ResponseEntity<ExceptionDetails> exceptionHandler(ElementNotFoundException ex){
         return new ResponseEntity<>(
                 ExceptionDetails.builder()
-                        .title(ex.getMessage())
+                        .title(HttpStatus.NOT_FOUND.name())
                         .status(HttpStatus.NOT_FOUND.value())
-                        .message(HttpStatus.NOT_FOUND.name())
+                        .message(ex.getMessage())
                         .build(), HttpStatus.NOT_FOUND
         );
     }
@@ -26,9 +26,9 @@ public class HandlerException extends Throwable{
     public ResponseEntity<ExceptionDetails> exceptionHandler(ElementeAlreadyExistsException ex){
         return new ResponseEntity<>(
                 ExceptionDetails.builder()
-                        .title(ex.getMessage())
+                        .title(HttpStatus.CONFLICT.name())
                         .status(HttpStatus.CONFLICT.value())
-                        .message(HttpStatus.CONFLICT.name())
+                        .message(ex.getMessage())
                         .build(), HttpStatus.CONFLICT
         );
     }
