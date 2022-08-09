@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -24,9 +25,9 @@ public class BatchStock {
     private float minimumTemperature;
     private long initialQuantity;
     private long currentQuantity;
-    private Date manufacturingDate;
-    private Date manufacturingTime;
-    private Date dueDate;
+    private LocalDate manufacturingDate;
+    private LocalDate manufacturingTime;
+    private LocalDate dueDate;
 
     @ManyToOne
     @JoinColumn (name = "id_inboundorder")

@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 public class InBoundOrderRequestDto {
 
     private long orderId;
-    private Date dateTime;
+    private LocalDate dateTime;
     private Sector sector;
 
     private List<BatchStock> batchStockList;

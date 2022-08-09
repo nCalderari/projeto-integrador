@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -29,11 +30,11 @@ public class BatchStockDto {
 
     private long currentQuantity;
 
-    private Date manufacturingDate;
+    private LocalDate manufacturingDate;
 
-    private Date manufacturingTime;
+    private LocalDate manufacturingTime;
 
-    private Date dueDate;
+    private LocalDate dueDate;
 
 
     private InBoundOrder inBoundOrderId;

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class InBoundOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long orderId;
 
-    private Date dateTime;
+    private LocalDate dateTime;
 
     @OneToMany (mappedBy = "inBoundOrder", cascade = CascadeType.PERSIST)
     private List<BatchStock> batchStockList;
