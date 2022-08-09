@@ -45,7 +45,7 @@ public class BatchStockDTO {
         this.manufacturingTime = batchStock.getManufacturingTime();
         this.dueDate = batchStock.getDueDate();
 //        this.inBoundOrder = new InBoundOrderDto(batchStock.getInBoundOrder());
-        this.product = new ProductResponseDTO(getProduct().getId());
+        this.product = new ProductResponseDTO(batchStock.getProduct().getId());
     }
 
    /* public BatchStock convertBatchStockDtoToBatchStock (BatchStockDto batchStockDto){
