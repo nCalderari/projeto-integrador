@@ -66,13 +66,12 @@ public class CartImpService {
 
         return cartDto.getListCartBatchStock().stream().map(dto -> {
             BatchStock batchStock = foundBatchStock(dto);
-            CartBatchStock newCartBatchStock = new CartBatchStock();
-            newCartBatchStock.setCartBatchStockId(dto.getCartBatchStockId());
-            newCartBatchStock.setIdCart(cart);
-            newCartBatchStock.setPricePerProduct(dto.getPricePerProduct());
-            newCartBatchStock.setBatchStock(batchStock);
-            newCartBatchStock.setProductQuantity(dto.getProductQuantity());
-            return newCartBatchStock;
+            return new CartBatchStock(
+                    dto.getCartBatchStockId(),
+                    cart,
+                    batchStock,
+                    dto.getPricePerProduct(),
+                    dto.getProductQuantity());
 
 
         }).collect(Collectors.toList());
