@@ -9,6 +9,7 @@ import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.boot.convert.DataSizeUnit;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Product {
 
     private String productType;
 
-    private Date validateDate;
+    private LocalDate validateDate;
 
     private double price;
 

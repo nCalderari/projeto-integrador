@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class ProductDto {
 
     private String productType;
 
-    private Date validateDate;
+    private LocalDate validateDate;
 
     private double price;
 
