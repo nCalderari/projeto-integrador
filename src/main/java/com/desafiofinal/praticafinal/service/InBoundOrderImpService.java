@@ -28,20 +28,12 @@ public class InBoundOrderImpService implements IinBoundOrderService {
     private ISectorRepo sectorRepo;
 
     @Autowired
-    private IWareHouseRepo wareHouseRepo;
-
-    @Autowired
-    private IManagerRepo managerRepo;
-
-    @Autowired
     private IProductRepo productRepo;
 
-    @Autowired
-    private ISellerRepo sellerRepo;
 
     @Transactional
     public InBoundOrderResponseDTO saveInBoundOrder (InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
-        InBoundOrder inBoundOrder = convertToInBoundOrder(inboundOrderRequestDTO);
+        InBoundOrder inBoundOrder = foundInBoundOrder(inboundOrderRequestDTO);
 
         Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(inBoundOrder.getOrderId());
 
@@ -49,6 +41,8 @@ public class InBoundOrderImpService implements IinBoundOrderService {
         if(foundInBoundOrder.isPresent()){
             throw new ElementeAlreadyExistsException("In bound order already exists");
         }else {
+            List<BatchStock> batchList = convertBatchStockList(inboundOrderRequestDTO, inBoundOrder);
+            inBoundOrder.setBatchStockList(batchList);
             InBoundOrder savedInBoundOrder = inBoundOrderRepo.save(inBoundOrder);
             return new InBoundOrderResponseDTO(savedInBoundOrder);
         }
@@ -56,12 +50,14 @@ public class InBoundOrderImpService implements IinBoundOrderService {
 
     public InBoundOrderResponseDTO updateInBoundOrder (InboundOrderRequestDTO inBoundOrderRequestDto) throws Exception {
 
-        InBoundOrder inBoundOrder = convertToInBoundOrder(inBoundOrderRequestDto);
+        InBoundOrder inBoundOrder = foundInBoundOrder(inBoundOrderRequestDto);
 
         Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(inBoundOrderRequestDto.getOrderId());
         //TODO USAR DEPOIS UM TERNARIO
         if(foundInBoundOrder.isPresent()){
-
+            List<BatchStock> batchList = convertBatchStockList(inBoundOrderRequestDto, inBoundOrder);
+            verifyBatchStock(batchList, inBoundOrder);
+            inBoundOrder.setBatchStockList(batchList);
             batchStockRepo.saveAll(inBoundOrder.getBatchStockList());
             InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(inBoundOrder);
             return new InBoundOrderResponseDTO(updatedInBoundOrder);
@@ -69,10 +65,9 @@ public class InBoundOrderImpService implements IinBoundOrderService {
         }else {
             throw new ElementNotFoundException("In bound order does not exists");
         }
-
     }
 
-    private InBoundOrder convertToInBoundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
+    private InBoundOrder foundInBoundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
         InBoundOrder inboundOrder = new InBoundOrder();
         Optional<InBoundOrder> foundInBundOrder = inBoundOrderRepo.findById(inboundOrderRequestDTO.getOrderId());
         if(foundInBundOrder.isPresent()){
@@ -84,7 +79,11 @@ public class InBoundOrderImpService implements IinBoundOrderService {
         var sectorID = inboundOrderRequestDTO.getSector().getSectorId();
         verifySector(inboundOrder, sectorID);
 
-        var batchList = inboundOrderRequestDTO.getBatchStockList().stream().map(dto -> {
+        return inboundOrder;
+    }
+
+    private List<BatchStock> convertBatchStockList(InboundOrderRequestDTO inboundOrderRequestDTO, InBoundOrder inboundOrder) {
+        return inboundOrderRequestDTO.getBatchStockList().stream().map(dto -> {
             Product product = verifyProduct(dto);
 
             return  new BatchStock(
@@ -99,12 +98,6 @@ public class InBoundOrderImpService implements IinBoundOrderService {
                     inboundOrder,
                     product);
         }).collect(Collectors.toList());
-
-        verifyBatchStock(batchList, inboundOrder);
-
-        inboundOrder.setBatchStockList(batchList);
-
-        return inboundOrder;
     }
 
     private void verifySector(InBoundOrder inboundOrder, long sectorID) {
