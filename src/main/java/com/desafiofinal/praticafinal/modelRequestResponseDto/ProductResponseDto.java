@@ -34,7 +34,6 @@ public class ProductResponseDto {
     private double bulk;
 
 
-
     public ProductResponseDto(Product product){
         this.id = product.getId();
         this.productType = product.getProductType();

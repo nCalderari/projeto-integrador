@@ -1,8 +1,13 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
+import lombok.Builder;
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
+@Builder
+@Data
 public class CartBatchStock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
