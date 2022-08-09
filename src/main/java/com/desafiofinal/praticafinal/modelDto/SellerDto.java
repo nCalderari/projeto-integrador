@@ -21,11 +21,9 @@ public class SellerDto {
 
     private long idSeller;
     private String sellerName;
-    private List<Product> productList;
 
     public SellerDto(Seller seller) {
         this.idSeller = seller.getIdSeller();
         this.sellerName = seller.getSellerName();
-        this.productList = seller.getProductList();
     }
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class ElementNotFoundException extends RuntimeException{
 
-    ElementNotFoundException(String message){
+    public ElementNotFoundException(String message){
         super();
     }
 }

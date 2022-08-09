@@ -30,8 +30,8 @@ public class BatchStockDTO {
 
     private Date dueDate;
 
-    @Nullable
-    private InBoundOrder inBoundOrderId;
+//    @Nullable
+//    private InBoundOrderDTO inBoundOrder;
 
     @Nullable
     private ProductDTO product;
@@ -45,8 +45,8 @@ public class BatchStockDTO {
         this.manufacturingDate = batchStock.getManufacturingDate();
         this.manufacturingTime = batchStock.getManufacturingTime();
         this.dueDate = batchStock.getDueDate();
-        this.inBoundOrderId = batchStock.getInBoundOrder();
-      //  this.product = new Product(batchStock.getProduct());
+//        this.inBoundOrder = new InBoundOrderDto(batchStock.getInBoundOrder());
+        this.product = new ProductDTO(batchStock.getProduct());
     }
 
    /* public BatchStock convertBatchStockDtoToBatchStock (BatchStockDto batchStockDto){
