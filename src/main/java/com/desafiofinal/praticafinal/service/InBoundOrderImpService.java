@@ -43,7 +43,6 @@ public class InBoundOrderImpService {
 
         InBoundOrder newInBoundOrder = InBoundOrderRequestDto.convertDtoToInBoundOrder(inBoundOrderRequestDto);
 
-
         for(BatchStock batchStock : newInBoundOrder.getBatchStockList()){
 
             Optional<Product> foundProduct = productRepo.findById(batchStock.getProduct().getId());

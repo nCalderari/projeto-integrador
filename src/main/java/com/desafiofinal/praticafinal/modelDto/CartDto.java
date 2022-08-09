@@ -21,8 +21,7 @@ public class CartDto {
 
     private int cartId;
 
-
-    private BuyerDto buyer;
+    private long buyer;
 
     private double totalPrice;
 
@@ -34,18 +33,17 @@ public class CartDto {
 
     public CartDto(Cart cart){
         this.cartId=cart.getCartId();
-        this.buyer=new BuyerDto(cart.getBuyer());
+        this.buyer= cart.getBuyer().getBuyerId();
         this.totalPrice=cart.getTotalPrice();
-        this.listCartBatchStock=cart.getListCartBatchStock().stream().map(car -> new CartBatchStockDto(car)).collect(Collectors.toList());
-
+//        this.listCartBatchStock=cart.getListCartBatchStock().stream().map(car -> new CartBatchStockDto(car)).collect(Collectors.toList());
     }
 
     public static Cart convertDtoToCart (CartDto cartDto){
         return Cart.builder()
-                .buyer(BuyerDto.convertDtoToBuyer(cartDto.getBuyer()))
-                .totalPrice(cartDto.getTotalPrice())
+//                .buyer(BuyerDto.convertDtoToBuyer(cartDto.getBuyer()))
+             //   .totalPrice(cartDto.getTotalPrice())
                 .date(cartDto.getDate())
-                .listCartBatchStock(cartDto.getListCartBatchStock().stream().map(dto -> CartBatchStockDto.convertDtoToCartBatchStock(dto)).collect(Collectors.toList()))
+//                .listCartBatchStock(cartDto.getListCartBatchStock().stream().map(dto -> CartBatchStockDto.convertDtoToCartBatchStock(dto)).collect(Collectors.toList()))
                 .build();
     }
 }

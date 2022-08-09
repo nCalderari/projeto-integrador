@@ -20,7 +20,7 @@ public class CartBatchStockDto {
 
     private CartDto idCart;
 
-    private BatchStockDto batchStock;
+    private long batchStock;
 
     private double pricePerProduct;
 
@@ -29,7 +29,7 @@ public class CartBatchStockDto {
     public CartBatchStockDto (CartBatchStock cartBatchStock){
         this.CartBatchStockId=cartBatchStock.getCartBatchStockId();
         this.idCart=new CartDto(cartBatchStock.getIdCart());
-        this.batchStock= new BatchStockDto(cartBatchStock.getBatchStock());
+//        this.batchStock= new BatchStockDto(cartBatchStock.getBatchStock());
         this.pricePerProduct=cartBatchStock.getPricePerProduct();
         this.productQuantity=cartBatchStock.getProductQuantity();
     }
@@ -37,7 +37,7 @@ public class CartBatchStockDto {
     public static CartBatchStock convertDtoToCartBatchStock (CartBatchStockDto cartBatchStockDto){
         return CartBatchStock.builder()
                 .idCart(CartDto.convertDtoToCart(cartBatchStockDto.getIdCart()))
-                .batchStock(BatchStockDto.convertBatchStockDtoToBatchStock(cartBatchStockDto.getBatchStock()))
+              //  .batchStock(BatchStockDto.convertBatchStockDtoToBatchStock(cartBatchStockDto.getBatchStock()))
                 .build();
     }
 }

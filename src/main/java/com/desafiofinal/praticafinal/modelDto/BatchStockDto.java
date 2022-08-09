@@ -36,9 +36,7 @@ public class BatchStockDto {
 
     private LocalDate dueDate;
 
-
     private InBoundOrder inBoundOrderId;
-
 
     private ProductDto productDto;
 
