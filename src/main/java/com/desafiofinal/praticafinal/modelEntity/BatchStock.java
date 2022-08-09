@@ -1,10 +1,7 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,8 +9,8 @@ import java.util.List;
 
 
 @Entity
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class BatchStock {
@@ -39,7 +36,7 @@ public class BatchStock {
     @JoinColumn (name = "id_product")
     private Product product;
 
-    @OneToMany (mappedBy = "cartBatchStock", cascade = CascadeType.REFRESH)
+    @OneToMany (mappedBy = "idBatchStock", cascade = CascadeType.REFRESH)
     private List<CartBatchStock> cartBatchStockList;
 
 }

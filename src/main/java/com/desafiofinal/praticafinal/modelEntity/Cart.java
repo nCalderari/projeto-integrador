@@ -2,6 +2,7 @@ package com.desafiofinal.praticafinal.modelEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Cart {
@@ -19,6 +20,6 @@ public class Cart {
 
     private String orderStatus;
 
-//    @OneToMany (mappedBy = "idCart")
-//    private CartBatchStock listCartBatchStock;
+    @OneToMany (mappedBy = "idCart")
+    private List<CartBatchStock> listCartBatchStock;
 }

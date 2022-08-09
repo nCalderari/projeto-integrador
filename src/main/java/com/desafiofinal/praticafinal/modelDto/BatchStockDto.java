@@ -1,16 +1,11 @@
 package com.desafiofinal.praticafinal.modelDto;
 
-import com.desafiofinal.praticafinal.modelEntity.BatchStock;
 import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
-import com.desafiofinal.praticafinal.modelEntity.Product;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Data

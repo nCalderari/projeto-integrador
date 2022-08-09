@@ -1,7 +1,6 @@
 package com.desafiofinal.praticafinal.modelRequestResponseDto;
 
-import com.desafiofinal.praticafinal.modelEntity.BatchStock;
-import com.desafiofinal.praticafinal.modelEntity.Product;
+import com.desafiofinal.praticafinal.modelEntity.*;
 import com.desafiofinal.praticafinal.modelEntity.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Data;

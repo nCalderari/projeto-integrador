@@ -1,9 +1,6 @@
 package com.desafiofinal.praticafinal.modelEntity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.springframework.boot.convert.DataSizeUnit;
@@ -14,8 +11,8 @@ import java.util.List;
 import java.time.LocalDate;
 
 @Entity
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {

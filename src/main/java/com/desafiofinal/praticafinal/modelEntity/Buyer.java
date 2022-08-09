@@ -11,6 +11,6 @@ public class Buyer {
 
     private String buyerName;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.REFRESH)
     private List<Cart> cartList;
 }
