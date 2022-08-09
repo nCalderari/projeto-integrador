@@ -2,6 +2,7 @@ package com.desafiofinal.praticafinal.modelDto;
 
 import com.desafiofinal.praticafinal.modelEntity.BatchStock;
 import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
+import com.desafiofinal.praticafinal.modelEntity.Product;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
@@ -30,14 +31,15 @@ public class BatchStockDTO {
 
     private Date dueDate;
 
-    @Nullable
-    private InBoundOrder inBoundOrderId;
+//    @Nullable
+//    private InBoundOrder inBoundOrderId;
 
     @Nullable
     private ProductDTO product;
 
     public BatchStockDTO(BatchStock batchStock) {
         this.batchId = batchStock.getBatchId();
+        this.product =  getProduct();
         this.currentTemperature = batchStock.getCurrentTemperature();
         this.minimumTemperature = batchStock.getMinimumTemperature();
         this.initialQuantity = batchStock.getInitialQuantity();
@@ -45,8 +47,7 @@ public class BatchStockDTO {
         this.manufacturingDate = batchStock.getManufacturingDate();
         this.manufacturingTime = batchStock.getManufacturingTime();
         this.dueDate = batchStock.getDueDate();
-        this.inBoundOrderId = batchStock.getInBoundOrder();
-      //  this.product = new Product(batchStock.getProduct());
+//        this.inBoundOrderId = batchStock.getInBoundOrder();
     }
 
    /* public BatchStock convertBatchStockDtoToBatchStock (BatchStockDto batchStockDto){

@@ -1,6 +1,7 @@
 package com.desafiofinal.praticafinal.modelRequestResponseDto;
 
 import com.desafiofinal.praticafinal.modelDto.BatchStockDTO;
+import com.desafiofinal.praticafinal.modelDto.InBoundOrderDTO;
 import com.desafiofinal.praticafinal.modelEntity.BatchStock;
 import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
 import lombok.AllArgsConstructor;
