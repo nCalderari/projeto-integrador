@@ -19,14 +19,9 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String productType;
-
     private Date validateDate;
-
     private double price;
-
-    private String productId;
-
+    private String productType;
     private String productName;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
@@ -37,7 +32,4 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REFRESH)
     private List<BatchStock> batchList;
-
-    public Product(String productName, double price, Long sellerId) {
-    }
 }
