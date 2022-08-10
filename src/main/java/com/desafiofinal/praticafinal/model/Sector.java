@@ -28,4 +28,6 @@ public class Sector {
     @JoinColumn(name = "id_warehouse")
     @JsonIgnoreProperties("sectorList")
     private WareHouse wareHouse;
+
+    private double maxCapacity;
 }

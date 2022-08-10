@@ -2,11 +2,9 @@ package com.desafiofinal.praticafinal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.springframework.lang.Nullable;
-import java.util.Set;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -14,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"productList"})
-
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,21 +6,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
+import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
-
+public class ProductDTOWithSeller {
     private String productName;
     private String productType;
-    private Date validateDate;
+    private LocalDate validateDate;
     private double price;
     private Long idSeller;
     private double bulk;
 
-    public ProductDTO(Product product, Seller seller) {
+    public ProductDTOWithSeller(Product product, Seller seller) {
         this.productName = product.getProductName();
         this.productType = product.getProductType();
         this.price = product.getPrice();

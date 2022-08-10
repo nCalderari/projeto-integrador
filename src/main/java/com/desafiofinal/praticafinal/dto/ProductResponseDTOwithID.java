@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductResponseDTO {
+public class ProductResponseDTOwithID {
 
     private long id;
 
-    public ProductResponseDTO(Product product){
+    public ProductResponseDTOwithID(Product product){
         this.id = product.getId();
     }
 }

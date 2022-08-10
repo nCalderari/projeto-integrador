@@ -1,6 +1,5 @@
 package com.desafiofinal.praticafinal.controller;
 
-import com.desafiofinal.praticafinal.dto.ProductDTO;
 import com.desafiofinal.praticafinal.dto.SellerDTO;
 import com.desafiofinal.praticafinal.service.ISellerService;
 import org.springframework.http.HttpStatus;
