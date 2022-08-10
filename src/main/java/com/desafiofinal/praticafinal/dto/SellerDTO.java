@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SellerDto {
+public class SellerDTO {
 
     private long idSeller;
     private String sellerName;
 
-    public SellerDto(Seller seller) {
+    public SellerDTO(Seller seller) {
         this.idSeller = seller.getId();
         this.sellerName = seller.getSellerName();
     }

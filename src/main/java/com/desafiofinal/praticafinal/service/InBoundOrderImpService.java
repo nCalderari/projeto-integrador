@@ -116,7 +116,10 @@ public class InBoundOrderImpService implements IinboundOrderService {
         var productIDList = inboundOrderRequestDTO.
                 getBatchStockList()
                 .stream()
-                .map(batchStockDTO -> batchStockDTO.getProduct().getId()).collect(Collectors.toList());
+                .map(batchStockDTO -> {
+                    assert batchStockDTO.getProduct() != null;
+                    return batchStockDTO.getProduct().getId();
+                }).collect(Collectors.toList());
         Optional<Sector> foundSector = sectorRepo.findById(sectorID);
 
         if(foundSector.isPresent()){
@@ -129,7 +132,10 @@ public class InBoundOrderImpService implements IinboundOrderService {
         var batchList = inboundOrderRequestDTO.getBatchStockList().stream().map(dto -> {
             var product = productList
                     .stream().
-                    filter( p -> p.getId() == dto.getProduct().getId())
+                    filter( p -> {
+                        assert dto.getProduct() != null;
+                        return p.getId() == dto.getProduct().getId();
+                    })
                     .findFirst().get();
 
             return  new BatchStock(
