@@ -15,7 +15,7 @@ public class SellerDto {
     private String sellerName;
 
     public SellerDto(Seller seller) {
-        this.idSeller = seller.getId();
+        this.idSeller = seller.getIdSeller();
         this.sellerName = seller.getSellerName();
     }
 }
