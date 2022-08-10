@@ -1,5 +1,6 @@
 package com.desafiofinal.praticafinal.service;
 
+import com.desafiofinal.praticafinal.modelDto.BatchStockDto;
 import com.desafiofinal.praticafinal.modelDto.CartBatchStockDto;
 import com.desafiofinal.praticafinal.modelDto.CartDto;
 import com.desafiofinal.praticafinal.modelEntity.*;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -101,10 +103,19 @@ public class CartImpService {
         return cart;
     }
 
-    public List<CartBatchStockDto> getProducts(long purchaseId){
-        return null;
+    public List<BatchStock> getProducts(long purchaseId){ //purchase = cartId
+       Optional <Cart> foundCart = cartRepo.findById(purchaseId);
+       List<BatchStock> batchStockList = new ArrayList<>();
+
+       for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
+               BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+               batchStockList.add(foundBatchStock);
+       }
+
+        return batchStockList;
     }
     public CartDto updateStatus(long purchaseId, String status){
+
         return null;
     }
 }

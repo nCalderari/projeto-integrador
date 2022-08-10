@@ -70,11 +70,19 @@ public class BatchStockDto {
                 .build();
     }
 
-    public static List<BatchStock> convertListBatchStockDtoToList (List<BatchStockDto> batchStockDtoList){
+    public static List<BatchStock> convertToListEntity (List<BatchStockDto> batchStockDtoList){
         List<BatchStock> batchStockList = new ArrayList<>();
         for(BatchStockDto batchStockDto: batchStockDtoList){
             batchStockList.add(convertBatchStockDtoToBatchStock(batchStockDto));
         }
         return batchStockList;
+    }
+
+    public static List<BatchStockDto> convertToListDto (List<BatchStock> batchStockList){
+        List<BatchStockDto> batchStockListDto = new ArrayList<>();
+        for(BatchStock batchStock: batchStockList){
+            batchStockListDto.add(new BatchStockDto(batchStock));
+        }
+        return batchStockListDto;
     }
 }
