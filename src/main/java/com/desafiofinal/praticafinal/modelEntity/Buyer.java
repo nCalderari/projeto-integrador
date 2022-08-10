@@ -16,7 +16,7 @@ import java.util.List;
 public class Buyer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int buyerId;
+    private long buyerId;
 
     private String buyerName;
 

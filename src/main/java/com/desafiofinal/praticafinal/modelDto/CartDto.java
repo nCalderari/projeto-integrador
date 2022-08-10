@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CartDto {
 
-    private int cartId;
+    private long cartId;
 
     private long buyer;
 
