@@ -57,8 +57,6 @@ public class ProductsImpService {
 
                     ProductResponseDto productResponseDto = new ProductResponseDto(foundProduct);
 
-                   // LocalDate convertToLocalDate = convertToLocalDateViaInstant(productResponseDto.getValidateDate());
-
                     LocalDate minusDays = productResponseDto.getValidateDate().minusDays(21);
 
                     if (!productListByCategory.contains(productResponseDto)){
