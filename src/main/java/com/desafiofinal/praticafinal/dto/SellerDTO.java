@@ -11,11 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SellerDTO {
 
-    private long idSeller;
+//    private long idSeller;
     private String sellerName;
 
     public SellerDTO(Seller seller) {
-        this.idSeller = seller.getId();
+//        this.idSeller = seller.getId();
         this.sellerName = seller.getSellerName();
+    }
+    public Seller toEntity() {
+        return new Seller(this.sellerName);
     }
 }

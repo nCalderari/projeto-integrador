@@ -1,6 +1,9 @@
 package com.desafiofinal.praticafinal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.lang.Nullable;
+import java.util.Set;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,7 +21,11 @@ public class Seller {
     private Long id;
     private String sellerName;
 
-    @OneToMany(mappedBy ="seller", cascade = CascadeType.REFRESH)
-    private List<Product> productList;
+    @OneToMany(mappedBy ="seller")
+    @JsonIgnore
+    private Set<Product> productList;
 
+    public Seller(String sellerName) {
+        this.sellerName = sellerName;
+    }
 }

@@ -24,8 +24,8 @@ public class Product {
     private String productType;
     private String productName;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "id_seller")
+    @ManyToOne
+    @JoinColumn(name = "id_seller", nullable = false)
     private Seller seller;
 
     private double bulk;
