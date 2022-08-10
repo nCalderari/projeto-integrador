@@ -84,8 +84,6 @@ public class CartImpService {
                     batchStock,
                     dto.getPricePerProduct(),
                     dto.getProductQuantity());
-
-
         }).collect(Collectors.toList());
     }
 
@@ -124,50 +122,68 @@ public class CartImpService {
 
         return batchStockList;
     }
+
     public String updateStatus(long purchaseId) throws Exception {
+        Optional<Cart> foundCart = verifyIfCartExists(purchaseId);
+        foundCart.get().setOrderStatus("Finalizado");
+        cartRepo.save(foundCart.get());
+        return "Pedido finalizado com sucesso";
+    }
+
+    private Optional<Cart> verifyIfCartExists(long purchaseId) throws Exception {
         Optional <Cart> foundCart = cartRepo.findById(purchaseId);
         List<BatchStock> batchStockList = new ArrayList<>();
 
         if(foundCart.isEmpty()){
             throw new Exception("Cart does not exist");
         }else{
-            String cartStatus = foundCart.get().getOrderStatus();
-
-            if(cartStatus.equalsIgnoreCase("Aberto")){
-
-                for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
-                    BatchStock foundBatchStock = cartBatchStock.getBatchStock();
-                        batchStockList.add(foundBatchStock);
-                        long cartQuantity= cartBatchStock.getProductQuantity();
-                        long stockQuantity = foundBatchStock.getCurrentQuantity();
-                        double totalItemsVolume = foundBatchStock.getProduct().getBulk()*cartQuantity;
-
-                        if(cartQuantity<=stockQuantity){
-                            long newQuantity = stockQuantity - cartQuantity;
-                            double increaseCapacity = foundBatchStock.getInBoundOrder().getSector().getCapacity()+totalItemsVolume;
-                            double maxCapacity = foundBatchStock.getInBoundOrder().getSector().getMaxCapacity();
-                            if (increaseCapacity<=maxCapacity){
-
-                                foundBatchStock.getInBoundOrder().getSector().setCapacity(increaseCapacity);
-                                foundBatchStock.setCurrentQuantity(newQuantity);
-
-                                batchStockRepo.save(foundBatchStock);
-                                sectorRepo.save(foundBatchStock.getInBoundOrder().getSector());
-
-                            } else {
-                                throw new Exception("A capacidade máxima foi superada");
-                            }
-                        }else{
-                            throw new Exception("Quantidade indisponível");
-                        }
-                }
-            } else {
-                throw new Exception("Carrinho já finalizado");
-            }
+            verifyStatus(foundCart, batchStockList);
         }
+        return foundCart;
+    }
 
-        foundCart.get().setOrderStatus("Finalizado");
-        cartRepo.save(foundCart.get());
-        return "Pedido finalizado com sucesso";
+    private void verifyStatus(Optional<Cart> foundCart, List<BatchStock> batchStockList) throws Exception {
+        String cartStatus = foundCart.get().getOrderStatus();
+
+        if(cartStatus.equalsIgnoreCase("Aberto")){
+
+            verifyQuantity(foundCart, batchStockList);
+        } else {
+            throw new Exception("Carrinho já finalizado");
+        }
+    }
+
+    private void verifyQuantity(Optional<Cart> foundCart, List<BatchStock> batchStockList) throws Exception {
+        for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
+            BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+                batchStockList.add(foundBatchStock);
+                long cartQuantity= cartBatchStock.getProductQuantity();
+                if(cartBatchStock.getProductQuantity()<=foundBatchStock.getCurrentQuantity()){
+                    verifyCapacity(foundBatchStock, cartQuantity);
+                }else{
+                    throw new Exception("Quantidade indisponível");
+                }
+        }
+    }
+
+    private void verifyCapacity(BatchStock foundBatchStock, long cartQuantity) throws Exception {
+        long stockQuantity = foundBatchStock.getCurrentQuantity();
+        long newQuantity = stockQuantity - cartQuantity;
+        double totalItemsVolume = foundBatchStock.getProduct().getBulk()*cartQuantity;
+        double increaseCapacity = foundBatchStock.getInBoundOrder().getSector().getCapacity()+ totalItemsVolume;
+        double maxCapacity = foundBatchStock.getInBoundOrder().getSector().getMaxCapacity();
+
+        if (increaseCapacity<=maxCapacity){
+            foundBatchStock.getInBoundOrder().getSector().setCapacity(increaseCapacity);
+            foundBatchStock.setCurrentQuantity(newQuantity);
+
+            batchStockRepo.save(foundBatchStock);
+            sectorRepo.save(foundBatchStock.getInBoundOrder().getSector());
+
+        } else {
+            throw new Exception("A capacidade máxima foi superada");
+        }
     }
 }
+
+//3, 4 e 5: escrever query nativa no repository e já trazer o objeto pronto
