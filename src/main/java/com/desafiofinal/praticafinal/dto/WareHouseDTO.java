@@ -12,12 +12,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WareHouseDto {
+public class WareHouseDTO {
 
     private long wareHouseId;
     private List<Sector> sectorList;
 
-    public WareHouseDto(WareHouse wareHouse) {
+    public WareHouseDTO(WareHouse wareHouse) {
         this.wareHouseId = wareHouse.getWareHouseId();
         this.sectorList = wareHouse.getSectorList();
     }
