@@ -31,6 +31,6 @@ public class CartController {
     @PutMapping("/update/{purchaseId}")
     ResponseEntity<String> updateStatus (@PathVariable long purchaseId) throws Exception {
         String responseCart = service.updateStatus(purchaseId);
-        return new ResponseEntity<>(responseCart, HttpStatus.CREATED);
+        return new ResponseEntity<>(responseCart, HttpStatus.CREATED); //TODO cartBatchStock não pode ter dois batchStocks iguais
     }
 }

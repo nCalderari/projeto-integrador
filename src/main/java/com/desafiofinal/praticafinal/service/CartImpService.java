@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class CartImpService {
     private SectorRepo sectorRepo;
 
     @Transactional
-    public Double createPurchase(CartDto cartDto) {
+    public Double createPurchase(CartDto cartDto) throws Exception {
 
         Cart newCart = foundCart(cartDto.getCartId());
         newCart.setDate(cartDto.getDate());
@@ -43,13 +44,20 @@ public class CartImpService {
         verifyBuyer(cartDto, newCart);
         List<CartBatchStock> cartBatchStockList = convertToCartBatchStock(cartDto, newCart);
         newCart.setListCartBatchStock(cartBatchStockList);
+        List<BatchStock> batchStockList = new ArrayList<>();
 
         double totalPrice = 0d;
-        for (CartBatchStock c : newCart.getListCartBatchStock()) {
-            double price = getTotalPrice(c);
-            totalPrice += price;
+        for (CartBatchStock cartBatchStock : newCart.getListCartBatchStock()) {
+            BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+            if (!batchStockList.contains(foundBatchStock)){
+                double price = getTotalPrice(cartBatchStock);
+                totalPrice += price;
+                batchStockList.add(foundBatchStock);
+            }else{
+                throw new Exception("Um dos produtos já está presente na lista");
+            }
         }
-
+        newCart.setOrderStatus("Aberto");
         newCart.setTotalPrice(totalPrice);
         cartRepo.save(newCart);
         cartBatchStockRepo.saveAll(cartBatchStockList);
@@ -129,34 +137,33 @@ public class CartImpService {
 
                 for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
                     BatchStock foundBatchStock = cartBatchStock.getBatchStock();
-                    batchStockList.add(foundBatchStock);
-                    long cartQuantity= cartBatchStock.getProductQuantity();
-                    long stockQuantity = foundBatchStock.getCurrentQuantity();
-                    double totalItemsVolume = foundBatchStock.getProduct().getBulk()*cartQuantity;
+                        batchStockList.add(foundBatchStock);
+                        long cartQuantity= cartBatchStock.getProductQuantity();
+                        long stockQuantity = foundBatchStock.getCurrentQuantity();
+                        double totalItemsVolume = foundBatchStock.getProduct().getBulk()*cartQuantity;
 
-                    if(cartQuantity<=stockQuantity){
-                        long newQuantity = stockQuantity - cartQuantity;
-                        double increaseCapacity = foundBatchStock.getInBoundOrder().getSector().getCapacity()+totalItemsVolume;
+                        if(cartQuantity<=stockQuantity){
+                            long newQuantity = stockQuantity - cartQuantity;
+                            double increaseCapacity = foundBatchStock.getInBoundOrder().getSector().getCapacity()+totalItemsVolume;
+                            double maxCapacity = foundBatchStock.getInBoundOrder().getSector().getMaxCapacity();
+                            if (increaseCapacity<=maxCapacity){
 
-                        if (increaseCapacity<=100000){ // TODO criar max capacity no banco
+                                foundBatchStock.getInBoundOrder().getSector().setCapacity(increaseCapacity);
+                                foundBatchStock.setCurrentQuantity(newQuantity);
 
-                            foundBatchStock.getInBoundOrder().getSector().setCapacity(increaseCapacity);
-                            foundBatchStock.setCurrentQuantity(newQuantity);
+                                batchStockRepo.save(foundBatchStock);
+                                sectorRepo.save(foundBatchStock.getInBoundOrder().getSector());
 
-                            batchStockRepo.save(foundBatchStock);
-                            sectorRepo.save(foundBatchStock.getInBoundOrder().getSector());
-
-                        } else {
-                            throw new Exception("A capacidade máxima foi superada");
+                            } else {
+                                throw new Exception("A capacidade máxima foi superada");
+                            }
+                        }else{
+                            throw new Exception("Quantidade indisponível");
                         }
-                    }else{
-                        throw new Exception("Quantidade indisponível");
-                    }
                 }
             } else {
                 throw new Exception("Carrinho já finalizado");
             }
-
         }
 
         foundCart.get().setOrderStatus("Finalizado");

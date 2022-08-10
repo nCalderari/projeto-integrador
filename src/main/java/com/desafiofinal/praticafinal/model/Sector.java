@@ -26,4 +26,6 @@ public class Sector {
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "id_warehouse")
     private WareHouse wareHouse;
+
+    private double maxCapacity;
 }
