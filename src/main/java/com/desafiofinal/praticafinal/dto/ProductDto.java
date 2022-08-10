@@ -1,18 +1,14 @@
-package com.desafiofinal.praticafinal.modelDto;
+package com.desafiofinal.praticafinal.dto;
 
-import com.desafiofinal.praticafinal.modelEntity.BatchStock;
-import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
-import com.desafiofinal.praticafinal.modelEntity.Product;
-import com.desafiofinal.praticafinal.modelEntity.Seller;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderRequestDto;
+import com.desafiofinal.praticafinal.model.BatchStock;
+import com.desafiofinal.praticafinal.model.Product;
+import com.desafiofinal.praticafinal.model.Seller;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 

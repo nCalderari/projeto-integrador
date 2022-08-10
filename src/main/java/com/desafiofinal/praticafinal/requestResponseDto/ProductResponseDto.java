@@ -1,15 +1,12 @@
-package com.desafiofinal.praticafinal.modelRequestResponseDto;
+package com.desafiofinal.praticafinal.requestResponseDto;
 
-import com.desafiofinal.praticafinal.modelEntity.BatchStock;
-import com.desafiofinal.praticafinal.modelEntity.Product;
-import com.desafiofinal.praticafinal.modelEntity.Seller;
+import com.desafiofinal.praticafinal.model.Product;
+import com.desafiofinal.praticafinal.model.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 
 @Data

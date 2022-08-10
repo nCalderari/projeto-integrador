@@ -1,6 +1,6 @@
 package com.desafiofinal.praticafinal.controller;
 
-import com.desafiofinal.praticafinal.modelDto.ProductDto;
+import com.desafiofinal.praticafinal.dto.ProductDto;
 import com.desafiofinal.praticafinal.service.ProductsImpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.desafiofinal.praticafinal.modelEntity.Product;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.ProductResponseDto;
+import com.desafiofinal.praticafinal.requestResponseDto.ProductResponseDto;
 
 import java.util.List;
 

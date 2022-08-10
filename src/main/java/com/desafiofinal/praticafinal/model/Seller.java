@@ -1,4 +1,4 @@
-package com.desafiofinal.praticafinal.modelEntity;
+package com.desafiofinal.praticafinal.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,15 +11,14 @@ import java.util.List;
 @Entity
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class Buyer {
+@AllArgsConstructor
+public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long buyerId;
+    private long sellerId;
+    private String sellerName;
 
-    private String buyerName;
-
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.REFRESH)
-    private List<Cart> cartList;
+    @OneToMany(mappedBy ="seller", cascade = CascadeType.REFRESH)
+    private List<Product> productList;
 }

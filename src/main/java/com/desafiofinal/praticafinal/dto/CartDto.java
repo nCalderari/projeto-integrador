@@ -1,14 +1,11 @@
-package com.desafiofinal.praticafinal.modelDto;
+package com.desafiofinal.praticafinal.dto;
 
-import com.desafiofinal.praticafinal.modelEntity.Buyer;
-import com.desafiofinal.praticafinal.modelEntity.Cart;
-import com.desafiofinal.praticafinal.modelEntity.CartBatchStock;
+import com.desafiofinal.praticafinal.model.Cart;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;

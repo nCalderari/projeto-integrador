@@ -1,16 +1,13 @@
-package com.desafiofinal.praticafinal.modelEntity;
+package com.desafiofinal.praticafinal.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.engine.jdbc.batch.spi.Batch;
-import org.springframework.boot.convert.DataSizeUnit;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Entity

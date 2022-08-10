@@ -1,9 +1,8 @@
 package com.desafiofinal.praticafinal.service;
 
-import com.desafiofinal.praticafinal.modelDto.BatchStockDto;
-import com.desafiofinal.praticafinal.modelDto.CartBatchStockDto;
-import com.desafiofinal.praticafinal.modelDto.CartDto;
-import com.desafiofinal.praticafinal.modelEntity.*;
+import com.desafiofinal.praticafinal.dto.CartBatchStockDto;
+import com.desafiofinal.praticafinal.dto.CartDto;
+import com.desafiofinal.praticafinal.model.*;
 import com.desafiofinal.praticafinal.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +30,9 @@ public class CartImpService {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private SectorRepo sectorRepo;
 
     @Transactional
     public Double createPurchase(CartDto cartDto) {
@@ -114,8 +116,51 @@ public class CartImpService {
 
         return batchStockList;
     }
-    public CartDto updateStatus(long purchaseId, String status){
+    public String updateStatus(long purchaseId) throws Exception {
+        Optional <Cart> foundCart = cartRepo.findById(purchaseId);
+        List<BatchStock> batchStockList = new ArrayList<>();
 
-        return null;
+        if(foundCart.isEmpty()){
+            throw new Exception("Cart does not exist");
+        }else{
+            String cartStatus = foundCart.get().getOrderStatus();
+
+            if(cartStatus.equalsIgnoreCase("Aberto")){
+
+                for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
+                    BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+                    batchStockList.add(foundBatchStock);
+                    long cartQuantity= cartBatchStock.getProductQuantity();
+                    long stockQuantity = foundBatchStock.getCurrentQuantity();
+                    double totalItemsVolume = foundBatchStock.getProduct().getBulk()*cartQuantity;
+
+                    if(cartQuantity<=stockQuantity){
+                        long newQuantity = stockQuantity - cartQuantity;
+                        double increaseCapacity = foundBatchStock.getInBoundOrder().getSector().getCapacity()+totalItemsVolume;
+
+                        if (increaseCapacity<=100000){ // TODO criar max capacity no banco
+
+                            foundBatchStock.getInBoundOrder().getSector().setCapacity(increaseCapacity);
+                            foundBatchStock.setCurrentQuantity(newQuantity);
+
+                            batchStockRepo.save(foundBatchStock);
+                            sectorRepo.save(foundBatchStock.getInBoundOrder().getSector());
+
+                        } else {
+                            throw new Exception("A capacidade máxima foi superada");
+                        }
+                    }else{
+                        throw new Exception("Quantidade indisponível");
+                    }
+                }
+            } else {
+                throw new Exception("Carrinho já finalizado");
+            }
+
+        }
+
+        foundCart.get().setOrderStatus("Finalizado");
+        cartRepo.save(foundCart.get());
+        return "Pedido finalizado com sucesso";
     }
 }

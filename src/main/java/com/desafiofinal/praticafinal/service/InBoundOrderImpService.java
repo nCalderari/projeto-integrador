@@ -1,10 +1,8 @@
 package com.desafiofinal.praticafinal.service;
 
-import com.desafiofinal.praticafinal.modelDto.BatchStockDto;
-import com.desafiofinal.praticafinal.modelDto.ProductDto;
-import com.desafiofinal.praticafinal.modelEntity.*;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderRequestDto;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderResponseDto;
+import com.desafiofinal.praticafinal.model.*;
+import com.desafiofinal.praticafinal.requestResponseDto.InBoundOrderRequestDto;
+import com.desafiofinal.praticafinal.requestResponseDto.InBoundOrderResponseDto;
 import com.desafiofinal.praticafinal.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

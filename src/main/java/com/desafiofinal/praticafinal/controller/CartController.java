@@ -1,12 +1,9 @@
 package com.desafiofinal.praticafinal.controller;
 
-import com.desafiofinal.praticafinal.modelDto.BatchStockDto;
-import com.desafiofinal.praticafinal.modelDto.CartBatchStockDto;
-import com.desafiofinal.praticafinal.modelDto.CartDto;
-import com.desafiofinal.praticafinal.modelEntity.BatchStock;
-import com.desafiofinal.praticafinal.modelEntity.CartBatchStock;
+import com.desafiofinal.praticafinal.dto.CartDto;
+import com.desafiofinal.praticafinal.model.BatchStock;
+import com.desafiofinal.praticafinal.requestResponseDto.BatchStockResponseDto;
 import com.desafiofinal.praticafinal.service.CartImpService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +22,15 @@ public class CartController {
         return new ResponseEntity<Double>(service.createPurchase(cart), HttpStatus.CREATED);
     }
     @GetMapping("/ListProducts/{purchaseId}")
-    ResponseEntity<List<BatchStockDto>> getProducts(@PathVariable long purchaseId){
+    ResponseEntity<List<BatchStockResponseDto>> getProducts(@PathVariable long purchaseId){
         List<BatchStock> getResponse = service.getProducts(purchaseId);
-        List<BatchStockDto> getResponseDto = BatchStockDto.convertToListDto(getResponse);
-        return new ResponseEntity<>(getResponseDto, HttpStatus.OK);
+        List<BatchStockResponseDto> getResponseDto = BatchStockResponseDto.convertToListDto(getResponse);
+        return new ResponseEntity<>(getResponseDto, HttpStatus.OK); //TODO utilizar productResponseDto e refatorar ele para response ao cliente
     }
 
-    @PutMapping("/update/{purchaseId}/{status}")
-    ResponseEntity<CartDto> updateStatus (@PathVariable long purchaseId, @PathVariable String status){
-        CartDto responseCart = service.updateStatus(purchaseId, status);
+    @PutMapping("/update/{purchaseId}")
+    ResponseEntity<String> updateStatus (@PathVariable long purchaseId) throws Exception {
+        String responseCart = service.updateStatus(purchaseId);
         return new ResponseEntity<>(responseCart, HttpStatus.CREATED);
     }
 }

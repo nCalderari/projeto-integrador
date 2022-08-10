@@ -1,16 +1,11 @@
-package com.desafiofinal.praticafinal.modelDto;
+package com.desafiofinal.praticafinal.dto;
 
-import com.desafiofinal.praticafinal.modelEntity.Product;
-import com.desafiofinal.praticafinal.modelEntity.Seller;
-import com.desafiofinal.praticafinal.modelEntity.WareHouse;
+import com.desafiofinal.praticafinal.model.Product;
+import com.desafiofinal.praticafinal.model.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.List;
 
 

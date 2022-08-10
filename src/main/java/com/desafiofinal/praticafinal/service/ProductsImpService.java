@@ -1,16 +1,14 @@
 package com.desafiofinal.praticafinal.service;
 
-import com.desafiofinal.praticafinal.modelDto.ProductDto;
-import com.desafiofinal.praticafinal.modelEntity.InBoundOrder;
-import com.desafiofinal.praticafinal.modelEntity.Product;
-import com.desafiofinal.praticafinal.modelEntity.Sector;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.InBoundOrderRequestDto;
+import com.desafiofinal.praticafinal.dto.ProductDto;
+import com.desafiofinal.praticafinal.model.InBoundOrder;
+import com.desafiofinal.praticafinal.model.Product;
 import com.desafiofinal.praticafinal.repository.InBoundOrderRepo;
 import com.desafiofinal.praticafinal.repository.ProductRepo;
-import com.desafiofinal.praticafinal.modelEntity.BatchStock;
+import com.desafiofinal.praticafinal.model.BatchStock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.desafiofinal.praticafinal.modelRequestResponseDto.ProductResponseDto;
+import com.desafiofinal.praticafinal.requestResponseDto.ProductResponseDto;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
