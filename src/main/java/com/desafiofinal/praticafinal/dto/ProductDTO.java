@@ -25,7 +25,7 @@ public class ProductDTO {
         this.productType = product.getProductType();
         this.price = product.getPrice();
         this.bulk = product.getBulk();
-        this.idSeller = seller.getIdSeller();
+        this.idSeller = seller.getId();
         this.validateDate = product.getValidateDate();
     }
 }

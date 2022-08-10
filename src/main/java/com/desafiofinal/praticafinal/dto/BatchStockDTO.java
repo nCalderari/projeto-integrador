@@ -14,8 +14,10 @@ public class BatchStockDTO {
 
 
     private long batchNumber;
+
     @Nullable
     private long product;
+
     private float currentTemperature;
 
     private float minimumTemperature;
@@ -30,10 +32,6 @@ public class BatchStockDTO {
 
     private Date dueDate;
 
-//    @Nullable
-//    private InBoundOrderDTO inBoundOrder;
-
-
 
     public BatchStockDTO(BatchStock batchStock) {
         this.batchNumber = batchStock.getBatchId();
@@ -45,23 +43,8 @@ public class BatchStockDTO {
         this.manufacturingDate = batchStock.getManufacturingDate();
         this.manufacturingTime = batchStock.getManufacturingTime();
         this.dueDate = batchStock.getDueDate();
-//        this.inBoundOrder = new InBoundOrderDto(batchStock.getInBoundOrder());
 
     }
 
-   /* public BatchStock convertBatchStockDtoToBatchStock (BatchStockDto batchStockDto){
-        return BatchStock.builder()
-                .batchId(batchStockDto.getBatchId())
-                .currentTemperature(batchStockDto.getCurrentTemperature())
-                .minimumTemperature(batchStockDto.getMinimumTemperature())
-                .initialQuantity(batchStockDto.getInitialQuantity())
-                .currentQuantity(batchStockDto.getCurrentQuantity())
-                .manufacturingDate(batchStockDto.getManufacturingDate())
-                .manufacturingTime(batchStockDto.getManufacturingTime())
-                .dueDate(batchStockDto.getDueDate())
-                .inBoundOrderId(batchStockDto.getInBoundOrderId())
-              //  .product(batchStockDto.getProduct())
-                .build();
-    }*/
 
 }

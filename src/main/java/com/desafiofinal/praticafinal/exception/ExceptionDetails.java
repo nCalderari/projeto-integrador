@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ExceptionDetails {
+public
+class ExceptionDetails {
 
     private final String title;
     private final int status;

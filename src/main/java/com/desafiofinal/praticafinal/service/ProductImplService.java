@@ -1,12 +1,12 @@
 package com.desafiofinal.praticafinal.service;
 
 import com.desafiofinal.praticafinal.dto.ProductDTO;
+import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
 import com.desafiofinal.praticafinal.model.Product;
 import com.desafiofinal.praticafinal.model.Seller;
 import com.desafiofinal.praticafinal.repository.IProductRepo;
 import com.desafiofinal.praticafinal.repository.ISellerRepo;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class ProductImplService implements IProductService{
@@ -24,7 +24,7 @@ public class ProductImplService implements IProductService{
 
         var seller = sellerRepo
                 .findById(product.getIdSeller())
-                .orElseThrow(() -> new RuntimeException("Seller does not exist"));
+                .orElseThrow(() -> new ElementNotFoundException("Seller does not exist"));
 
         Product productSaved = repo.save(buildProduct(product, seller));
         return new ProductDTO(productSaved, seller);

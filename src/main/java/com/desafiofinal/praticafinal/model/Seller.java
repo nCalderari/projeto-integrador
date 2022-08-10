@@ -1,9 +1,9 @@
 package com.desafiofinal.praticafinal.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.springframework.lang.Nullable;
+import java.util.Set;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,12 +13,19 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"productList"})
+
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idSeller;
+    private Long id;
     private String sellerName;
 
-    @OneToMany(mappedBy ="seller", cascade = CascadeType.REFRESH)
-    private List<Product> productList;
+    @OneToMany(mappedBy ="seller")
+    @JsonIgnore
+    private Set<Product> productList;
+
+    public Seller(String sellerName) {
+        this.sellerName = sellerName;
+    }
 }
