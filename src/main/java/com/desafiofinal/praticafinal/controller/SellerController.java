@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/fresh-products/seller")
 public class SellerController {
 
-    private ISellerService service;
+    private final ISellerService service;
 
     public SellerController(ISellerService service) {
         this.service = service;
