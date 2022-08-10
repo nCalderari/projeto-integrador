@@ -20,15 +20,11 @@ public class InboundOrderRequestDTO {
     private List<BatchStockDTO> batchStockList;
 
 
-    public static InBoundOrder convertDTOToInboundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) {
-
-
-        return InBoundOrder.builder()
-                .orderId(inboundOrderRequestDTO.getOrderId())
-                .dateTime(inboundOrderRequestDTO.getDateTime())
-//                .sector()
-//                .batchStockList(inboundOrderRequestDTO.getBatchStockList())
-                .build();
-    }
+//    public static InBoundOrder convertDTOToInboundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) {
+//        return InBoundOrder.builder()
+//                .orderId(inboundOrderRequestDTO.getOrderId())
+//                .dateTime(inboundOrderRequestDTO.getDateTime())
+//                .build();
+//    }
 
 }

@@ -20,7 +20,4 @@ public class Seller {
 
     @OneToMany(mappedBy ="seller", cascade = CascadeType.REFRESH)
     private List<Product> productList;
-
-//    public Seller(long id, String sellerName) {
-//    }
 }
