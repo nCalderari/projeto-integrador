@@ -38,6 +38,7 @@ public class CartBatchStockDto {
         return CartBatchStock.builder()
 //                .idCart(CartDto.convertDtoToCart(cartBatchStockDto.getIdCart()))
 //                .batchStock(BatchStockDto.convertBatchStockDtoToBatchStock(cartBatchStockDto.getBatchStock()))
+
                 .build();
     }
 }

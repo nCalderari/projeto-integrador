@@ -12,7 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -63,8 +65,16 @@ public class BatchStockDto {
                 .manufacturingDate(batchStockDto.getManufacturingDate())
                 .manufacturingTime(batchStockDto.getManufacturingTime())
                 .dueDate(batchStockDto.getDueDate())
-//                .inBoundOrderId()
+//               .inBoundOrderId()
 //                .product(batchStockDto.getProduct())
                 .build();
+    }
+
+    public static List<BatchStock> convertListBatchStockDtoToList (List<BatchStockDto> batchStockDtoList){
+        List<BatchStock> batchStockList = new ArrayList<>();
+        for(BatchStockDto batchStockDto: batchStockDtoList){
+            batchStockList.add(convertBatchStockDtoToBatchStock(batchStockDto));
+        }
+        return batchStockList;
     }
 }
