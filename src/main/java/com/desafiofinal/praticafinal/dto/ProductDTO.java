@@ -7,12 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDTO {
 
+//    private Optional<Long> id;
     private String productName;
     private String productType;
     private Date validateDate;
@@ -20,12 +22,12 @@ public class ProductDTO {
     private Long idSeller;
     private double bulk;
 
-    public ProductDTO(Product product, Seller seller) {
-        this.productName = product.getProductName();
-        this.productType = product.getProductType();
-        this.price = product.getPrice();
-        this.bulk = product.getBulk();
-        this.idSeller = seller.getId();
-        this.validateDate = product.getValidateDate();
-    }
+//    public ProductDTO(Product product, Seller seller) {
+//        this.productName = product.getProductName();
+//        this.productType = product.getProductType();
+//        this.price = product.getPrice();
+//        this.bulk = product.getBulk();
+//        this.idSeller = seller.getId();
+//        this.validateDate = product.getValidateDate();
+//    }
 }

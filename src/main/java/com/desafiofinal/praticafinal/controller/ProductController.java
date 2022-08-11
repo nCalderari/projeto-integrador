@@ -2,6 +2,7 @@ package com.desafiofinal.praticafinal.controller;
 
 import com.desafiofinal.praticafinal.dto.ProductDTO;
 import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
+import com.desafiofinal.praticafinal.model.Product;
 import com.desafiofinal.praticafinal.service.IProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> insertProduct(@RequestBody ProductDTO product){
-            ProductDTO response = service.saveProduct(product);
+    public ResponseEntity<Object> insertProduct(@RequestBody ProductDTO product){
+        Product response = service.saveProduct(product);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
