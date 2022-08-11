@@ -1,6 +1,7 @@
 package com.desafiofinal.praticafinal.service;
 
 import com.desafiofinal.praticafinal.dto.ProductDTOWithSeller;
+import com.desafiofinal.praticafinal.dto.requestResponseDto.BatchStockResponseDto;
 import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductDTO;
 import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductResponseDTO;
 import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
@@ -62,44 +63,37 @@ public class ProductImplService implements IProductService{
     }
 
 
-    public List<ProductResponseDTO> listProductsByCategory (String category) throws Exception{
+    public List<BatchStockResponseDto> listBatchStockByCategory (String category) throws Exception{
 
         List<InBoundOrder> listInBoundOrder = inBoundOrderRepo.findAll(); //TODO no final refatorar esse método
 
-        List<ProductResponseDTO> productListByCategory= new ArrayList<>();
+        List<BatchStockResponseDto> batchListByCategory = new ArrayList<>();
 
         for (InBoundOrder inBoundOrder: listInBoundOrder){
             String foundCategory = inBoundOrder.getSector().getCategory();
 
-            if(foundCategory.equals(category)){
+            if(foundCategory.equalsIgnoreCase(category)){
                 for (BatchStock batchStock: inBoundOrder.getBatchStockList()){
-                    Product foundProduct =  batchStock.getProduct();
 
-                    ProductResponseDTO productResponseDto = new ProductResponseDTO(foundProduct);
+                    BatchStockResponseDto batchResponseDto = new BatchStockResponseDto(batchStock);
 
-                    LocalDate minusDays = productResponseDto.getValidateDate().minusDays(21);
+                    LocalDate minusDays2 = batchStock.getDueDate().minusDays(21);
 
-                    if (!productListByCategory.contains(productResponseDto)){
-                        if(LocalDate.now().isBefore(minusDays)){
-                            productListByCategory.add(productResponseDto); //TODO alterar os atributos de LocalDate para Date
-                        }
+                    if(LocalDate.now().isBefore(minusDays2)){
+
+                        batchListByCategory.add(batchResponseDto);
+                        // }
                     }
                 }
             }
         }
 
-        if(productListByCategory.isEmpty()){
+        if(batchListByCategory.isEmpty()){
             throw new Exception("Nenhum produto foi encontrado para essa categoria");
         }else {
-            return productListByCategory;
+            return batchListByCategory;
         }
 
-    }
-
-    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
     }
 
     private Product buildProduct(ProductDTOWithSeller productDTO, Seller seller){

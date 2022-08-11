@@ -1,6 +1,7 @@
 package com.desafiofinal.praticafinal.service;
 
 import com.desafiofinal.praticafinal.dto.ProductDTOWithSeller;
+import com.desafiofinal.praticafinal.dto.requestResponseDto.BatchStockResponseDto;
 import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductDTO;
 import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductResponseDTO;
 
@@ -11,5 +12,5 @@ public interface IProductService {
 
     List<ProductDTO> listAllProducts();
 
-    List<ProductResponseDTO> listProductsByCategory(String category) throws Exception;
+    List<BatchStockResponseDto> listBatchStockByCategory (String category)throws Exception;
 }

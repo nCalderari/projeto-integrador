@@ -22,4 +22,3 @@ public class ManagerDTO {
         this.managerName=manager.getManagerName();
     }
 }
-
