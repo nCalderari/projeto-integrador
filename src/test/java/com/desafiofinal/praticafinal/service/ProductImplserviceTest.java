@@ -41,7 +41,7 @@ public class ProductImplserviceTest {
                 24,
                 Collections.emptyList());
         when(productRepo.save(any(Product.class))).thenReturn(product);
-        when(sellerRepo.findById(anyLong())).thenReturn(Optional.ofNullable(seller));
+        when(sellerRepo.findById(anyLong())).thenReturn(Optional.of(seller));
 
         var service = new ProductImplService(productRepo, sellerRepo);
         var productCreated = service.saveProduct(new ProductDTO (
@@ -55,5 +55,4 @@ public class ProductImplserviceTest {
 
         Assertions.assertEquals(product.getProductName(), productCreated.getProductName());
     }
-//todo teste lançando exceção
 }
