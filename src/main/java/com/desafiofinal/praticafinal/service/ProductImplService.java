@@ -2,8 +2,7 @@ package com.desafiofinal.praticafinal.service;
 
 import com.desafiofinal.praticafinal.dto.ProductDTOWithSeller;
 import com.desafiofinal.praticafinal.dto.requestResponseDto.BatchStockResponseDto;
-import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductDTO;
-import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductResponseDTO;
+import com.desafiofinal.praticafinal.dto.ProductDTO;
 import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
 import com.desafiofinal.praticafinal.model.BatchStock;
 import com.desafiofinal.praticafinal.model.InBoundOrder;
@@ -15,9 +14,7 @@ import com.desafiofinal.praticafinal.repository.InBoundOrderRepo;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service

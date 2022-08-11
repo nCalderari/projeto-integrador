@@ -2,8 +2,7 @@ package com.desafiofinal.praticafinal.controller;
 
 import com.desafiofinal.praticafinal.dto.ProductDTOWithSeller;
 import com.desafiofinal.praticafinal.dto.requestResponseDto.BatchStockResponseDto;
-import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductDTO;
-import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductResponseDTO;
+import com.desafiofinal.praticafinal.dto.ProductDTO;
 import com.desafiofinal.praticafinal.service.IProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -22,7 +22,7 @@ public class CartController {
         return new ResponseEntity<Double>(service.createPurchase(cart), HttpStatus.CREATED);
     }
     @GetMapping("/ListProducts/{purchaseId}")
-    ResponseEntity<List<BatchStockResponseDto>> getProducts(@PathVariable long purchaseId){
+    ResponseEntity<List<BatchStockResponseDto>> getProducts(@PathVariable long purchaseId) throws Exception {
         List<BatchStock> getResponse = service.getProducts(purchaseId);
         List<BatchStockResponseDto> getResponseDto = BatchStockResponseDto.convertToListDto(getResponse);
         return new ResponseEntity<>(getResponseDto, HttpStatus.OK); //TODO utilizar productResponseDto e refatorar ele para response ao cliente

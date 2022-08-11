@@ -1,6 +1,5 @@
 package com.desafiofinal.praticafinal.dto;
 
-import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductDTO;
 import com.desafiofinal.praticafinal.model.BatchStock;
 import com.desafiofinal.praticafinal.model.InBoundOrder;
 import com.sun.istack.Nullable;

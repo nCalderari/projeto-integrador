@@ -111,7 +111,7 @@ public class CartImpService {
         return cart;
     }
 
-    public List<BatchStock> getProducts(long purchaseId){ //purchase = cartId
+    public List<BatchStock> getProducts(long purchaseId) throws Exception { //purchase = cartId
        Optional <Cart> foundCart = cartRepo.findById(purchaseId);
        List<BatchStock> batchStockList = new ArrayList<>();
 
@@ -119,8 +119,12 @@ public class CartImpService {
                BatchStock foundBatchStock = cartBatchStock.getBatchStock();
                batchStockList.add(foundBatchStock);
        }
+        if(batchStockList.isEmpty()){
+            throw new Exception("Não foi encontrado produto no carrinho");
+        }else {
+            return batchStockList;
+        }
 
-        return batchStockList;
     }
 
     public String updateStatus(long purchaseId) throws Exception {
