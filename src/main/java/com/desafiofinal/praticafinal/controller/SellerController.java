@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This class holds all endpoints related to the seller
+ * @author Amanda
+ * @version 1.0.0
+ */
+
 @RestController
 @RequestMapping("/api/v1/fresh-products/seller")
 public class SellerController {
@@ -18,7 +24,11 @@ public class SellerController {
     public SellerController(ISellerService service) {
         this.service = service;
     }
-
+    /**
+     * This route creates a new seller
+     * @param seller id(Long), SellerName(String), ProductList(List of products)
+     * @return HTML Response 201: Created
+     */
     @PostMapping
     public ResponseEntity<SellerDTO> insertSeller(@RequestBody SellerDTO seller){
         SellerDTO response = service.saveSeller(seller);
