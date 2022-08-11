@@ -78,9 +78,7 @@ public class ProductImplService implements IProductService{
                     BatchStockResponseDto batchResponseDto = new BatchStockResponseDto(batchStock);
 
                     LocalDate minusDays2 = batchStock.getDueDate().minusDays(21);
-                    //LocalDate minusDays = productResponseDto.getValidateDate().minusDays(21);
 
-                    // if (!productListByCategory.contains(productResponseDto)){
                     if(LocalDate.now().isBefore(minusDays2)){
 
                         batchListByCategory.add(batchResponseDto);
