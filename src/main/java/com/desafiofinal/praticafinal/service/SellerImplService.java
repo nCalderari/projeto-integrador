@@ -1,6 +1,7 @@
 package com.desafiofinal.praticafinal.service;
 
 import com.desafiofinal.praticafinal.dto.SellerDTO;
+import com.desafiofinal.praticafinal.model.Seller;
 import com.desafiofinal.praticafinal.repository.ISellerRepo;
 import lombok.val;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,11 @@ public class SellerImplService implements ISellerService{
     }
 
     @Override
-    public SellerDTO saveSeller(SellerDTO seller) {
-        try{
-            val sellerSaved = repo.save(seller.toEntity());
-            return new SellerDTO(sellerSaved);
-        }
-       catch (Exception e){
-            throw new Error("Desculpe, não foi possível realizar a sua solicitação", e.getCause());
-       }
+    public Seller saveSeller(SellerDTO seller) {
+
+            val sellerSaved = repo.save(new Seller(seller));
+            return sellerSaved;
+
+
     }
 }

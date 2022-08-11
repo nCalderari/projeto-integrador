@@ -23,6 +23,7 @@ public class InboundOrderRequestDTO {
         this.orderId = orderId;
         this.dateTime = dateTime;
         this.sector = sector;
+        this.batchStockList = batchStockList;
     }
 
 
