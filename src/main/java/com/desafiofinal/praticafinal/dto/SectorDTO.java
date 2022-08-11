@@ -27,4 +27,10 @@ public class SectorDTO {
         this.orderList = sector.getOrderList();
         this.wareHouse = sector.getWareHouse();
     }
+
+    public static Sector convertToSector(SectorDTO sectorDTO){
+        return Sector.builder()
+                .sectorId(sectorDTO.sectorId)
+                .build();
+    }
 }

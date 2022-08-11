@@ -20,7 +20,7 @@ public class BatchStockDTO {
     private long batchNumber;
 
     @Nullable
-    private long product;
+    private ProductDTO product;
 
     private float currentTemperature;
 
@@ -36,13 +36,13 @@ public class BatchStockDTO {
 
     private LocalDate dueDate;
 
-    private InBoundOrder inBoundOrderId;
+    private Long inBoundOrderId;
 
-    private ProductDTO productDto;
+
 
     public BatchStockDTO(BatchStock batchStock) {
         this.batchNumber = batchStock.getBatchId();
-        this.product = batchStock.getProduct().getId();
+        this.product = new ProductDTO(batchStock.getProduct());
         this.currentTemperature = batchStock.getCurrentTemperature();
         this.minimumTemperature = batchStock.getMinimumTemperature();
         this.initialQuantity = batchStock.getInitialQuantity();
@@ -50,11 +50,13 @@ public class BatchStockDTO {
         this.manufacturingDate = batchStock.getManufacturingDate();
         this.manufacturingTime = batchStock.getManufacturingTime();
         this.dueDate = batchStock.getDueDate();
+        this.inBoundOrderId = batchStock.getInBoundOrder().getOrderId();
     }
 
     public static BatchStock convertBatchStockDtoToBatchStock (BatchStockDTO batchStockDto){
         return BatchStock.builder()
                 .batchId(batchStockDto.getBatchNumber())
+                .product(ProductDTO.convertDtoToProductIdOnly(batchStockDto.getProduct()))
                 .currentTemperature(batchStockDto.getCurrentTemperature())
                 .minimumTemperature(batchStockDto.getMinimumTemperature())
                 .initialQuantity(batchStockDto.getInitialQuantity())
@@ -62,6 +64,11 @@ public class BatchStockDTO {
                 .manufacturingDate(batchStockDto.getManufacturingDate())
                 .manufacturingTime(batchStockDto.getManufacturingTime())
                 .dueDate(batchStockDto.getDueDate())
+                .build();
+    }
+    public static BatchStock convertBatchStockDtoToBatchStockIdOnly (BatchStockDTO batchStockDto){
+        return BatchStock.builder()
+                .batchId(batchStockDto.getBatchNumber())
                 .build();
     }
 

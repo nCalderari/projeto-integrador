@@ -35,7 +35,7 @@ public class BatchStockResponseDto {
                 .batchId(batchStockDto.getBatchId())
                 .currentQuantity(batchStockDto.getCurrentQuantity())
                 .dueDate(batchStockDto.getDueDate())
-                .product(ProductDTO.convertDtoToProduct(batchStockDto.getProductDto()))
+                .product(ProductDTO.convertDtoToProductIdOnly(batchStockDto.getProductDto()))
                 .build();
     }
 
