@@ -1,4 +1,4 @@
-package com.desafiofinal.praticafinal.dto;
+package com.desafiofinal.praticafinal.dto.queryDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,8 +11,12 @@ import java.time.LocalDate;
 @Data
 public class BatchStockSectorDTO {
 
-    private long batchNumber;
-    private long currentQuantity;
-    private long sectorId;
+    private Long batchId;
+    private Long currentQuantity;
+
+    private Long sectorId;
     private LocalDate dueDate;
+    private String category;
+    private long productId;
+    private long inBoundOrderId;
 }
