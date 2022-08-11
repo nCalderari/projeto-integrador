@@ -1,6 +1,7 @@
 package com.desafiofinal.praticafinal.controller;
 
 import com.desafiofinal.praticafinal.dto.SellerDTO;
+import com.desafiofinal.praticafinal.model.Seller;
 import com.desafiofinal.praticafinal.service.ISellerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,8 @@ public class SellerController {
 
     @PostMapping
     public ResponseEntity<SellerDTO> insertSeller(@RequestBody SellerDTO seller){
-        SellerDTO response = service.saveSeller(seller);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        Seller newSeller = SellerDTO.convertToSeller(seller);
+        Seller savedSeller = service.saveSeller(newSeller);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SellerDTO(savedSeller));
     }
 }

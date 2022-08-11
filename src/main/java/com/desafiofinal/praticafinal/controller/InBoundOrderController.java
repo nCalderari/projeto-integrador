@@ -1,7 +1,9 @@
 package com.desafiofinal.praticafinal.controller;
 
+import com.desafiofinal.praticafinal.dto.InBoundOrderDTO;
 import com.desafiofinal.praticafinal.dto.InBoundOrderResponseDTO;
 import com.desafiofinal.praticafinal.dto.InboundOrderRequestDTO;
+import com.desafiofinal.praticafinal.model.InBoundOrder;
 import com.desafiofinal.praticafinal.service.IinboundOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,10 +32,10 @@ public class InBoundOrderController {
      */
 
     @PostMapping("/insert")
-    public ResponseEntity<InBoundOrderResponseDTO> create(@RequestBody InboundOrderRequestDTO newOrder) throws Exception {
-        InBoundOrderResponseDTO response = service.saveInBoundOrder(newOrder);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<InBoundOrderResponseDTO> create(@RequestBody InboundOrderRequestDTO newOrder) {
+        InBoundOrder newInBoundOrder = InboundOrderRequestDTO.convertDTOToInboundOrder(newOrder);
+        InBoundOrder savedResponse = service.saveInBoundOrder(newInBoundOrder);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new InBoundOrderResponseDTO(savedResponse));
 
     }
     
@@ -44,10 +46,10 @@ public class InBoundOrderController {
      * @throws Exception ElementNotFoundException
      */
     @PutMapping("/update")
-    public ResponseEntity<InBoundOrderResponseDTO> updateInBoundOrder(@RequestBody InboundOrderRequestDTO updateOrder) throws Exception {
-        InBoundOrderResponseDTO updatedResponse = service.updateInBoundOrder(updateOrder);
-
-        return new ResponseEntity<>(updatedResponse, HttpStatus.CREATED);
+    public ResponseEntity<InBoundOrderResponseDTO> updateInBoundOrder(@RequestBody InboundOrderRequestDTO updateOrder) {
+        InBoundOrder updatedInBoundOrder = InboundOrderRequestDTO.convertDTOToInboundOrder(updateOrder);
+        InBoundOrder updatedResponse = service.updateInBoundOrder(updatedInBoundOrder);
+        return new ResponseEntity<>(new InBoundOrderResponseDTO(updatedResponse), HttpStatus.CREATED);
 
     }
 }

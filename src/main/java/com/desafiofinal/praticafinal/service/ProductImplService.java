@@ -25,85 +25,29 @@ public class ProductImplService implements IProductService{
 
     private final IProductRepo repo;
     private final ISellerRepo sellerRepo;
-    private InBoundOrderRepo inBoundOrderRepo;
 
 
-    public ProductImplService(IProductRepo repo, ISellerRepo sellerRepo, InBoundOrderRepo inBoundOrderRepo) {
+    public ProductImplService(IProductRepo repo, ISellerRepo sellerRepo) {
         this.repo = repo;
         this.sellerRepo = sellerRepo;
-        this.inBoundOrderRepo = inBoundOrderRepo;
     }
 
     @Override
-    public ProductDTOWithSeller saveProduct(ProductDTOWithSeller product) {
+    public Product saveProduct(Product newProduct) {
+        Seller foundSeller = verifySeller(newProduct);
+        newProduct.setSeller(foundSeller);
+        return repo.save(newProduct);
+    }
 
-        var seller = sellerRepo
-                .findById(product.getIdSeller())
+    private Seller verifySeller(Product product) {
+        return sellerRepo
+                .findById(product.getSeller().getId())
                 .orElseThrow(() -> new ElementNotFoundException("Seller does not exist"));
-
-        Product productSaved = repo.save(buildProduct(product, seller));
-        return new ProductDTOWithSeller(productSaved, seller);
     }
 
-    public List<ProductDTO> listAllProducts (){
-
-        List<ProductDTO> productList= new ArrayList<>();
-
-        List<Product> foundListProduct = repo.findAll();
-
-        for(Product product:foundListProduct){
-
-            ProductDTO productDto = new ProductDTO(product);
-
-            productList.add(productDto);
-        }
-
-        return productList;
-
+    @Override
+    public List<Product> listAllProducts (){
+        return repo.findAll();
     }
 
-
-    public List<BatchStockResponseDto> listBatchStockByCategory (String category) throws Exception{
-
-        List<InBoundOrder> listInBoundOrder = inBoundOrderRepo.findAll(); //TODO no final refatorar esse método
-
-        List<BatchStockResponseDto> batchListByCategory = new ArrayList<>();
-
-        for (InBoundOrder inBoundOrder: listInBoundOrder){
-            String foundCategory = inBoundOrder.getSector().getCategory();
-
-            if(foundCategory.equalsIgnoreCase(category)){
-                for (BatchStock batchStock: inBoundOrder.getBatchStockList()){
-
-                    BatchStockResponseDto batchResponseDto = new BatchStockResponseDto(batchStock);
-
-                    LocalDate minusDays2 = batchStock.getDueDate().minusDays(21);
-
-                    if(LocalDate.now().isBefore(minusDays2)){
-
-                        batchListByCategory.add(batchResponseDto);
-                        // }
-                    }
-                }
-            }
-        }
-
-        if(batchListByCategory.isEmpty()){
-            throw new Exception("Nenhum produto foi encontrado para essa categoria");
-        }else {
-            return batchListByCategory;
-        }
-
-    }
-
-    private Product buildProduct(ProductDTOWithSeller productDTO, Seller seller){
-        return Product.builder()
-                .productType(productDTO.getProductType())
-                .productName(productDTO.getProductName())
-                .validateDate(productDTO.getValidateDate())
-                .price(productDTO.getPrice())
-                .bulk(productDTO.getBulk())
-                .seller(seller)
-                .build();
-    }
 }

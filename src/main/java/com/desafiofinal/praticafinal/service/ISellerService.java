@@ -1,7 +1,7 @@
 package com.desafiofinal.praticafinal.service;
 
-import com.desafiofinal.praticafinal.dto.SellerDTO;
+import com.desafiofinal.praticafinal.model.Seller;
 
 public interface ISellerService {
-    SellerDTO saveSeller(SellerDTO seller);
+    Seller saveSeller(Seller seller);
 }

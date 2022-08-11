@@ -17,19 +17,20 @@ public class BuyerDto {
 
     private String buyerName;
 
-    private List<CartDto> cartList;
+//    private List<CartDto> cartList;
 
     public BuyerDto (Buyer buyer){
         this.buyerId= buyer.getBuyerId();
-        this.buyerName=buyer.getBuyerName();
-        this.cartList=buyer.getCartList().stream().map(CartDto::new).collect(Collectors.toList());
+//        this.buyerName=buyer.getBuyerName();
+//        this.cartList=buyer.getCartList().stream().map(CartDto::new).collect(Collectors.toList());
 
     }
 
     public static Buyer convertDtoToBuyer (BuyerDto buyerDto){
         return Buyer.builder()
-                .buyerName(buyerDto.getBuyerName())
-                .cartList(buyerDto.getCartList().stream().map(CartDto::convertDtoToCart).collect(Collectors.toList()))
+                .buyerId(buyerDto.getBuyerId())
+//                .buyerName(buyerDto.getBuyerName())
+//                .cartList(buyerDto.getCartList().stream().map(CartDto::convertDtoToCart).collect(Collectors.toList()))
                 .build();
     }
 

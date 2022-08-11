@@ -1,21 +1,20 @@
 package com.desafiofinal.praticafinal.service;
 
-import com.desafiofinal.praticafinal.dto.CartBatchStockDto;
-import com.desafiofinal.praticafinal.dto.CartDto;
+import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
+import com.desafiofinal.praticafinal.exception.ElementeAlreadyExistsException;
+import com.desafiofinal.praticafinal.exception.ExceededCapacityException;
 import com.desafiofinal.praticafinal.model.*;
 import com.desafiofinal.praticafinal.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
-public class CartImpService {
+public class CartImpService implements ICartService {
 
     @Autowired
     private CartRepository cartRepo;
@@ -36,124 +35,105 @@ public class CartImpService {
     private ISectorRepo sectorRepo;
 
     @Transactional
-    public Double createPurchase(CartDto cartDto) throws Exception {
+    @Override
+    public Double createPurchase(Cart cart){
 
-        Cart newCart = foundCart(cartDto.getCartId());
-        newCart.setDate(cartDto.getDate());
-        newCart.setOrderStatus(cartDto.getOrderStatus());
-        verifyBuyer(cartDto, newCart);
-        List<CartBatchStock> cartBatchStockList = convertToCartBatchStock(cartDto, newCart);
-        newCart.setListCartBatchStock(cartBatchStockList);
-        List<BatchStock> batchStockList = new ArrayList<>();
+        Buyer foundBuyer = verifyBuyer(cart.getBuyer());
+        cart.setBuyer(foundBuyer);
 
-        double totalPrice = 0d;
-        for (CartBatchStock cartBatchStock : newCart.getListCartBatchStock()) {
-            BatchStock foundBatchStock = cartBatchStock.getBatchStock();
-            if (!batchStockList.contains(foundBatchStock)){
-                double price = getTotalPrice(cartBatchStock);
-                totalPrice += price;
-                batchStockList.add(foundBatchStock);
-            }else{
-                throw new Exception("Um dos produtos já está presente na lista");
-            }
-        }
-        newCart.setOrderStatus("Aberto");
-        newCart.setTotalPrice(totalPrice);
-        cartRepo.save(newCart);
-        cartBatchStockRepo.saveAll(cartBatchStockList);
+        List<CartBatchStock> foundCartBatchStockList = verifyCartBatchStock(cart.getListCartBatchStock());
+        cart.setListCartBatchStock(foundCartBatchStockList);
+
+        double totalPrice = getTotalPrice(cart);
+        cart.setOrderStatus("Open");
+        cart.setTotalPrice(totalPrice);
+        cartRepo.save(cart);
+        cartBatchStockRepo.saveAll(cart.getListCartBatchStock());
 
         return totalPrice;
     }
 
-    private void verifyBuyer(CartDto cartDto, Cart cart) {
-        Optional<Buyer> foundBuyer =  buyerRepo.findById(cartDto.getBuyer());
-        if(foundBuyer.isPresent()) {
-            cart.setBuyer(foundBuyer.get());
-        }else{
-            throw new RuntimeException("Buyer does not exists"); //TODO colocar exceção ElementNotFounExists
-        }
-    }
-
-    private List<CartBatchStock> convertToCartBatchStock(CartDto cartDto, Cart cart)  {
-
-        return cartDto.getListCartBatchStock().stream().map(dto -> {
-            BatchStock batchStock = foundBatchStock(dto);
-            return new CartBatchStock(
-                    dto.getCartBatchStockId(),
-                    cart,
-                    batchStock,
-                    dto.getPricePerProduct(),
-                    dto.getProductQuantity());
-        }).collect(Collectors.toList());
-    }
-
-    private double getTotalPrice(CartBatchStock cartBatchStock){
-       return cartBatchStock.getPricePerProduct() * cartBatchStock.getProductQuantity();
-    }
-
-    private BatchStock foundBatchStock(CartBatchStockDto cartBatchStockDto) {
-        Optional<BatchStock> batchStock = batchStockRepo.findById(cartBatchStockDto.getBatchStock());
-        if (batchStock.isPresent()) {
-            return batchStock.get();
-        } else {
-            throw new RuntimeException("Batch stock does not exist");
-        }
-    }
-
-    private Cart foundCart(long id) {
-        Cart cart = new Cart();
-        Optional<Cart> foundCart = cartRepo.findById(id);
-        if(foundCart.isPresent()){
-            cart.setCartId(foundCart.get().getCartId());
-        } else {
-            cart.setCartId(0L);
-        }
-        return cart;
-    }
-
+    @Override
     public List<BatchStock> getProducts(long purchaseId){ //purchase = cartId
-       Optional <Cart> foundCart = cartRepo.findById(purchaseId);
-       List<BatchStock> batchStockList = new ArrayList<>();
+        Optional <Cart> foundCart = cartRepo.findById(purchaseId);
+        List<BatchStock> batchStockList = new ArrayList<>();
 
-       for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
-               BatchStock foundBatchStock = cartBatchStock.getBatchStock();
-               batchStockList.add(foundBatchStock);
-       }
+        for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
+            BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+            batchStockList.add(foundBatchStock);
+        }
 
         return batchStockList;
     }
 
-    public String updateStatus(long purchaseId) throws Exception {
+    @Override
+    public String updateStatus(long purchaseId){
         Optional<Cart> foundCart = verifyIfCartExists(purchaseId);
-        foundCart.get().setOrderStatus("Finalizado");
+        foundCart.get().setOrderStatus("Finished");
         cartRepo.save(foundCart.get());
-        return "Pedido finalizado com sucesso";
+        return "Order completed successfully";
     }
 
-    private Optional<Cart> verifyIfCartExists(long purchaseId) throws Exception {
+    private double getTotalPrice(Cart cart) {
+        double totalPrice = 0d;
+        for (CartBatchStock cartBatchStock : cart.getListCartBatchStock()) {
+                double price = cartBatchStock.getPricePerProduct() * cartBatchStock.getProductQuantity();
+                totalPrice += price;
+        }
+        return totalPrice;
+    }
+
+    private Buyer verifyBuyer(Buyer buyer) {
+        Optional<Buyer> foundBuyer =  buyerRepo.findById(buyer.getBuyerId());
+        if(foundBuyer.isPresent()) {
+            return foundBuyer.get();
+        }else{
+            throw new ElementNotFoundException("Buyer does not exists");
+        }
+    }
+
+    private List<CartBatchStock> verifyCartBatchStock(List<CartBatchStock> cartBatchStockList)  {
+        List<CartBatchStock> cartBatchStockListVerified = new ArrayList<>();
+        for(CartBatchStock cbs : cartBatchStockList) {
+            BatchStock foundBatchStock = verifyBatchStock(cbs.getBatchStock());
+            cbs.setBatchStock(foundBatchStock);
+            cartBatchStockListVerified.add(cbs);
+        }
+       return cartBatchStockListVerified;
+    }
+
+
+    private BatchStock verifyBatchStock(BatchStock batchStock) {
+        Optional<BatchStock> foundBatchStock = batchStockRepo.findById(batchStock.getBatchId());
+        if (foundBatchStock.isPresent()) {
+            return foundBatchStock.get();
+        } else {
+            throw new ElementNotFoundException("Batch stock does not exist");
+        }
+    }
+
+    private Optional<Cart> verifyIfCartExists(long purchaseId) {
         Optional <Cart> foundCart = cartRepo.findById(purchaseId);
         List<BatchStock> batchStockList = new ArrayList<>();
 
         if(foundCart.isEmpty()){
-            throw new Exception("Cart does not exist");
+            throw new ElementNotFoundException("Cart does not exist");
         }else{
             verifyStatus(foundCart, batchStockList);
         }
         return foundCart;
     }
 
-    private void verifyStatus(Optional<Cart> foundCart, List<BatchStock> batchStockList) throws Exception {
+    private void verifyStatus(Optional<Cart> foundCart, List<BatchStock> batchStockList) {
         String cartStatus = foundCart.get().getOrderStatus();
-
-        if(cartStatus.equalsIgnoreCase("Aberto")){
-
+        if(cartStatus.equalsIgnoreCase("Open")){
             verifyQuantity(foundCart, batchStockList);
         } else {
-            throw new Exception("Carrinho já finalizado");
+            throw new ElementeAlreadyExistsException("Cart already finished");
         }
     }
 
-    private void verifyQuantity(Optional<Cart> foundCart, List<BatchStock> batchStockList) throws Exception {
+    private void verifyQuantity(Optional<Cart> foundCart, List<BatchStock> batchStockList)  {
         for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
             BatchStock foundBatchStock = cartBatchStock.getBatchStock();
                 batchStockList.add(foundBatchStock);
@@ -161,12 +141,12 @@ public class CartImpService {
                 if(cartBatchStock.getProductQuantity()<=foundBatchStock.getCurrentQuantity()){
                     verifyCapacity(foundBatchStock, cartQuantity);
                 }else{
-                    throw new Exception("Quantidade indisponível");
+                    throw new ExceededCapacityException("Quantity unavailable");
                 }
         }
     }
 
-    private void verifyCapacity(BatchStock foundBatchStock, long cartQuantity) throws Exception {
+    private void verifyCapacity(BatchStock foundBatchStock, long cartQuantity) {
         long stockQuantity = foundBatchStock.getCurrentQuantity();
         long newQuantity = stockQuantity - cartQuantity;
         double totalItemsVolume = foundBatchStock.getProduct().getBulk()*cartQuantity;
@@ -181,9 +161,10 @@ public class CartImpService {
             sectorRepo.save(foundBatchStock.getInBoundOrder().getSector());
 
         } else {
-            throw new Exception("A capacidade máxima foi superada");
+            throw new ExceededCapacityException("Maximum capacity has been exceeded");
         }
     }
+
 }
 
 //3, 4 e 5: escrever query nativa no repository e já trazer o objeto pronto
