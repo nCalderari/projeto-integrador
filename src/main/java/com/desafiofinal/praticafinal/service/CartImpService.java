@@ -62,7 +62,6 @@ public class CartImpService implements ICartService {
             BatchStock foundBatchStock = cartBatchStock.getBatchStock();
             batchStockList.add(foundBatchStock);
         }
-
         return batchStockList;
     }
 

@@ -1,7 +1,5 @@
 package com.desafiofinal.praticafinal.service;
 
-
-import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductDTO;
 import com.desafiofinal.praticafinal.model.Product;
 
 import java.util.List;

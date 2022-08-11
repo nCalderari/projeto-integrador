@@ -1,4 +1,4 @@
-package com.desafiofinal.praticafinal.dto.requestResponseDto;
+package com.desafiofinal.praticafinal.dto;
 
 import com.desafiofinal.praticafinal.dto.ProductDTOWithSeller;
 import com.desafiofinal.praticafinal.dto.SellerDTO;
