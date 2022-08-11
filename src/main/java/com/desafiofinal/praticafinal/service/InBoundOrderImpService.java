@@ -98,13 +98,13 @@ public class InBoundOrderImpService implements IinboundOrderService {
 
     private void verifySector(InBoundOrder inboundOrder, long sectorID) {
         Optional<Sector> foundSector = Optional.ofNullable(sectorRepo.findById(sectorID)
-                .orElseThrow(() -> new RuntimeException("Sector does not exists")));
+                .orElseThrow(() -> new ElementNotFoundException("Sector does not exist")));
         inboundOrder.setSector(foundSector.get());
     }
 
     private Product verifyProduct(BatchStockDTO batchStockDTO) {
         Optional<Product> foundProduct = Optional.ofNullable(productRepo.findById(batchStockDTO.getProduct())
-                .orElseThrow(() -> new RuntimeException("Product does ot exists")));
+                .orElseThrow(() -> new ElementNotFoundException("Product does not exist")));
                     return foundProduct.get();
 
     }
@@ -117,10 +117,10 @@ public class InBoundOrderImpService implements IinboundOrderService {
                     responseStock.setInBoundOrder(inBoundOrder);
                     batchStockRepo.save(responseStock);
                 } else {
-                    throw new ElementNotFoundException("Batch stock does not belongs to this inbound order");
+                    throw new ElementNotFoundException("Batch stock does not belong to this inbound order");
                 }
             } else {
-                throw new ElementNotFoundException("Batch stock does not exists");
+                throw new ElementNotFoundException("Batch stock does not exist");
             }
         }
     }
