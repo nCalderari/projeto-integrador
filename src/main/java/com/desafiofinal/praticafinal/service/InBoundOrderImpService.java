@@ -1,13 +1,18 @@
 package com.desafiofinal.praticafinal.service;
 
 import com.desafiofinal.praticafinal.dto.BatchStockDTO;
+import com.desafiofinal.praticafinal.dto.InBoundOrderResponseDTO;
+import com.desafiofinal.praticafinal.dto.InboundOrderRequestDTO;
 import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
 import com.desafiofinal.praticafinal.exception.ElementeAlreadyExistsException;
-import com.desafiofinal.praticafinal.dto.InboundOrderRequestDTO;
-import com.desafiofinal.praticafinal.model.*;
-import com.desafiofinal.praticafinal.dto.InBoundOrderResponseDTO;
-import com.desafiofinal.praticafinal.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.desafiofinal.praticafinal.model.BatchStock;
+import com.desafiofinal.praticafinal.model.InBoundOrder;
+import com.desafiofinal.praticafinal.model.Product;
+import com.desafiofinal.praticafinal.model.Sector;
+import com.desafiofinal.praticafinal.repository.IBatchStockRepo;
+import com.desafiofinal.praticafinal.repository.IProductRepo;
+import com.desafiofinal.praticafinal.repository.ISectorRepo;
+import com.desafiofinal.praticafinal.repository.InBoundOrderRepo;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,18 +23,20 @@ import java.util.stream.Collectors;
 @Service
 public class InBoundOrderImpService implements IinboundOrderService {
 
-    @Autowired
     private InBoundOrderRepo inBoundOrderRepo;
 
-    @Autowired
     private IBatchStockRepo batchStockRepo;
 
-    @Autowired
     private ISectorRepo sectorRepo;
 
-    @Autowired
     private IProductRepo productRepo;
 
+    public InBoundOrderImpService(InBoundOrderRepo inBoundOrderRepo, IBatchStockRepo batchStockRepo, ISectorRepo sectorRepo, IProductRepo productRepo) {
+        this.inBoundOrderRepo = inBoundOrderRepo;
+        this.batchStockRepo = batchStockRepo;
+        this.sectorRepo = sectorRepo;
+        this.productRepo = productRepo;
+    }
 
     @Transactional
     public InBoundOrderResponseDTO saveInBoundOrder (InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {

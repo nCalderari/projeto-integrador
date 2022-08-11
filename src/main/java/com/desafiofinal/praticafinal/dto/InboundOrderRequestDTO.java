@@ -19,6 +19,12 @@ public class InboundOrderRequestDTO {
 
     private List<BatchStockDTO> batchStockList;
 
+    public InboundOrderRequestDTO(long orderId, Date dateTime, SectorDTO sector) {
+        this.orderId = orderId;
+        this.dateTime = dateTime;
+        this.sector = sector;
+    }
+
 
 //    public static InBoundOrder convertDTOToInboundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) {
 //        return InBoundOrder.builder()
