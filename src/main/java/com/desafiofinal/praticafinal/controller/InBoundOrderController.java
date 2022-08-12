@@ -2,6 +2,7 @@ package com.desafiofinal.praticafinal.controller;
 
 import com.desafiofinal.praticafinal.dto.InBoundOrderResponseDTO;
 import com.desafiofinal.praticafinal.dto.InboundOrderRequestDTO;
+import com.desafiofinal.praticafinal.model.InBoundOrder;
 import com.desafiofinal.praticafinal.service.IinboundOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,10 +31,10 @@ public class InBoundOrderController {
      */
 
     @PostMapping("/insert")
-    public ResponseEntity<InBoundOrderResponseDTO> create(@RequestBody InboundOrderRequestDTO newOrder) throws Exception {
-        InBoundOrderResponseDTO response = service.saveInBoundOrder(newOrder);
+    public ResponseEntity<Object> create(@RequestBody InboundOrderRequestDTO newOrder) throws Exception {
+        InBoundOrder response = service.saveInBoundOrder(newOrder);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new InBoundOrderResponseDTO(response));
 
     }
     
@@ -44,10 +45,10 @@ public class InBoundOrderController {
      * @throws Exception ElementNotFoundException
      */
     @PutMapping("/update")
-    public ResponseEntity<InBoundOrderResponseDTO> updateInBoundOrder(@RequestBody InboundOrderRequestDTO updateOrder) throws Exception {
-        InBoundOrderResponseDTO updatedResponse = service.updateInBoundOrder(updateOrder);
+    public ResponseEntity<Object> updateInBoundOrder(@RequestBody InboundOrderRequestDTO updateOrder) throws Exception {
+        InBoundOrder updatedResponse = service.updateInBoundOrder(updateOrder);
 
-        return new ResponseEntity<>(updatedResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(new InBoundOrderResponseDTO(updatedResponse), HttpStatus.CREATED);
 
     }
 }

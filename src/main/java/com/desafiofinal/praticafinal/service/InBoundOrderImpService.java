@@ -38,16 +38,16 @@ public class InBoundOrderImpService implements IinboundOrderService {
     }
 
     @Transactional
-    public InBoundOrderResponseDTO saveInBoundOrder (InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
+    public InBoundOrder saveInBoundOrder (InboundOrderRequestDTO inboundOrderRequestDTO) throws Exception {
         var inBoundOrder = buildInboundOrder(inboundOrderRequestDTO, true);
         var batchStock = buildBatchStockList(inboundOrderRequestDTO, inBoundOrder);
         inBoundOrder.setBatchStockList(batchStock);
         InBoundOrder savedInBoundOrder = inBoundOrderRepo.save(inBoundOrder);
-        return new InBoundOrderResponseDTO(savedInBoundOrder);
-
+        return savedInBoundOrder;
     }
 
-    public InBoundOrderResponseDTO updateInBoundOrder (InboundOrderRequestDTO inBoundOrderRequestDTO) throws Exception {
+
+    public InBoundOrder updateInBoundOrder (InboundOrderRequestDTO inBoundOrderRequestDTO) throws Exception {
         var inBoundOrder = buildInboundOrder(inBoundOrderRequestDTO, false);
 
         List<BatchStock> batchList = buildBatchStockList(inBoundOrderRequestDTO, inBoundOrder);
@@ -55,7 +55,7 @@ public class InBoundOrderImpService implements IinboundOrderService {
         inBoundOrder.setBatchStockList(batchList);
         batchStockRepo.saveAll(inBoundOrder.getBatchStockList());
         InBoundOrder updatedInBoundOrder = inBoundOrderRepo.save(inBoundOrder);
-        return new InBoundOrderResponseDTO(updatedInBoundOrder);
+        return updatedInBoundOrder;
 
     }
 
@@ -84,7 +84,7 @@ public class InBoundOrderImpService implements IinboundOrderService {
         }).collect(Collectors.toList());
     }
 
-    private void verifyBatchStock(List<BatchStock> batchStockList, InBoundOrder inBoundOrder) throws Exception {
+    private void verifyBatchStock(List<BatchStock> batchStockList, InBoundOrder inBoundOrder)  {
         for(BatchStock responseStock : batchStockList) {
             Optional<BatchStock> foundBatch = batchStockRepo.findById(responseStock.getBatchId());
             if(foundBatch.isPresent()) {

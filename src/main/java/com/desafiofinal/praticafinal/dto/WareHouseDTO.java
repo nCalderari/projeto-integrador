@@ -17,9 +17,13 @@ public class WareHouseDTO {
     private long wareHouseId;
     private List<Sector> sectorList;
 
-    public WareHouseDTO(WareHouse wareHouse) {
-        this.wareHouseId = wareHouse.getWareHouseId();
-        this.sectorList = wareHouse.getSectorList();
-    }
+//    public WareHouseDTO(WareHouse wareHouse) {
+//        this.wareHouseId = wareHouse.getWareHouseId();
+//        this.sectorList = wareHouse.getSectorList();
+//    }
 
+//    public <T> WareHouseDTO(long wareHouseId, List<Sector> sectorList) {
+//        this.wareHouseId =wareHouseId;
+//        this.sectorList = sectorList;
+//    }
 }
