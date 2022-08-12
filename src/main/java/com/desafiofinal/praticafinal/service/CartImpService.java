@@ -164,7 +164,6 @@ public class CartImpService implements ICartService {
             throw new ExceededCapacityException("Maximum capacity has been exceeded");
         }
     }
-
 }
 
 //3, 4 e 5: escrever query nativa no repository e já trazer o objeto pronto

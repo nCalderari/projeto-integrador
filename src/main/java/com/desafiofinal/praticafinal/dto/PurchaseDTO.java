@@ -24,10 +24,10 @@ public class PurchaseDTO {
     private BatchStockDTO batchStock;
 
     @NotNull(message = "Price per Product cannot be null")
-    private double pricePerProduct;
+    private Double pricePerProduct;
 
     @NotNull(message = "Product quantity cannot be null")
-    private int productQuantity;
+    private Integer productQuantity;
 
     public PurchaseDTO(Purchase purchase){
         this.CartBatchStockId= purchase.getCartBatchStockId();
