@@ -1,6 +1,8 @@
 package com.desafiofinal.praticafinal.repository;
 
+import com.desafiofinal.praticafinal.dto.queryDto.BatchStockSectorQuantityDTO;
 import com.desafiofinal.praticafinal.dto.queryDto.DataBaseQuery;
+import com.desafiofinal.praticafinal.dto.queryDto.DataBaseTotalQuantityQuery;
 import com.desafiofinal.praticafinal.model.BatchStock;
 import com.desafiofinal.praticafinal.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,14 +27,12 @@ public interface IBatchStockRepo extends JpaRepository<BatchStock, Long> {
             "order by batch_stock.batch_id;", nativeQuery = true)
     List<DataBaseQuery> getListOrderedById(long id);
 
-
     @Query(value = "SELECT batch_id, current_quantity,s.sector_id, due_date, id_product, s.category FROM batch_stock \n" +
             "join in_bound_order on id_inboundorder = in_bound_order.order_id\n" +
             "join sector as s on in_bound_order.id_sector = s.sector_id\n" +
             "where id_product = ?1\n" +
             "order by batch_stock.current_quantity;", nativeQuery = true)
     List<DataBaseQuery> getListOrderedByQuantity(long id);
-
 
     @Query(value = "SELECT batch_id, current_quantity,s.sector_id, due_date, id_product, s.category FROM batch_stock \n" +
             "join in_bound_order on id_inboundorder = in_bound_order.order_id\n" +
@@ -41,19 +41,15 @@ public interface IBatchStockRepo extends JpaRepository<BatchStock, Long> {
             "order by batch_stock.due_date;", nativeQuery = true)
     List<DataBaseQuery> getListOrderedByDueDate(long id);
 
-
-
-//Requisito 4
-
 //    @Query(value = "\n" +
-//            "SELECT sum(batch.current_quantity) as totalQuantity, s.sector_id, batch.id_product FROM batch_stock as batch\n" +
+//            "SELECT sum(batch.current_quantity) as total_quantity, s.sector_id, batch.id_product, s.category FROM batch_stock as batch\n" +
 //            "join in_bound_order on batch.id_inboundorder = in_bound_order.order_id\n" +
 //            "join sector as s on in_bound_order.id_sector = s.sector_id\n" +
 //            "where id_product = ?1\n" +
 //            "group by s.sector_id;", nativeQuery = true)
-//    List<BatchStockSectorQuantityDTO> getListQuantity(long id);
-//
-//
+//    List<DataBaseTotalQuantityQuery> getListQuantity(long id);
+
+
 //    //Requisito 5
 //
 //    @Query(value = "\n" +

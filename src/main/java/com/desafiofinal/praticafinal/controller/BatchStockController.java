@@ -1,7 +1,9 @@
 package com.desafiofinal.praticafinal.controller;
 
-import com.desafiofinal.praticafinal.dto.queryDto.DataBaseQuery;
+import com.desafiofinal.praticafinal.dto.queryDto.BatchStockSectorQuantityDTO;
+import com.desafiofinal.praticafinal.dto.queryDto.DataBaseTotalQuantityQuery;
 import com.desafiofinal.praticafinal.dto.queryDto.ResponseSectorQuery;
+import com.desafiofinal.praticafinal.dto.queryDto.ResponseSectorTotalQuantity;
 import com.desafiofinal.praticafinal.repository.IBatchStockRepo;
 import com.desafiofinal.praticafinal.service.BatchStockImpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class BatchStockController {
     private IBatchStockRepo repo;
 
     @GetMapping("/{productId}")
-    ResponseEntity<List<ResponseSectorQuery>> getBatchSector(@PathVariable long productId) throws Exception {
+    ResponseEntity<List<ResponseSectorQuery>> getBatchSector(@PathVariable long productId) {
         List<ResponseSectorQuery> getResponse = service.listBatchSector(productId);
         return new ResponseEntity<>(getResponse, HttpStatus.OK);
     }
@@ -36,11 +38,10 @@ public class BatchStockController {
         return new ResponseEntity<>(getResponse, HttpStatus.OK);
     }
 
-//    //Requisito 4
-//
 //    @GetMapping("sector/{productId}")
-//    ResponseEntity<List<BatchStockSectorQuantityDTO>> getTotalQuantitySector(@PathVariable long productId)  {
-//        List<BatchStockSectorQuantityDTO> getResponse = service.getTotalQuantity(productId);
+//    ResponseEntity<ResponseSectorTotalQuantity> getTotalQuantitySector(@PathVariable long productId)  {
+//        ResponseSectorTotalQuantity getResponse = service.getTotalQuantity(productId);
 //        return new ResponseEntity<>(getResponse, HttpStatus.OK);
 //    }
+
 }

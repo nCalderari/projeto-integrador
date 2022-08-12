@@ -3,6 +3,7 @@ package com.desafiofinal.praticafinal.service;
 import com.desafiofinal.praticafinal.dto.queryDto.*;
 
 import com.desafiofinal.praticafinal.exception.ElementAlreadyExistsException;
+import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
 import com.desafiofinal.praticafinal.repository.IBatchStockRepo;
 import com.desafiofinal.praticafinal.repository.IProductRepo;
 import com.desafiofinal.praticafinal.repository.InBoundOrderRepo;
@@ -11,6 +12,7 @@ import com.desafiofinal.praticafinal.model.BatchStock;
 import com.desafiofinal.praticafinal.model.InBoundOrder;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,7 +58,7 @@ public class BatchStockImpService implements IBatchStockService {
         return buildResponseQueryList(listBatchSector);
     }
 
-    public List<ResponseSectorQuery> listBatchSectorOrdered(long id, String string) throws Exception {
+    public List<ResponseSectorQuery> listBatchSectorOrdered(long id, String string) {
         List<ResponseSectorQuery> responseSectorQueryList;
         List<DataBaseQuery> dataBaseQuery;
 
@@ -80,7 +82,7 @@ public class BatchStockImpService implements IBatchStockService {
                 break;
 
             default:
-                throw new Exception("Essa opção de ordenação não existe");
+                throw new ElementAlreadyExistsException("Essa opção de ordenação não existe");
         }
         return responseSectorQueryList;
     }
@@ -146,37 +148,51 @@ public class BatchStockImpService implements IBatchStockService {
         }
     }
 
-
-
-    //Requisito 4
+//    public ResponseSectorTotalQuantity getTotalQuantity(long id) {
 //
-//    public List<BatchStockSectorQuantityDTO> getTotalQuantity(long id) {
+//        List<DataBaseTotalQuantityQuery> dataBaseTotalQuantityQueryList = batchStockRepo.getListQuantity(id);
+//        if(dataBaseTotalQuantityQueryList.isEmpty()){
+//            throw new ElementNotFoundException("Não há esse produto em nenhum depósito");
+//        }
+//        ResponseSectorTotalQuantity response = new ResponseSectorTotalQuantity();
+//        response.setProductId(id);
+//        buildResponse(dataBaseTotalQuantityQueryList, response);
 //
-//        List<BatchStockSectorQuantityDTO> batchStockSectorList = batchStockRepo.getListQuantity(id);
-//        return batchStockSectorList;
-//
+//        return response;
 //    }
-//}
+//
+//    private void buildResponse(List<DataBaseTotalQuantityQuery> dataBaseTotalQuantityQueryList, ResponseSectorTotalQuantity response) {
+//        List<SectorQuantityQuery> sectorList = new ArrayList<>();
+//
+//        for(DataBaseTotalQuantityQuery data: dataBaseTotalQuantityQueryList){
+//            SectorQuantityQuery sectorQuantity = SectorQuantityQuery.builder()
+//                                .sectorId(data.getSector_id())
+//                                .totalQuantity(data.getTotal_quantity())
+//                                .build();
+//            sectorList.add(sectorQuantity);
+//        }
+//        response.setSectorList(sectorList);
+//    }
+}
 
 //Requisito 5
 
 //    public List<DataBaseQuery> getListDueDate (long days, long idSector){
 //
-//        List<DataBaseQuery> litDueDate = batchStockRepo.getListDueDate();
+//        List<DataBaseQuery> listDueDate = batchStockRepo.g;
 //
 //        LocalDate minusDays2 = batchStock.getDueDate().minusDays(days);
 //        Period.between(LocalDate.now(), minusDays2).getDays();
 //
 //        minusDays2 = batchStock.getDueDate().minusDays(days);
-////
-////                    if(LocalDate.now().isBefore(minusDays2)){
-////
-////        batchListByCategory.add(batchResponseDto);
-////
+//
+//                    if(LocalDate.now().isBefore(minusDays2)){
+//
+//        batchListByCategory.add(batchResponseDto);
+//
 //
 //    }
 
-}
 
 
 
