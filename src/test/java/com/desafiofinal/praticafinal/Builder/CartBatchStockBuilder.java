@@ -1,5 +1,8 @@
 package com.desafiofinal.praticafinal.Builder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.desafiofinal.praticafinal.model.CartBatchStock;
 
 public class CartBatchStockBuilder {
@@ -20,6 +23,14 @@ public class CartBatchStockBuilder {
 
     }
 
+    public static List<CartBatchStock> aListOfCartBatchStocks() {
+        ArrayList<CartBatchStock> cartBatchStockList = new ArrayList<>();
+
+        cartBatchStockList.add(aCartBatchStockBuilder().create());
+
+        return cartBatchStockList;
+    }
+    
     public CartBatchStock create() {
         return cartBatchStock;
     }
