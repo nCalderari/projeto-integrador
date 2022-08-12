@@ -1,7 +1,6 @@
 package com.desafiofinal.praticafinal.controller;
 
-import com.desafiofinal.praticafinal.dto.queryDto.BatchStockSectorDTO;
-import com.desafiofinal.praticafinal.dto.queryDto.BatchStockSectorQuantityDTO;
+import com.desafiofinal.praticafinal.dto.queryDto.DataBaseQuery;
 import com.desafiofinal.praticafinal.dto.queryDto.ResponseSectorQuery;
 import com.desafiofinal.praticafinal.repository.IBatchStockRepo;
 import com.desafiofinal.praticafinal.service.BatchStockImpService;
@@ -25,21 +24,15 @@ public class BatchStockController {
     @Autowired
     private IBatchStockRepo repo;
 
-//    @GetMapping("/{productId}")
-//    ResponseEntity<List<ResponseSectorQuery>> getBatchSector(@PathVariable long productId) throws Exception {
-//        List<ResponseSectorQuery> getResponse = repo.getListBatchSector(productId);
-//        return new ResponseEntity<>(getResponse, HttpStatus.OK);
-//    }
-
     @GetMapping("/{productId}")
-    ResponseEntity<List<BatchStockSectorDTO>> getBatchSector(@PathVariable Long productId) throws Exception {
-        List<BatchStockSectorDTO> getResponse = repo.getListBatchSector(productId);
+    ResponseEntity<List<ResponseSectorQuery>> getBatchSector(@PathVariable long productId) throws Exception {
+        List<ResponseSectorQuery> getResponse = service.listBatchSector(productId);
         return new ResponseEntity<>(getResponse, HttpStatus.OK);
     }
 
     @GetMapping("/{productId}/{string}")
-    ResponseEntity<List<BatchStockSectorDTO>> getBatchSectorOrdered(@PathVariable long productId, @PathVariable String string) throws Exception {
-        List<BatchStockSectorDTO> getResponse = service.listBatchSectorOrdered(productId, string);
+    ResponseEntity <List<ResponseSectorQuery>> getBatchSectorOrdered(@PathVariable long productId, @PathVariable String string) throws Exception {
+        List<ResponseSectorQuery> getResponse = service.listBatchSectorOrdered(productId, string);
         return new ResponseEntity<>(getResponse, HttpStatus.OK);
     }
 

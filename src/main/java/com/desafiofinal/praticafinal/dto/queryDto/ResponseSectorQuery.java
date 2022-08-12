@@ -1,18 +1,12 @@
 package com.desafiofinal.praticafinal.dto.queryDto;
 
-import com.desafiofinal.praticafinal.dto.requestResponseDto.InBoundOrderRequestDTO;
-import com.desafiofinal.praticafinal.dto.requestResponseDto.BatchStockResponseDTO;
-import com.desafiofinal.praticafinal.model.BatchStock;
-import com.desafiofinal.praticafinal.model.InBoundOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -26,11 +20,11 @@ public class ResponseSectorQuery {
 
     private List<StockQuery> stockList;
 
-    public ResponseSectorQuery (List<BatchStockSectorDTO> batchStockSectorDTOList ){
+    public ResponseSectorQuery (List<DataBaseQuery> dataBaseQueryList){
 
             //List<SectorQuery> sectorQueryList =new ArrayList<>();
 //           List<StockQuery> stockQueryList = new ArrayList<>();
-//        for(BatchStockSectorDTO batchStockSectorDTO: batchStockSectorDTOList )  {
+//        for(DataBaseQuery batchStockSectorDTO: dataBaseQueryList )  {
 //               StockQuery stockQuery = StockQuery.builder()
 //                                .batchId(batchStockSectorDTO.getBatchId())
 //                                .currentQuantity(batchStockSectorDTO.getCurrentQuantity())

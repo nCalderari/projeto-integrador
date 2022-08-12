@@ -3,7 +3,7 @@ package com.desafiofinal.praticafinal.dto.queryDto;
 import java.time.LocalDate;
 
 
-public interface BatchStockSectorDTO {
+public interface DataBaseQuery {
 
     Long getSector_id();
     Long getId_product();
@@ -11,6 +11,4 @@ public interface BatchStockSectorDTO {
     Long getCurrent_quantity();
     LocalDate getDue_date();
     String getCategory();
-
-
 }
