@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Data
@@ -15,17 +16,17 @@ import java.util.List;
 @AllArgsConstructor
 public class SectorDTO {
 
-    private long sectorId;
+    private Long sectorId;
     private String category;
     private double capacity;
-    private List<InBoundOrder> orderList;//TODO retirar DTO
-    private WareHouse wareHouse;
+//    private List<InBoundOrder> orderList;//TODO retirar DTO
+    private Long idWareHouse;
 
-    public SectorDTO(Sector sector) {
-        this.sectorId = sector.getSectorId();
-        this.category = sector.getCategory();
-        this.capacity = sector.getCapacity();
-        this.orderList = sector.getOrderList();
-        this.wareHouse = sector.getWareHouse();
-    }
+//    public SectorDTO(Sector sector) {
+////        this.sectorId = sector.getSectorId();
+//        this.category = sector.getCategory();
+//        this.capacity = sector.getCapacity();
+////        this.orderList = sector.getOrderList();
+//        this.wareHouse = sector.getWareHouse();
+//    }
 }

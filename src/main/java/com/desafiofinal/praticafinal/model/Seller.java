@@ -27,7 +27,7 @@ public class Seller {
     private Set<Product> productList;
 
     public Seller(SellerDTO sellerDTO) {
-        this.id = sellerDTO.getId().isPresent() ? sellerDTO.getId().get() : null;
+//        this.id = sellerDTO.getId().isPresent() ? sellerDTO.getId().get() : null;
         this.sellerName = sellerDTO.getSellerName();
     }
 

@@ -13,10 +13,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public class SellerDTO {
 
-    private Optional<Long> id;
+//    private Optional<Long> id;
 
     //    private long idSeller;
     private String sellerName;
+
+
 
 //    public SellerDTO(Seller seller) {
 ////        this.idSeller = seller.getId();

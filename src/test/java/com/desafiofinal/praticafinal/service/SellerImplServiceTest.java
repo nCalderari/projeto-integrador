@@ -29,7 +29,7 @@ public class SellerImplServiceTest {
         when(sellerRepo.save(any(Seller.class))).thenReturn(seller);
 
         var service = new SellerImplService(sellerRepo);
-        var sellerCreated = service.saveSeller(new SellerDTO(Optional.empty(), "amanda"));
+        var sellerCreated = service.saveSeller(new SellerDTO( "amanda"));
         Assertions.assertEquals(seller.getSellerName(), sellerCreated.getSellerName());
     }
 
