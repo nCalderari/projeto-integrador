@@ -2,23 +2,17 @@ package com.desafiofinal.praticafinal.service;
 
 import com.desafiofinal.praticafinal.dto.queryDto.*;
 
-import com.desafiofinal.praticafinal.model.Product;
+import com.desafiofinal.praticafinal.exception.ElementAlreadyExistsException;
 import com.desafiofinal.praticafinal.repository.IBatchStockRepo;
-import com.desafiofinal.praticafinal.repository.IProductRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
-import com.desafiofinal.praticafinal.model.BatchStock;
-import com.desafiofinal.praticafinal.model.InBoundOrder;
-import com.desafiofinal.praticafinal.model.Product;
 import com.desafiofinal.praticafinal.repository.IProductRepo;
 import com.desafiofinal.praticafinal.repository.InBoundOrderRepo;
 import org.springframework.stereotype.Service;
+import com.desafiofinal.praticafinal.model.BatchStock;
+import com.desafiofinal.praticafinal.model.InBoundOrder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BatchStockImpService implements IBatchStockService {
@@ -26,9 +20,12 @@ public class BatchStockImpService implements IBatchStockService {
     private final InBoundOrderRepo inBoundOrderRepo;
 
     private final IProductRepo productRepo;
-    public BatchStockImpService(InBoundOrderRepo inBoundOrderRepo, IProductRepo productRepo) {
+
+    private final IBatchStockRepo batchStockRepo;
+    public BatchStockImpService(InBoundOrderRepo inBoundOrderRepo, IProductRepo productRepo, IBatchStockRepo batchStockRepo) {
         this.inBoundOrderRepo = inBoundOrderRepo;
         this.productRepo = productRepo;
+        this.batchStockRepo = batchStockRepo;
     }
 
     @Override
@@ -41,7 +38,7 @@ public class BatchStockImpService implements IBatchStockService {
             verifyDueDatePerCategory(category, batchListByCategory, inBoundOrder);
         }
         if(batchListByCategory.isEmpty()){
-            throw new ElementNotFoundException("No products were found for this category");
+            throw new ElementAlreadyExistsException("No products were found for this category");
         }else {
             return batchListByCategory;
         }

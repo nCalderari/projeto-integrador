@@ -1,7 +1,6 @@
 package com.desafiofinal.praticafinal.service;
 
-import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
-import com.desafiofinal.praticafinal.exception.ElementeAlreadyExistsException;
+import com.desafiofinal.praticafinal.exception.ElementAlreadyExistsException;
 import com.desafiofinal.praticafinal.exception.ExceededCapacityException;
 import com.desafiofinal.praticafinal.model.*;
 import com.desafiofinal.praticafinal.repository.*;
@@ -87,7 +86,7 @@ public class CartImpService implements ICartService {
         if(foundBuyer.isPresent()) {
             return foundBuyer.get();
         }else{
-            throw new ElementNotFoundException("Buyer does not exists");
+            throw new ElementAlreadyExistsException("Buyer does not exists");
         }
     }
 
@@ -108,7 +107,7 @@ public class CartImpService implements ICartService {
         if (foundBatchStock.isPresent()) {
             return foundBatchStock.get();
         } else {
-            throw new ElementNotFoundException("Batch stock does not exist");
+            throw new ElementAlreadyExistsException("Batch stock does not exist");
         }
     }
 
@@ -117,7 +116,7 @@ public class CartImpService implements ICartService {
         List<BatchStock> batchStockList = new ArrayList<>();
 
         if(foundCart.isEmpty()){
-            throw new ElementNotFoundException("Cart does not exist");
+            throw new ElementAlreadyExistsException("Cart does not exist");
         }else{
             verifyStatus(foundCart, batchStockList);
         }
@@ -129,7 +128,7 @@ public class CartImpService implements ICartService {
         if(cartStatus.equalsIgnoreCase("Open")){
             verifyQuantity(foundCart, batchStockList);
         } else {
-            throw new ElementeAlreadyExistsException("Cart already finished");
+            throw new ElementAlreadyExistsException("Cart already finished");
         }
     }
 

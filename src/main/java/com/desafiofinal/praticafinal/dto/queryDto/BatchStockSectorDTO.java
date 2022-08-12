@@ -1,20 +1,15 @@
 package com.desafiofinal.praticafinal.dto.queryDto;
 
-import com.desafiofinal.praticafinal.model.BatchStock;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 
 public interface BatchStockSectorDTO {
 
-    Long getSectorId();
-    Long getProductId();
-    Long getBatchId();
-    Long getCurrentQuantity();
-    LocalDate getDueDate();
+    Long getSector_id();
+    Long getId_product();
+    Long getBatch_id();
+    Long getCurrent_quantity();
+    LocalDate getDue_date();
     String getCategory();
 
 

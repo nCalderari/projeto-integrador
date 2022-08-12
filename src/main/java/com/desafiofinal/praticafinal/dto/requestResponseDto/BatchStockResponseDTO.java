@@ -14,9 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 public class BatchStockResponseDTO {
 
-    private long batchId;
+    private Long batchId;
 
-    private long currentQuantity;
+    private Long currentQuantity;
 
     private LocalDate dueDate;
 

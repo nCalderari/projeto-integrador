@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface IBatchStockRepo extends JpaRepository<BatchStock, Long> {
 
-    @Query(value = "SELECT batch_id, current_quantity,s.sector_id, due_date, id_product FROM batch_stock \n" +
+    @Query(value = "SELECT batch_id, current_quantity,s.sector_id, due_date, id_product, s.category FROM batch_stock \n" +
             "join in_bound_order on id_inboundorder = in_bound_order.order_id\n" +
             "join sector as s on in_bound_order.id_sector = s.sector_id\n" +
             "where id_product = ?1", nativeQuery = true)

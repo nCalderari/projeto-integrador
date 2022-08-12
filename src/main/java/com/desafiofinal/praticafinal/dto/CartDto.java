@@ -50,7 +50,6 @@ public class CartDto {
         return Cart.builder()
                 .cartId(cartDto.getCartId())
                 .buyer(newBuyer)
-                .totalPrice(cartDto.getTotalPrice())
                 .date(cartDto.getDate())
                 .orderStatus(cartDto.getOrderStatus())
                 .listPurchase(newPurchase)

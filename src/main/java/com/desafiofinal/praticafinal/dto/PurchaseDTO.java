@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class PurchaseDTO {
 
-    private Long CartBatchStockId;
+    private Long purchaseId;
 
     private CartDto cart;
 
@@ -30,7 +30,7 @@ public class PurchaseDTO {
     private Integer productQuantity;
 
     public PurchaseDTO(Purchase purchase){
-        this.CartBatchStockId= purchase.getCartBatchStockId();
+        this.purchaseId = purchase.getCartBatchStockId();
         this.pricePerProduct= purchase.getPricePerProduct();
         this.productQuantity= purchase.getProductQuantity();
     }
