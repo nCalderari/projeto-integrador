@@ -26,20 +26,20 @@ public class CartDto {
 
     private String orderStatus;
 
-    private List<CartBatchStockDto> listCartBatchStock;
+    private List<PurchaseDTO> listCartBatchStock;
 
     public CartDto(Cart cart){
         this.cartId=cart.getCartId();
         this.buyer= cart.getBuyer().getBuyerId();
         this.totalPrice=cart.getTotalPrice();
-//        this.listCartBatchStock=cart.getListCartBatchStock().stream().map(car -> new CartBatchStockDto(car)).collect(Collectors.toList());
+//        this.listPurchase=cart.getListPurchase().stream().map(car -> new PurchaseDTO(car)).collect(Collectors.toList());
     }
 
     public static Cart convertDtoToCart (CartDto cartDto){
         return Cart.builder()
                 .totalPrice(cartDto.getTotalPrice())
                 .date(cartDto.getDate())
-                .listCartBatchStock(cartDto.getListCartBatchStock().stream().map(CartBatchStockDto::convertDtoToCartBatchStock).collect(Collectors.toList()))
+                .listPurchase(cartDto.getListCartBatchStock().stream().map(PurchaseDTO::convertDtoToCartBatchStock).collect(Collectors.toList()))
                 .build();
     }
 }

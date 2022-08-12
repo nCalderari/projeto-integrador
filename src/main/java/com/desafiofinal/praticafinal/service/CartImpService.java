@@ -1,6 +1,6 @@
 package com.desafiofinal.praticafinal.service;
 
-import com.desafiofinal.praticafinal.dto.CartBatchStockDto;
+import com.desafiofinal.praticafinal.dto.PurchaseDTO;
 import com.desafiofinal.praticafinal.dto.CartDto;
 import com.desafiofinal.praticafinal.model.*;
 import com.desafiofinal.praticafinal.repository.*;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public class CartImpService {
 
     @Autowired
-    private CartRepository cartRepo;
+    private CartRepo cartRepo;
 
     @Autowired
     private IBatchStockRepo batchStockRepo;
@@ -42,15 +41,15 @@ public class CartImpService {
         newCart.setDate(cartDto.getDate());
         newCart.setOrderStatus(cartDto.getOrderStatus());
         verifyBuyer(cartDto, newCart);
-        List<CartBatchStock> cartBatchStockList = convertToCartBatchStock(cartDto, newCart);
-        newCart.setListCartBatchStock(cartBatchStockList);
+        List<Purchase> purchaseList = convertToCartBatchStock(cartDto, newCart);
+        newCart.setListPurchase(purchaseList);
         List<BatchStock> batchStockList = new ArrayList<>();
 
         double totalPrice = 0d;
-        for (CartBatchStock cartBatchStock : newCart.getListCartBatchStock()) {
-            BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+        for (Purchase purchase : newCart.getListPurchase()) {
+            BatchStock foundBatchStock = purchase.getBatchStock();
             if (!batchStockList.contains(foundBatchStock)){
-                double price = getTotalPrice(cartBatchStock);
+                double price = getTotalPrice(purchase);
                 totalPrice += price;
                 batchStockList.add(foundBatchStock);
             }else{
@@ -60,7 +59,7 @@ public class CartImpService {
         newCart.setOrderStatus("Aberto");
         newCart.setTotalPrice(totalPrice);
         cartRepo.save(newCart);
-        cartBatchStockRepo.saveAll(cartBatchStockList);
+        cartBatchStockRepo.saveAll(purchaseList);
 
         return totalPrice;
     }
@@ -74,11 +73,11 @@ public class CartImpService {
         }
     }
 
-    private List<CartBatchStock> convertToCartBatchStock(CartDto cartDto, Cart cart)  {
+    private List<Purchase> convertToCartBatchStock(CartDto cartDto, Cart cart)  {
 
         return cartDto.getListCartBatchStock().stream().map(dto -> {
             BatchStock batchStock = foundBatchStock(dto);
-            return new CartBatchStock(
+            return new Purchase(
                     dto.getCartBatchStockId(),
                     cart,
                     batchStock,
@@ -87,12 +86,12 @@ public class CartImpService {
         }).collect(Collectors.toList());
     }
 
-    private double getTotalPrice(CartBatchStock cartBatchStock){
-       return cartBatchStock.getPricePerProduct() * cartBatchStock.getProductQuantity();
+    private double getTotalPrice(Purchase purchase){
+       return purchase.getPricePerProduct() * purchase.getProductQuantity();
     }
 
-    private BatchStock foundBatchStock(CartBatchStockDto cartBatchStockDto) {
-        Optional<BatchStock> batchStock = batchStockRepo.findById(cartBatchStockDto.getBatchStock());
+    private BatchStock foundBatchStock(PurchaseDTO purchaseDTO) {
+        Optional<BatchStock> batchStock = batchStockRepo.findById(purchaseDTO.getBatchStock());
         if (batchStock.isPresent()) {
             return batchStock.get();
         } else {
@@ -115,8 +114,8 @@ public class CartImpService {
        Optional <Cart> foundCart = cartRepo.findById(purchaseId);
        List<BatchStock> batchStockList = new ArrayList<>();
 
-       for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
-               BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+       for (Purchase purchase : foundCart.get().getListPurchase()){
+               BatchStock foundBatchStock = purchase.getBatchStock();
                batchStockList.add(foundBatchStock);
        }
         if(batchStockList.isEmpty()){
@@ -158,11 +157,11 @@ public class CartImpService {
     }
 
     private void verifyQuantity(Optional<Cart> foundCart, List<BatchStock> batchStockList) throws Exception {
-        for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
-            BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+        for (Purchase purchase : foundCart.get().getListPurchase()){
+            BatchStock foundBatchStock = purchase.getBatchStock();
                 batchStockList.add(foundBatchStock);
-                long cartQuantity= cartBatchStock.getProductQuantity();
-                if(cartBatchStock.getProductQuantity()<=foundBatchStock.getCurrentQuantity()){
+                long cartQuantity= purchase.getProductQuantity();
+                if(purchase.getProductQuantity()<=foundBatchStock.getCurrentQuantity()){
                     verifyCapacity(foundBatchStock, cartQuantity);
                 }else{
                     throw new Exception("Quantidade indisponível");

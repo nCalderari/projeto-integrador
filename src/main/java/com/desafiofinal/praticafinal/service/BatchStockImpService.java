@@ -1,12 +1,8 @@
 package com.desafiofinal.praticafinal.service;
 
-import com.desafiofinal.praticafinal.dto.CartDto;
 import com.desafiofinal.praticafinal.dto.queryDto.*;
-import com.desafiofinal.praticafinal.dto.requestResponseDto.BatchStockResponseDto;
-import com.desafiofinal.praticafinal.model.BatchStock;
-import com.desafiofinal.praticafinal.model.Buyer;
-import com.desafiofinal.praticafinal.model.InBoundOrder;
-import com.desafiofinal.praticafinal.model.Sector;
+
+import com.desafiofinal.praticafinal.model.Product;
 import com.desafiofinal.praticafinal.repository.IBatchStockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,6 +65,9 @@ public class BatchStockImpService {
 //        return responseSectorQueryList;
 //    }
 
+//    public ResponseSectorQuery getBatch (long productId){
+//        Product product =
+//    }
 
     public List<BatchStockSectorDTO> listBatchSectorOrdered(long id, String string) throws Exception {
         List<BatchStockSectorDTO> batchStockSectorDTO;

@@ -22,7 +22,7 @@ public class BatchStockSectorDTO2 {
     private List<StockQuery> stockList;
 
     public BatchStockSectorDTO2 (BatchStockSectorDTO batchStockSectorDTO ){
-        this.sector.setSectorId(batchStockSectorDTO.getSectorId());
+       // this.sector.setSectorId(batchStockSectorDTO.getSectorId());
 
         this.productId = productId;
 //        this.stockList =
