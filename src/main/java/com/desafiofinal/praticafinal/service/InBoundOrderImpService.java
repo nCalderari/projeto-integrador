@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class InBoundOrderImpService implements IinboundOrderService {
+public class InBoundOrderImpService implements IinBoundOrderService {
 
     @Autowired
     private InBoundOrderRepo inBoundOrderRepo;

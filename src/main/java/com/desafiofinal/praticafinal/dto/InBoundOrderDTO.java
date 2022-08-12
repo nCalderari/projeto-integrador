@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 @Data
 public class InBoundOrderDTO {
 
-    private List<BatchStockDTO> batchStockList;
+    private List<BatchStockDTO> batchStock;
     public InBoundOrderDTO(InBoundOrder inBoundOrder) {
-        this.batchStockList = BatchStockDTO.convertToListDto(inBoundOrder.getBatchStockList());
+        this.batchStock = BatchStockDTO.convertToListDto(inBoundOrder.getBatchStockList());
     }
 
     public static InBoundOrder convertToInBoundOrder(InBoundOrderDTO inBoundOrderDTO){
-        List<BatchStock> newBatchStockList = BatchStockDTO.convertToListEntity(inBoundOrderDTO.getBatchStockList());
+        List<BatchStock> newBatchStockList = BatchStockDTO.convertToListEntity(inBoundOrderDTO.getBatchStock());
 
         return InBoundOrder.builder()
                 .batchStockList(newBatchStockList)
