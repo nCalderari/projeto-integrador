@@ -23,51 +23,51 @@ public class BatchStockImpService {
     @Autowired
     private IBatchStockRepo batchStockRepo;
 
-    public List<ResponseSectorQuery> listBatchSector(long id) {
-
-        List<BatchStockSectorDTO> listBatchSector = batchStockRepo.getListBatchSector(id);
-        if (listBatchSector.isEmpty()) {
-            throw new RuntimeException("Não há lote de produtos com esse id");
-        }
-        ResponseSectorQuery responseSectorQuery;
-        List<ResponseSectorQuery> responseSectorQueryList = new ArrayList<>();
-        List<SectorQuery> sectorQueryList = new ArrayList<>();
-
-        List<StockQuery> stockQueryList = new ArrayList<>();
-
-        for (BatchStockSectorDTO batchStockSectorDTO : listBatchSector) {
-            StockQuery stockQuery = StockQuery.builder()
-                    .batchId(batchStockSectorDTO.getBatchId())
-                    .currentQuantity(batchStockSectorDTO.getCurrentQuantity())
-                    .dueDate(batchStockSectorDTO.getDueDate())
-                    .sectorId(batchStockSectorDTO.getSectorId())
-                    .productId(batchStockSectorDTO.getProductId())
-                    .build();
-            stockQueryList.add(stockQuery);
-
-            SectorQuery sectorQuery = new SectorQuery();
-            sectorQuery.setCategory(batchStockSectorDTO.getCategory());
-            sectorQuery.setSectorId(batchStockSectorDTO.getSectorId());
-
-            if (!sectorQueryList.contains(sectorQuery)) {
-                sectorQueryList.add(sectorQuery);
-            }
-        }
-
-        for (SectorQuery sector : sectorQueryList) {
-            List<StockQuery> responseStock = stockQueryList.stream().filter(stock -> stock.getSectorId() == sector.getSectorId()).collect(Collectors.toList());
-
-            responseSectorQuery = ResponseSectorQuery.builder()
-                    .sector(sector)
-                    .productId(responseStock.get(0).getProductId())
-                    .stockList(responseStock)
-                    .build();
-
-            responseSectorQueryList.add(responseSectorQuery);
-
-        }
-        return responseSectorQueryList;
-    }
+//    public List<ResponseSectorQuery> listBatchSector(long id) {
+//
+//        List<BatchStockSectorDTO> listBatchSector = batchStockRepo.getListBatchSector(id);
+//        if (listBatchSector.isEmpty()) {
+//            throw new RuntimeException("Não há lote de produtos com esse id");
+//        }
+//        ResponseSectorQuery responseSectorQuery;
+//        List<ResponseSectorQuery> responseSectorQueryList = new ArrayList<>();
+//        List<SectorQuery> sectorQueryList = new ArrayList<>();
+//
+//        List<StockQuery> stockQueryList = new ArrayList<>();
+//
+//        for (BatchStockSectorDTO batchStockSectorDTO : listBatchSector) {
+//            StockQuery stockQuery = StockQuery.builder()
+//                    .batchId(batchStockSectorDTO.getBatchId())
+//                    .currentQuantity(batchStockSectorDTO.getCurrentQuantity())
+//                    .dueDate(batchStockSectorDTO.getDueDate())
+//                    .sectorId(batchStockSectorDTO.getSectorId())
+//                    .productId(batchStockSectorDTO.getProductId())
+//                    .build();
+//            stockQueryList.add(stockQuery);
+//
+//            SectorQuery sectorQuery = new SectorQuery();
+//            sectorQuery.setCategory(batchStockSectorDTO.getCategory());
+//            sectorQuery.setSectorId(batchStockSectorDTO.getSectorId());
+//
+//            if (!sectorQueryList.contains(sectorQuery)) {
+//                sectorQueryList.add(sectorQuery);
+//            }
+//        }
+//
+//        for (SectorQuery sector : sectorQueryList) {
+//            List<StockQuery> responseStock = stockQueryList.stream().filter(stock -> stock.getSectorId() == sector.getSectorId()).collect(Collectors.toList());
+//
+//            responseSectorQuery = ResponseSectorQuery.builder()
+//                    .sector(sector)
+//                    .productId(responseStock.get(0).getProductId())
+//                    .stockList(responseStock)
+//                    .build();
+//
+//            responseSectorQueryList.add(responseSectorQuery);
+//
+//        }
+//        return responseSectorQueryList;
+//    }
 
 
     public List<BatchStockSectorDTO> listBatchSectorOrdered(long id, String string) throws Exception {

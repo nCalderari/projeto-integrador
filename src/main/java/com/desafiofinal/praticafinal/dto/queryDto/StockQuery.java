@@ -24,5 +24,7 @@ public class StockQuery {
     private LocalDate dueDate;
 
     @JsonIgnore
-    private Long productId;
+    private long productId;
+
+
 }

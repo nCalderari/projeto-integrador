@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface IBatchStockRepo extends JpaRepository<BatchStock, Long> {
 
-    @Query(value = "SELECT batch.batch_id, batch.current_quantity, s.sector_id, batch.due_date, s.category, batch.id_product FROM batch_stock as batch\n" +
-            "join in_bound_order on batch.id_inboundorder = in_bound_order.order_id\n" +
-            "join sector as s on in_bound_order.id_sector = s.sector_id\n" +
+    @Query(value = "SELECT batch_id,current_quantity, due_date FROM batch_stock \n" +
+            "join in_bound_order on id_inboundorder = in_bound_order.order_id\n" +
+            "join sector on in_bound_order.id_sector = sector.sector_id\n" +
             "where id_product = ?1", nativeQuery = true)
-    List<BatchStockSectorDTO> getListBatchSector(long id_product);
+    List<BatchStockSectorDTO> getListBatchSector(Long id_product);
 
     @Query(value = "SELECT batch.batch_id, batch.current_quantity, s.sector_id, batch.due_date FROM batch_stock \n" +
             "join in_bound_order on batch_stock.id_inboundorder = in_bound_order.order_id\n" +
