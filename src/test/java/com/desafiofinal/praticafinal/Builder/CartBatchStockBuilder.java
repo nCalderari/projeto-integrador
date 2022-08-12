@@ -14,7 +14,8 @@ public class CartBatchStockBuilder {
     public static CartBatchStockBuilder aCartBatchStockBuilder() {
 
         CartBatchStockBuilder builder = new CartBatchStockBuilder(); 
-         
+
+        builder.cartBatchStock = new CartBatchStock(); 
         builder.cartBatchStock.setBatchStock(BatchStockBuilder.aBatchStock().create());
         builder.cartBatchStock.setPricePerProduct(5.50);
         builder.cartBatchStock.setProductQuantity(20);

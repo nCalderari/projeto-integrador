@@ -11,17 +11,21 @@ import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import com.desafiofinal.praticafinal.model.Buyer;
 import com.desafiofinal.praticafinal.model.Cart;
+import com.desafiofinal.praticafinal.model.CartBatchStock;
 import com.desafiofinal.praticafinal.repository.BuyerRepo;
 import com.desafiofinal.praticafinal.repository.CartBatchStockRepo;
+import com.desafiofinal.praticafinal.repository.CartRepository;
 import com.desafiofinal.praticafinal.repository.IBatchStockRepo;
 import com.desafiofinal.praticafinal.Builder.BatchStockBuilder;
 import com.desafiofinal.praticafinal.Builder.BuyerBuilder;
+import com.desafiofinal.praticafinal.Builder.CartBatchStockBuilder;
 import com.desafiofinal.praticafinal.Builder.CartBuilder;
 import org.mockito.junit.jupiter.MockitoExtension;;
 
@@ -37,31 +41,32 @@ public class CartServiceTest {
 
     @Mock
     private IBatchStockRepo batchStockRepo;
+
+    @Mock
+    private CartRepository cartRepo;
+
+    @Mock
+    private CartBatchStockRepo cartBatchStockRepo;
+
     
 
     @Test
-    @DisplayName("Test if a buyer is found")
+    @DisplayName("Test if a purchase is correctly made")
     void createPurchaseTest() {
-    //    Buyer buyerTest = new Buyer(1l, "testadora da silva", Collections.emptySet()); 
-       // Como o model tem o @Builder eu teoricamente não precisaria fazer o builder na mão, mas ai eu vou precisar
-       // colocar uma lista de cart ali, e fazendo um builder eu posso fazer um sem o cart e usar esse 
-       
+        Cart cart = CartBuilder.aCartWhithoutBuyer().create();
+        List<CartBatchStock> cartBatchStockList = CartBatchStockBuilder.aListOfCartBatchStocks();
+
        when(buyerRepo.findById(anyLong())).thenReturn(Optional.of(BuyerBuilder.aBuyerWithoutCart().create()));
        when(batchStockRepo.findById(anyLong())).thenReturn(Optional.of(BatchStockBuilder.aBatchStock().create()));
+       when(cartRepo.save(ArgumentMatchers.any(Cart.class))).thenReturn(cart);
+       when(cartBatchStockRepo.saveAll(cartBatchStockList)).thenReturn(cartBatchStockList);
        
-       Cart cart = CartBuilder.aCartWhithoutBuyer().create();
 
        Double total = cartService.createPurchase(cart);
 
        assertThat(total).isNotNull();
-    //    assertThat(total).isDouble();  // ver se existe mesmo um is double
-
-    //    Buyer buyer = BuyerBuilder.aBuyerWithoutCart().create();
+       assertThat(total).isEqualTo(110);
         
     }
 
-    // verificar e mockar as dependencias
-    // chamar o metodo de create purchase passando um cart
-    // fazer os asserts: conferir valor, se retorna double, 
-    
 }

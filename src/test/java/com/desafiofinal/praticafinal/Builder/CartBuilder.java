@@ -14,6 +14,7 @@ public class CartBuilder {
 
       CartBuilder builder = new CartBuilder();
       
+      builder.cart = new Cart();
       builder.cart.setBuyer(BuyerBuilder.aBuyerWithoutCart().create());
       builder.cart.setCartId(1l);
       builder.cart.setDate(LocalDate.now());
