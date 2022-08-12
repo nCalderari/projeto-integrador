@@ -1,0 +1,47 @@
+package com.desafiofinal.praticafinal.dto;
+
+import com.desafiofinal.praticafinal.model.Purchase;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class PurchaseDTO {
+
+    private Long CartBatchStockId;
+
+    private CartDto cart;
+
+    private BatchStockDTO batchStock;
+
+    private double pricePerProduct;
+
+    private int productQuantity;
+
+    public PurchaseDTO(Purchase purchase){
+        this.CartBatchStockId= purchase.getCartBatchStockId();
+        this.pricePerProduct= purchase.getPricePerProduct();
+        this.productQuantity= purchase.getProductQuantity();
+    }
+
+    public static Purchase convertDtoToPurchase(PurchaseDTO purchaseDTO){
+        return Purchase.builder()
+                .pricePerProduct(purchaseDTO.pricePerProduct)
+                .productQuantity(purchaseDTO.getProductQuantity())
+                .batchStock(BatchStockDTO.convertBatchStockDtoToBatchStockIdOnly(purchaseDTO.getBatchStock()))
+                .build();
+    }
+
+    public static List<Purchase> convertToListEntity(List<PurchaseDTO> purchaseDTOList){
+        return purchaseDTOList.stream()
+                .map(PurchaseDTO::convertDtoToPurchase)
+                .collect(Collectors.toList());
+    }
+}

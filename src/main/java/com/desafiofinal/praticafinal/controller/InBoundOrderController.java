@@ -1,8 +1,7 @@
 package com.desafiofinal.praticafinal.controller;
 
-import com.desafiofinal.praticafinal.dto.InBoundOrderDTO;
-import com.desafiofinal.praticafinal.dto.InBoundOrderResponseDTO;
-import com.desafiofinal.praticafinal.dto.InboundOrderRequestDTO;
+import com.desafiofinal.praticafinal.dto.requestResponseDto.InBoundOrderResponseDTO;
+import com.desafiofinal.praticafinal.dto.requestResponseDto.InboundOrderRequestDTO;
 import com.desafiofinal.praticafinal.model.InBoundOrder;
 import com.desafiofinal.praticafinal.service.IinboundOrderService;
 import org.springframework.beans.factory.annotation.Autowired;

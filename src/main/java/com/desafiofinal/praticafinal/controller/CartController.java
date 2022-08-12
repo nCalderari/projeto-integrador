@@ -2,7 +2,7 @@ package com.desafiofinal.praticafinal.controller;
 
 import com.desafiofinal.praticafinal.dto.CartDto;
 import com.desafiofinal.praticafinal.model.BatchStock;
-import com.desafiofinal.praticafinal.dto.requestResponseDto.BatchStockResponseDto;
+import com.desafiofinal.praticafinal.dto.requestResponseDto.BatchStockResponseDTO;
 import com.desafiofinal.praticafinal.model.Cart;
 import com.desafiofinal.praticafinal.service.ICartService;
 import org.springframework.http.HttpStatus;
@@ -48,9 +48,9 @@ public class CartController {
      */
 
     @GetMapping("/ListProducts/{purchaseId}")
-    ResponseEntity<List<BatchStockResponseDto>> getProducts(@PathVariable long purchaseId) throws Exception {
+    ResponseEntity<List<BatchStockResponseDTO>> getProducts(@PathVariable long purchaseId) throws Exception {
         List<BatchStock> getResponse = service.getProducts(purchaseId);
-        List<BatchStockResponseDto> getResponseDto = BatchStockResponseDto.convertToListDto(getResponse);
+        List<BatchStockResponseDTO> getResponseDto = BatchStockResponseDTO.convertToListDto(getResponse);
         return new ResponseEntity<>(getResponseDto, HttpStatus.OK);
     }
 

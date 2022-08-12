@@ -1,5 +1,6 @@
 package com.desafiofinal.praticafinal.dto;
 
+import com.desafiofinal.praticafinal.dto.requestResponseDto.ProductResponseDTO;
 import com.desafiofinal.praticafinal.model.BatchStock;
 import com.desafiofinal.praticafinal.model.InBoundOrder;
 import com.sun.istack.Nullable;
@@ -20,7 +21,7 @@ public class BatchStockDTO {
     private long batchNumber;
 
     @Nullable
-    private ProductDTO product;
+    private ProductResponseDTO product;
 
     private float currentTemperature;
 
@@ -42,7 +43,7 @@ public class BatchStockDTO {
 
     public BatchStockDTO(BatchStock batchStock) {
         this.batchNumber = batchStock.getBatchId();
-        this.product = new ProductDTO(batchStock.getProduct());
+        this.product = new ProductResponseDTO(batchStock.getProduct());
         this.currentTemperature = batchStock.getCurrentTemperature();
         this.minimumTemperature = batchStock.getMinimumTemperature();
         this.initialQuantity = batchStock.getInitialQuantity();
@@ -56,7 +57,7 @@ public class BatchStockDTO {
     public static BatchStock convertBatchStockDtoToBatchStock (BatchStockDTO batchStockDto){
         return BatchStock.builder()
                 .batchId(batchStockDto.getBatchNumber())
-                .product(ProductDTO.convertDtoToProductIdOnly(batchStockDto.getProduct()))
+                .product(ProductResponseDTO.convertToProductResponseDTO(batchStockDto.getProduct()))
                 .currentTemperature(batchStockDto.getCurrentTemperature())
                 .minimumTemperature(batchStockDto.getMinimumTemperature())
                 .initialQuantity(batchStockDto.getInitialQuantity())

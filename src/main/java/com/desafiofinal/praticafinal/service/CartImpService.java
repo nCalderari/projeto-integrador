@@ -17,13 +17,13 @@ import java.util.Optional;
 public class CartImpService implements ICartService {
 
     @Autowired
-    private CartRepository cartRepo;
+    private CartRepo cartRepo;
 
     @Autowired
     private IBatchStockRepo batchStockRepo;
 
     @Autowired
-    private CartBatchStockRepo cartBatchStockRepo;
+    private PurchaseRepo purchaseRepo;
 
     @Autowired
     private BuyerRepo buyerRepo;
@@ -41,14 +41,14 @@ public class CartImpService implements ICartService {
         Buyer foundBuyer = verifyBuyer(cart.getBuyer());
         cart.setBuyer(foundBuyer);
 
-        List<CartBatchStock> foundCartBatchStockList = verifyCartBatchStock(cart.getListCartBatchStock());
-        cart.setListCartBatchStock(foundCartBatchStockList);
+        List<Purchase> foundPurchaseList = verifyCartBatchStock(cart.getListPurchase(), cart);
+        cart.setListPurchase(foundPurchaseList);
 
         double totalPrice = getTotalPrice(cart);
         cart.setOrderStatus("Open");
         cart.setTotalPrice(totalPrice);
         cartRepo.save(cart);
-        cartBatchStockRepo.saveAll(cart.getListCartBatchStock());
+        purchaseRepo.saveAll(cart.getListPurchase());
 
         return totalPrice;
     }
@@ -58,8 +58,8 @@ public class CartImpService implements ICartService {
         Optional <Cart> foundCart = cartRepo.findById(purchaseId);
         List<BatchStock> batchStockList = new ArrayList<>();
 
-        for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
-            BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+        for (Purchase purchase : foundCart.get().getListPurchase()){
+            BatchStock foundBatchStock = purchase.getBatchStock();
             batchStockList.add(foundBatchStock);
         }
         return batchStockList;
@@ -75,8 +75,8 @@ public class CartImpService implements ICartService {
 
     private double getTotalPrice(Cart cart) {
         double totalPrice = 0d;
-        for (CartBatchStock cartBatchStock : cart.getListCartBatchStock()) {
-                double price = cartBatchStock.getPricePerProduct() * cartBatchStock.getProductQuantity();
+        for (Purchase purchase : cart.getListPurchase()) {
+                double price = purchase.getPricePerProduct() * purchase.getProductQuantity();
                 totalPrice += price;
         }
         return totalPrice;
@@ -91,14 +91,15 @@ public class CartImpService implements ICartService {
         }
     }
 
-    private List<CartBatchStock> verifyCartBatchStock(List<CartBatchStock> cartBatchStockList)  {
-        List<CartBatchStock> cartBatchStockListVerified = new ArrayList<>();
-        for(CartBatchStock cbs : cartBatchStockList) {
+    private List<Purchase> verifyCartBatchStock(List<Purchase> purchaseList, Cart cart)  {
+        List<Purchase> purchaseListVerified = new ArrayList<>();
+        for(Purchase cbs : purchaseList) {
             BatchStock foundBatchStock = verifyBatchStock(cbs.getBatchStock());
+            cbs.setIdCart(cart);
             cbs.setBatchStock(foundBatchStock);
-            cartBatchStockListVerified.add(cbs);
+            purchaseListVerified.add(cbs);
         }
-       return cartBatchStockListVerified;
+       return purchaseListVerified;
     }
 
 
@@ -133,11 +134,11 @@ public class CartImpService implements ICartService {
     }
 
     private void verifyQuantity(Optional<Cart> foundCart, List<BatchStock> batchStockList)  {
-        for (CartBatchStock cartBatchStock : foundCart.get().getListCartBatchStock()){
-            BatchStock foundBatchStock = cartBatchStock.getBatchStock();
+        for (Purchase purchase : foundCart.get().getListPurchase()){
+            BatchStock foundBatchStock = purchase.getBatchStock();
                 batchStockList.add(foundBatchStock);
-                long cartQuantity= cartBatchStock.getProductQuantity();
-                if(cartBatchStock.getProductQuantity()<=foundBatchStock.getCurrentQuantity()){
+                long cartQuantity= purchase.getProductQuantity();
+                if(purchase.getProductQuantity()<=foundBatchStock.getCurrentQuantity()){
                     verifyCapacity(foundBatchStock, cartQuantity);
                 }else{
                     throw new ExceededCapacityException("Quantity unavailable");
