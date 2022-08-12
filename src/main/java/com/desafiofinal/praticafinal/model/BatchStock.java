@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @Entity
@@ -24,9 +24,9 @@ public class BatchStock {
     private float minimumTemperature;
     private long initialQuantity;
     private long currentQuantity;
-    private Date manufacturingDate;
-    private Date manufacturingTime;
-    private Date dueDate;
+    private LocalDate manufacturingDate;
+    private LocalDate manufacturingTime;
+    private LocalDate dueDate;
 
     @ManyToOne
     @JoinColumn (name = "id_inboundorder", nullable = true)

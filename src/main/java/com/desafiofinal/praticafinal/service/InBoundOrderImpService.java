@@ -4,7 +4,7 @@ import com.desafiofinal.praticafinal.dto.BatchStockDTO;
 import com.desafiofinal.praticafinal.dto.InBoundOrderResponseDTO;
 import com.desafiofinal.praticafinal.dto.InboundOrderRequestDTO;
 import com.desafiofinal.praticafinal.exception.ElementNotFoundException;
-import com.desafiofinal.praticafinal.exception.ElementeAlreadyExistsException;
+import com.desafiofinal.praticafinal.exception.ElementAlreadyExistsException;
 import com.desafiofinal.praticafinal.model.BatchStock;
 import com.desafiofinal.praticafinal.model.InBoundOrder;
 import com.desafiofinal.praticafinal.model.Product;
@@ -62,7 +62,7 @@ public class InBoundOrderImpService implements IinboundOrderService {
     private InBoundOrder buildInboundOrder(InboundOrderRequestDTO dto, boolean isCreating){
         Optional<InBoundOrder> foundInBoundOrder = inBoundOrderRepo.findById(dto.getOrderId());
         if(foundInBoundOrder.isPresent() && isCreating)
-            throw new ElementeAlreadyExistsException("Order does already exist");
+            throw new ElementAlreadyExistsException("Order does already exist");
         if(foundInBoundOrder.isEmpty() && !isCreating)
             throw new ElementNotFoundException("Order does not exist");
         var sector = getSector(dto.getSectorID());
