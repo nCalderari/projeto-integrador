@@ -32,7 +32,7 @@ public class BatchStockImpService implements IBatchStockService {
     @Override
     public List<BatchStock> listBatchStockByCategory (String category) {
 
-        List<InBoundOrder> listInBoundOrder = inBoundOrderRepo.findAll(); //TODO no final refatorar esse método
+        List<InBoundOrder> listInBoundOrder = inBoundOrderRepo.findAll();
         List<BatchStock> batchListByCategory = new ArrayList<>();
 
         for (InBoundOrder inBoundOrder: listInBoundOrder){
@@ -43,6 +43,46 @@ public class BatchStockImpService implements IBatchStockService {
         }else {
             return batchListByCategory;
         }
+    }
+
+    public List<ResponseSectorQuery> listBatchSector(long id) {
+
+        List<DataBaseQuery> listBatchSector = batchStockRepo.getListBatchSector(id);
+
+        if (listBatchSector.isEmpty()) {
+            throw new RuntimeException("Não há lote de produtos com esse id");
+        }
+
+        return buildResponseQueryList(listBatchSector);
+    }
+
+    public List<ResponseSectorQuery> listBatchSectorOrdered(long id, String string) throws Exception {
+        List<ResponseSectorQuery> responseSectorQueryList;
+        List<DataBaseQuery> dataBaseQuery;
+
+        switch (string) {
+            case "l":
+            case "L":
+                dataBaseQuery = batchStockRepo.getListOrderedById(id);
+                responseSectorQueryList = buildResponseQueryList(dataBaseQuery);
+                break;
+
+            case "q":
+            case "Q":
+                dataBaseQuery = batchStockRepo.getListOrderedByQuantity(id);
+                responseSectorQueryList = buildResponseQueryList(dataBaseQuery);
+                break;
+
+            case "v":
+            case "V":
+                dataBaseQuery = batchStockRepo.getListOrderedByDueDate(id);
+                responseSectorQueryList = buildResponseQueryList(dataBaseQuery);
+                break;
+
+            default:
+                throw new Exception("Essa opção de ordenação não existe");
+        }
+        return responseSectorQueryList;
     }
 
     private void verifyDueDatePerCategory(String category, List<BatchStock> batchListByCategory, InBoundOrder inBoundOrder) {
@@ -58,26 +98,18 @@ public class BatchStockImpService implements IBatchStockService {
         }
     }
 
-
-    public List<ResponseSectorQuery> listBatchSector(long id) {
-
-        List<DataBaseQuery> listBatchSector = batchStockRepo.getListBatchSector(id);
-
-        if (listBatchSector.isEmpty()) {
-            throw new RuntimeException("Não há lote de produtos com esse id");
-        }
-
-
-        return buildResponseQueryList(listBatchSector);
-    }
-
     private List<ResponseSectorQuery> buildResponseQueryList(List<DataBaseQuery> listBatchSector) {
-        ResponseSectorQuery responseSectorQuery;
         List<ResponseSectorQuery> responseSectorQueryList = new ArrayList<>();
         List<SectorQuery> sectorQueryList = new ArrayList<>();
-
         List<StockQuery> stockQueryList = new ArrayList<>();
 
+        buildInitialList(listBatchSector, sectorQueryList, stockQueryList);
+        filterBySector(responseSectorQueryList, sectorQueryList, stockQueryList);
+
+        return responseSectorQueryList;
+    }
+
+    private void buildInitialList(List<DataBaseQuery> listBatchSector, List<SectorQuery> sectorQueryList, List<StockQuery> stockQueryList) {
         for (DataBaseQuery batchStockSectorDTO : listBatchSector) {
             StockQuery stockQuery = StockQuery.builder()
                     .batchId(batchStockSectorDTO.getBatch_id())
@@ -96,6 +128,10 @@ public class BatchStockImpService implements IBatchStockService {
                 sectorQueryList.add(sectorQuery);
             }
         }
+    }
+
+    private void filterBySector(List<ResponseSectorQuery> responseSectorQueryList, List<SectorQuery> sectorQueryList, List<StockQuery> stockQueryList) {
+        ResponseSectorQuery responseSectorQuery;
 
         for (SectorQuery sector : sectorQueryList) {
             List<StockQuery> responseStock = stockQueryList.stream().filter(stock -> stock.getSectorId() == sector.getSectorId()).collect(Collectors.toList());
@@ -107,30 +143,10 @@ public class BatchStockImpService implements IBatchStockService {
                     .build();
 
             responseSectorQueryList.add(responseSectorQuery);
-
         }
-        return responseSectorQueryList;
     }
 
 
-    public List<ResponseSectorQuery> listBatchSectorOrdered(long id, String string) throws Exception {
-        List<ResponseSectorQuery> responseSectorQueryList;
-        List<DataBaseQuery> dataBaseQuery;
-//trocar por switch case
-        if (string.equalsIgnoreCase("L")) {
-            dataBaseQuery = batchStockRepo.getListOrderedById(id);
-            responseSectorQueryList = buildResponseQueryList(dataBaseQuery);
-        } else if (string.equalsIgnoreCase("Q")) {
-            dataBaseQuery = batchStockRepo.getListOrderedByQuantity(id);
-            responseSectorQueryList = buildResponseQueryList(dataBaseQuery);
-        } else if (string.equalsIgnoreCase("V")) {
-            dataBaseQuery = batchStockRepo.getListOrderedByDueDate(id);
-            responseSectorQueryList = buildResponseQueryList(dataBaseQuery);
-        } else {
-            throw new Exception("Essa opção de ordenação não existe");
-        }
-        return responseSectorQueryList;
-    }
 
     //Requisito 4
 //
