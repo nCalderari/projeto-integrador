@@ -1,12 +1,14 @@
 package com.desafiofinal.praticafinal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,11 +19,12 @@ public class WareHouse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long wareHouseId;
 
-    @OneToOne (cascade = CascadeType.REFRESH)
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "id_manager")
     private Manager manager;
 
     @OneToMany(mappedBy = "wareHouse", cascade = CascadeType.REFRESH)
+    @JsonIgnore
     private List<Sector> sectorList;
 
 }
