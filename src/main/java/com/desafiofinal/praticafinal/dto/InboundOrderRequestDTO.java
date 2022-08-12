@@ -26,6 +26,9 @@ public class InboundOrderRequestDTO {
         this.batchStockList = batchStockList;
     }
 
+    public long getSectorID(){
+        return sector.getSectorId();//todo incluir validação
+    }
 
 //    public static InBoundOrder convertDTOToInboundOrder(InboundOrderRequestDTO inboundOrderRequestDTO) {
 //        return InBoundOrder.builder()
