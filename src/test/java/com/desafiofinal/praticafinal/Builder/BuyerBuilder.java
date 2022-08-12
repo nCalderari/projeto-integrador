@@ -15,7 +15,7 @@ public class BuyerBuilder {
      
         builder.buyer.setBuyerId(1l);
         builder.buyer.setBuyerName("Testadora silva");
-        builder.buyer.setCartList(null); // tiro ou deixo null?
+        // builder.buyer.setCartList(null); // tiro ou deixo null?
 
         return builder;
     }

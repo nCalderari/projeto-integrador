@@ -14,10 +14,10 @@ public class CartBuilder {
 
       CartBuilder builder = new CartBuilder();
       
-      builder.cart.setBuyer(null);
+      builder.cart.setBuyer(BuyerBuilder.aBuyerWithoutCart().create());
       builder.cart.setCartId(1l);
       builder.cart.setDate(LocalDate.now());
-      builder.cart.setListCartBatchStock(null);
+      builder.cart.setListCartBatchStock(CartBatchStockBuilder.aListOfCartBatchStocks());
       builder.cart.setOrderStatus("Concluído");
       builder.cart.setTotalPrice(50.00);
 
