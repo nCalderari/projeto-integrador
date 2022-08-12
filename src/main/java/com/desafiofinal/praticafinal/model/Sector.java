@@ -24,7 +24,7 @@ public class Sector {
     @JsonIgnoreProperties("sector")
     private List<InBoundOrder> orderList;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne
     @JoinColumn(name = "id_warehouse")
     @JsonIgnoreProperties("sectorList")
     private WareHouse wareHouse;

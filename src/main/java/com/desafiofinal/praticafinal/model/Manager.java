@@ -1,5 +1,6 @@
 package com.desafiofinal.praticafinal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,8 @@ public class Manager {
     private long managerId;
     private String managerName;
 
-    @OneToOne (mappedBy = "manager", cascade = CascadeType.REFRESH)
+    @OneToOne (mappedBy = "manager")
+    @JsonIgnore
+
     private WareHouse wareHouse;
 }

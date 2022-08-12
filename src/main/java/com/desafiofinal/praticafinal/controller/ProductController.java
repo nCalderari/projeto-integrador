@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/fresh-products/product")
 public class ProductController {
 
-    private IProductService service;
+    private final IProductService service;
     public ProductController(IProductService service) {
         this.service = service;
     }

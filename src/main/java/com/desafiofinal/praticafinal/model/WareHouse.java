@@ -1,5 +1,6 @@
 package com.desafiofinal.praticafinal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,11 +18,12 @@ public class WareHouse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long wareHouseId;
 
-    @OneToOne (cascade = CascadeType.REFRESH)
+    @OneToOne
     @JoinColumn(name = "id_manager")
     private Manager manager;
 
-    @OneToMany(mappedBy = "wareHouse", cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "wareHouse")
+    @JsonIgnore
     private List<Sector> sectorList;
 
 }
