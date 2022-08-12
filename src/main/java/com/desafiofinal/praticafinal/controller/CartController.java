@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class CartController {
      */
 
     @PostMapping("/insert")
-    ResponseEntity<Double> createNewCart(@RequestBody CartDto cartDto) {
+    ResponseEntity<Double> createNewCart(@RequestBody @Valid CartDto cartDto) {
         Cart newCart = CartDto.convertDtoToCart(cartDto);
         return new ResponseEntity<>(service.createPurchase(newCart), HttpStatus.CREATED);
     }

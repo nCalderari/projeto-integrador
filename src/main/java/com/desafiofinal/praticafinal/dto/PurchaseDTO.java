@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,10 +20,13 @@ public class PurchaseDTO {
 
     private CartDto cart;
 
+    @NotNull(message = "Please enter a valid batch stock")
     private BatchStockDTO batchStock;
 
+    @NotNull(message = "Price per Product cannot be null")
     private double pricePerProduct;
 
+    @NotNull(message = "Product quantity cannot be null")
     private int productQuantity;
 
     public PurchaseDTO(Purchase purchase){

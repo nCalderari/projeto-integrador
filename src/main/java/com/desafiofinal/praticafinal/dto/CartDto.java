@@ -7,7 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,15 +23,19 @@ public class CartDto {
 
     private long cartId;
 
+    @NotNull(message = "Please enter a valid buyer")
     private BuyerDto buyer;
 
-    private double totalPrice;
+    private Double totalPrice;
 
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @NotNull(message = "Date cannot be null. Format: yyyy/MM/dd")
     private LocalDate date;
 
     private String orderStatus;
 
-    private List<PurchaseDTO> listCartBatchStock;
+    @NotEmpty(message = "Purchase list cannot be empty")
+    private List<@Valid PurchaseDTO> purchaseList;
 
     public CartDto(Cart cart){
         this.cartId=cart.getCartId();
@@ -37,7 +45,7 @@ public class CartDto {
 
     public static Cart convertDtoToCart (CartDto cartDto){
         Buyer newBuyer = BuyerDto.convertDtoToBuyer(cartDto.getBuyer());
-        List<Purchase> newPurchase = PurchaseDTO.convertToListEntity(cartDto.getListCartBatchStock());
+        List<Purchase> newPurchase = PurchaseDTO.convertToListEntity(cartDto.getPurchaseList());
 
         return Cart.builder()
                 .cartId(cartDto.getCartId())
