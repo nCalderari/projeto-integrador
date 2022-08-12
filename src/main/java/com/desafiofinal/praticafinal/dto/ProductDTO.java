@@ -1,10 +1,6 @@
 package com.desafiofinal.praticafinal.dto;
 
-import com.desafiofinal.praticafinal.dto.ProductDTOWithSeller;
-import com.desafiofinal.praticafinal.dto.SellerDTO;
-import com.desafiofinal.praticafinal.model.BatchStock;
 import com.desafiofinal.praticafinal.model.Product;
-import com.desafiofinal.praticafinal.model.Seller;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -63,11 +59,6 @@ public class ProductDTO {
                 .build();
     }
 
-    public static Product convertDtoToProductIdOnly(ProductDTO productDTO){
-        return Product.builder()
-                .id(productDTO.getId())
-                .build();
-    }
 
     public static List<ProductDTO> convertToDTO(List<Product> productDTOList){
         return productDTOList.stream()
