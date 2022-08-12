@@ -43,8 +43,8 @@ public class BatchStockDTO {
         this.manufacturingDate = batchStock.getManufacturingDate();
         this.manufacturingTime = batchStock.getManufacturingTime();
         this.dueDate = batchStock.getDueDate();
-
     }
+
 
 
 }

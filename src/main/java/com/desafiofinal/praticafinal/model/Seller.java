@@ -1,5 +1,6 @@
 package com.desafiofinal.praticafinal.model;
 
+import com.desafiofinal.praticafinal.dto.SellerDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.lang.Nullable;
@@ -25,7 +26,11 @@ public class Seller {
     @JsonIgnore
     private Set<Product> productList;
 
-    public Seller(String sellerName) {
-        this.sellerName = sellerName;
+    public Seller(SellerDTO sellerDTO) {
+        this.id = sellerDTO.getId().isPresent() ? sellerDTO.getId().get() : null;
+        this.sellerName = sellerDTO.getSellerName();
     }
+
+
+
 }

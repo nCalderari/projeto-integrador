@@ -21,8 +21,13 @@ public class SellerController {
     }
 
     @PostMapping
-    public ResponseEntity<SellerDTO> insertSeller(@RequestBody SellerDTO seller){
-        SellerDTO response = service.saveSeller(seller);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<Object> insertSeller(@RequestBody SellerDTO seller){
+        try {
+            var  response = service.saveSeller(seller);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 }

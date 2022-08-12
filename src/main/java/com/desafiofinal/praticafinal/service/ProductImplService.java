@@ -11,23 +11,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductImplService implements IProductService{
 
-    private final IProductRepo repo;
+    private final IProductRepo productRepo;
     private final ISellerRepo sellerRepo;
 
-    public ProductImplService(IProductRepo repo, ISellerRepo sellerRepo) {
-        this.repo = repo;
+    public ProductImplService(IProductRepo productRepo, ISellerRepo sellerRepo) {
+        this.productRepo = productRepo;
         this.sellerRepo = sellerRepo;
     }
 
     @Override
-    public ProductDTO saveProduct(ProductDTO product) {
+    public Product saveProduct(ProductDTO product) {
 
         var seller = sellerRepo
                 .findById(product.getIdSeller())
                 .orElseThrow(() -> new ElementNotFoundException("Seller does not exist"));
 
-        Product productSaved = repo.save(buildProduct(product, seller));
-        return new ProductDTO(productSaved, seller);
+        Product productSaved = productRepo.save(buildProduct(product, seller));
+        return productSaved;
     }
 
     private Product buildProduct(ProductDTO productDTO, Seller seller){
