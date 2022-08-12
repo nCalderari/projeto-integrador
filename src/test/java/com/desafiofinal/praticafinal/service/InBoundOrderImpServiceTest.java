@@ -84,7 +84,9 @@ class InBoundOrderImpServiceTest {
         var product = new Product(1L, new Date(), 13, "frios", "frango", seller, 13, Collections.emptyList());
 //        var inboundOrderRequestDTO = new InboundOrderRequestDTO(1L, inBoundOrder.getDateTime(), new SectorDTO(sector));
         var batchstockEntity = new BatchStock(1L, 12, 14, 20L, 7L, new Date(), new Date(), new Date(), inBoundOrder, product );
-      List<BatchStock> batchStockList= new ArrayList<BatchStock>();
+        var batchstockEntity1 = new BatchStock(2L, 12, 14, 20L, 7L, new Date(), new Date(), new Date(), inBoundOrder, product );
+
+        List<BatchStock> batchStockList= new ArrayList<BatchStock>(Collections.singleton(batchstockEntity));
        var  sectorupdated =   new Sector(1L, "Carne",
                 12,
                 Collections.emptyList(),
@@ -99,7 +101,7 @@ class InBoundOrderImpServiceTest {
         lenient().when(productRepo.findById(anyLong())).thenReturn(Optional.of(product));
         lenient().when(batchStockRepo.findById(anyLong())).thenReturn(Optional.of(batchstockEntity));
         lenient().when(batchStockRepo.save(any(BatchStock.class))).thenReturn(batchstockEntity);
-        lenient().when(batchStockRepo.saveAll(anyList())).thenReturn(batchStockList);
+        lenient().when(batchStockRepo.saveAll(batchStockList)).thenReturn(batchStockList);
         lenient().when(inBoundOrderRepo.save(any(InBoundOrder.class))).thenReturn(inBoundOrderUpdated);
 
         var service = new InBoundOrderImpService(inBoundOrderRepo, batchStockRepo, sectorRepo, productRepo);
